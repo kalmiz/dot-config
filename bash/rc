@@ -1,0 +1,16 @@
+alias ll="ls -l"
+alias vi="nvim"
+alias :q="exit"
+alias gs="git status"
+
+if [ $(uname) == "Darwin" ]; then
+	[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+fi
+
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.config
+
+if [ -d $HOME/Projects ]; then
+	export GOPATH=$HOME/Projects/go
+	export PATH=$GOPATH/bin:$PATH
+fi

@@ -1,0 +1,49 @@
+function pidof {
+	COMMAND=$1
+	PID=`ps -A -o pid,command | grep $COMMAND | grep -v grep | awk '{print $1}'`
+	if [ -n "$PID" ]; then
+		echo "$PID"
+	fi
+}
+
+#
+# Add these lines to `/etc/sudoers`:
+#
+# %admin  ALL=(ALL) NOPASSWD: /usr/local/bin/openconnect
+# %admin  ALL=(ALL) NOPASSWD: /usr/bin/killall -SIGINT openconnect
+#
+function vpn {
+	local OPENCONNECT=`pidof openconnect`
+	local HOST=${VPN_HOST:-vpn-xyz.kinja-ops.com}
+	local USERNAME=${VPN_USER:-$USER}
+	case "$1" in
+		start)
+			if [ -z "$OPENCONNECT" ] ; then
+				echo "== Starting VPN"
+				echo -n "Pasword: "
+				read -s pass
+				echo
+				echo "$pass" | sudo openconnect --background -u $USERNAME --passwd-on-stdin $HOST
+				echo "Done"
+			fi
+			;;
+		stop)
+			if [ -n "$OPENCONNECT" ] ; then
+				echo "== Stopping VPN"
+				sudo killall -SIGINT openconnect
+				echo "Done"
+			fi
+			;;
+		restart)
+			vpn stop
+			vpn start
+			;;
+		*)
+			echo "Usage: vpn {start|stop|restart}"
+			exit 1
+	esac
+}
+
+if [ -f ~/.bashrc ]; then
+	source ~/.bashrc
+fi

@@ -1,0 +1,4 @@
+--type-set=scala:ext:scala
+--type-set=sbt:ext:sbt
+--ignore-dir=node_modules/
+--ignore-dir=target/

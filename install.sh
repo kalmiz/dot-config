@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+# It installs the dotfiles into the current user's $HOME directory.  If it's
+# invoked with the "clean" parameter then this script removes every link which
+# definition ends with "#clean".  For example:
+#
+# ```bash
+#  clink ack/rc .ackrc #clean
+# ```
+# 
+# will create a symlink of ack/rc as $HOME/.arkrc and if it's invoked with
+# "clean" then removes that symlink.
+#
+
+PWD=$(dirname $0)
+DIR=$HOME
+
+clink () {
+	if [ ! -e $DIR/$2 ]; then
+		ln -s $PWD/$1 $DIR/$2
+	fi
+}
+
+cd $PWD
+
+if [ "$1" == "clean" ]; then
+	for i in `grep clink $0 | grep '#clean$' | cut -d ' ' -f 3`; do
+		unlink $DIR/$i
+	done
+else
+	clink ack/rc .ackrc #clean
+	clink ctags/ctags .ctags #clean
+	clink bash/profile .bash_profile #clean
+	clink bash/rc .bashrc #clean
+	clink ssh .ssh #clean
+	if [ ! -d $DIR/.sbt/0.13/plugins ]; then
+		mkdir -p $DIR/.sbt/0.13/plugins
+	fi
+	clink sbt/plugins.sbt .sbt/0.13/plugins/plugins.sbt #clean
+	clink sbt/global.sbt .sbt/0.13/global.sbt #clean
+	if [ $(uname) == "Darwin" ]; then
+		source ./osx/defaults
+		# http://zanshin.net/2013/08/27/setup-openconnect-for-mac-os-x-lion/
+		curl -s http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script > /usr/local/bin/vpnc-script
+		chmod +x /usr/local/bin/vpnc-script
+		cd /Library/Extensions
+		echo "Loading tun.kext..."
+		sudo kextload -v tun.kext
+	fi
+fi

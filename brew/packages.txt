@@ -1,0 +1,9 @@
+Caskroom/cask/tuntap
+ack
+autojump
+bash
+ctags
+neovim/neovim/neovim
+openconnect
+sbt
+scala

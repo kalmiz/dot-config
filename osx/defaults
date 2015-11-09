@@ -1,0 +1,13 @@
+#
+# Terminal.app
+#
+
+# default shell is bash 4
+defaults write com.apple.terminal Shell "/usr/local/bin/bash"
+chsh -s /usr/local/bin/bash
+
+defaults write com.apple.terminal NewWindowSettingsBehavior 2
+defaults write com.apple.terminal "Startup Window Settings" "Man Page"
+
+# Only use UTF-8 in Terminal.app
+defaults write com.apple.terminal StringEncodings -array 4

@@ -1,0 +1,9 @@
+Host *
+	IdentityFile ~/Dropbox/Home/id_kalmi_2015_rsa
+	ForwardAgent yes
+	User    kalmi
+
+Host *.xyz
+	Hostname %h.kinja-ops.com
+Host *.bfc
+	Hostname %h.kinja-ops.com

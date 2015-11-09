@@ -1,0 +1,9 @@
+[user]
+	name = Zoltan Kalmar
+	email = kalmiz@gmail.com
+
+[alias]
+	ci = commit
+	co = checkout
+	st = status
+	pl = pull --rebase
