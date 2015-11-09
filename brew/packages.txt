@@ -3,6 +3,7 @@ ack
 autojump
 bash
 ctags
+golang
 neovim/neovim/neovim
 openconnect
 sbt
