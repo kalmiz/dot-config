@@ -69,6 +69,7 @@ endfun
 " Settings {{{
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~
 set hidden
+set noswapfile
 set visualbell
 syn on
 set foldmethod=marker
