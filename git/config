@@ -7,3 +7,4 @@
 	co = checkout
 	st = status
 	pl = pull --rebase
+	cm = checkout master
