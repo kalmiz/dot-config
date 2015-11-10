@@ -231,6 +231,7 @@ augroup filesettings
 	au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 	au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 	au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+	au FileType yaml setlocal expandtab
 
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 augroup END
