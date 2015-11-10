@@ -5,6 +5,7 @@ alias gs="git status"
 
 if [ $(uname) == "Darwin" ]; then
 	[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+	export PS1='\W\$ '
 fi
 
 export XDG_CONFIG_HOME=$HOME/.config
@@ -14,3 +15,4 @@ if [ -d $HOME/Projects ]; then
 	export GOPATH=$HOME/Projects/go
 	export PATH=$GOPATH/bin:$PATH
 fi
+
