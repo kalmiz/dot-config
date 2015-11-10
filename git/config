@@ -8,3 +8,5 @@
 	st = status
 	pl = pull --rebase
 	cm = checkout master
+[push]
+	default = simple
