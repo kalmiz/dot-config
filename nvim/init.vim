@@ -113,13 +113,18 @@ noremap <Leader>A :Ack <cword><CR>
 nnoremap <leader>f :find 
 nnoremap <Leader>e :e 
 nnoremap <Leader>/ :e ../
-nnoremap <Leader>g :Git 
 nnoremap <Leader>q :qall<CR>
 
 " Use <C-l> to clear the highlighting of :set hlsearch.
 if maparg('<C-L>', 'n') ==# ''
 	nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
 endif
+
+" Git
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gp :Git push<CR>
+nnoremap <Leader>gl :Git pl<CR>
+nnoremap <Leader>gm :Git cm<CR>
 
 " Focus window
 nnoremap <C-w>z :tab sp<CR>
