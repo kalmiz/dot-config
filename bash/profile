@@ -38,9 +38,17 @@ function vpn {
 			vpn stop
 			vpn start
 			;;
+		status)
+			if [ "x$OPENCONNECT" == "x" ]; then
+				echo "VPN is not running."
+				return 1
+			else
+				echo "VPN is running. PID: $OPENCONNECT"
+			fi
+			;;
 		*)
 			echo "Usage: vpn {start|stop|restart}"
-			exit 1
+			return 1
 	esac
 }
 
