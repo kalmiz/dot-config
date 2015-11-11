@@ -47,7 +47,7 @@ function vpn {
 			fi
 			;;
 		*)
-			echo "Usage: vpn {start|stop|restart}"
+			echo "Usage: vpn {start|stop|status|restart}"
 			return 1
 	esac
 }
