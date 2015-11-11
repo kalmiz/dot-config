@@ -108,11 +108,16 @@ nnoremap <Leader>. :Ex<CR>
 nnoremap <Leader>k :tj 
 nnoremap <Leader>b :buffers<CR>:buffer<Space>
 nnoremap gb :buffers<CR>:buffer<Space>
-nnoremap <Leader>a :Ack
+nnoremap <Leader>a :Ack 
 noremap <Leader>A :Ack <cword><CR>
 nnoremap <leader>f :find 
 nnoremap <Leader>e :e 
 nnoremap <Leader>/ :e ../
+
+" Save
+nnoremap <Leader>w :update<CR>
+
+" Quit
 nnoremap <Leader>q :qall<CR>
 
 " Use <C-l> to clear the highlighting of :set hlsearch.
@@ -125,6 +130,7 @@ nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gp :Git push<CR>
 nnoremap <Leader>gl :Git pl<CR>
 nnoremap <Leader>gm :Git cm<CR>
+nnoremap <Leader>gg :Git 
 
 " Focus window
 nnoremap <C-w>z :tab sp<CR>
@@ -214,18 +220,16 @@ augroup filesettings
 	" When editing a file, always jump to the last known cursor position.
 	" Don't do it when the position is invalid or when inside an event
 	" handler (happens when dropping a file on gvim).
-	au BufReadPost *
-		\ if line("'\"") > 0 && line("'\"") <= line("$") |
-		\	exe "normal g`\"" |
-		\ endif
+	au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+		\|	exe "normal g`\""
+		\|endif
 
-	au FileType *
-		\ if &filetype == 'sql' |
-		\	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.g:sql_type_default.'.vim') |
-		\	setl complete-=t |
-		\ else |
-		\	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim') |
-		\ endif
+	au FileType * if &filetype == 'sql'
+		\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.g:sql_type_default.'.vim')
+		\|	setl complete-=t
+		\|else
+		\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
+		\|endif
 
 	au FileType css setlocal omnifunc=csscomplete#CompleteCSS
 	au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -234,6 +238,18 @@ augroup filesettings
 	au FileType yaml setlocal expandtab
 
 	au BufNewFile,BufRead *.md setlocal ft=markdown
+
+	" Poor man vim-rooter, git only, using fugitive
+	au BufLeave * let b:last_cwd = getcwd()
+	au BufEnter * if exists('b:last_cwd')
+		\|	execute 'lcd ' . b:last_cwd
+		\|else
+		\|	if exists('b:netrw_curdir')
+		\|		execute 'lcd ' . b:netrw_curdir
+		\|	else 
+		\|		silent! Glcd
+		\|	endif
+		\|endif
 augroup END
 " }}}
 
