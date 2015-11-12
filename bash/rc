@@ -1,7 +1,10 @@
 alias ll="ls -l"
 alias vi="nvim"
 alias :q="exit"
-alias gs="git status"
+
+if [ -z "$SCMPUFF_GIT_CMD" ]; then
+	alias gs="git status"
+fi
 
 if [ $(uname) == "Darwin" ]; then
 	[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh

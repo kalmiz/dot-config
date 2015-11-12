@@ -8,3 +8,4 @@ neovim/neovim/neovim
 openconnect
 sbt
 scala
+scmpuff

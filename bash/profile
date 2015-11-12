@@ -58,3 +58,5 @@ fi
 if [ -f ~/.config/git/git-completion.bash ]; then
 	source ~/.config/git/git-completion.bash
 fi
+
+eval "$(scmpuff init -s)"
