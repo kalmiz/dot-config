@@ -113,9 +113,12 @@ noremap <Leader>A :Ack <cword><CR>
 nnoremap <leader>f :find 
 nnoremap <Leader>e :e 
 nnoremap <Leader>/ :e ../
+nnoremap <Leader>m :Neomake<CR>
 
 " Save
 nnoremap <Leader>w :update<CR>
+nnoremap s :update<CR>
+nnoremap S :update<CR>:Neomake<CR>
 
 " Quit
 nnoremap <Leader>q :qall<CR>
@@ -233,6 +236,7 @@ augroup filesettings
 
 	au FileType css setlocal omnifunc=csscomplete#CompleteCSS
 	au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+	au FileType go setlocal omnifunc=go#complete#Complete
 	au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 	au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 	au FileType yaml setlocal expandtab
@@ -246,7 +250,7 @@ augroup filesettings
 		\|else
 		\|	if exists('b:netrw_curdir')
 		\|		execute 'lcd ' . b:netrw_curdir
-		\|	else 
+		\|	else "if getcwd() != $GOPATH
 		\|		silent! Glcd
 		\|	endif
 		\|endif

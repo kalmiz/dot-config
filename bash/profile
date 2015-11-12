@@ -59,4 +59,6 @@ if [ -f ~/.config/git/git-completion.bash ]; then
 	source ~/.config/git/git-completion.bash
 fi
 
+complete -C aws_completer aws
+
 eval "$(scmpuff init -s)"

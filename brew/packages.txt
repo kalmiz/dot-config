@@ -1,6 +1,7 @@
 Caskroom/cask/tuntap
 ack
 autojump
+aws
 bash
 ctags
 golang

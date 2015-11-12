@@ -6,6 +6,7 @@ The list of tools:
  - bash
  - neovim
  - ack
+ - aws cli
  - ctags
  - scala
  - sbt
