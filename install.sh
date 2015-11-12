@@ -25,7 +25,11 @@ cd $PWD
 
 if [ "$1" == "clean" ]; then
 	for i in `grep clink $0 | grep '#clean$' | cut -d ' ' -f 3`; do
-		unlink $DIR/$i
+		if [ -h $DIR/$i ]; then
+			unlink $DIR/$i
+		else
+			echo "'$DIR/$i' is not a symlink, not safe to delete it." >> /dev/stderr
+		fi
 	done
 else
 	clink ack/rc .ackrc #clean
