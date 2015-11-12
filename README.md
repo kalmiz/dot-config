@@ -11,6 +11,7 @@ The list of tools:
  - sbt
  - golang
  - git
+ - scmpuff
  - openconnect
 
 ## Install
