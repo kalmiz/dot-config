@@ -62,3 +62,7 @@ fi
 complete -C aws_completer aws
 
 eval "$(scmpuff init -s)"
+
+init_rbenv () {
+	eval "$(rbenv init -)"
+}
