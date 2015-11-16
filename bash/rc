@@ -19,3 +19,6 @@ if [ -d $HOME/Projects ]; then
 	export PATH=$GOPATH/bin:$PATH
 fi
 
+
+# added by travis gem
+[ -f /Users/kalmi/.travis/travis.sh ] && source /Users/kalmi/.travis/travis.sh
