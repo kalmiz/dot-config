@@ -1,4 +1,4 @@
 
-QuickFixKeys.pluginBaseDirectory := file(".config/nvim/bundle")
+QuickFixKeys.vimPluginBaseDirectory := file(".config/nvim/bundle")
 
 QuickFixKeys.vimEnableServer := false
