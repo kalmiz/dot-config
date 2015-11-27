@@ -14,3 +14,7 @@ Host *.amazonaws.com
 	User ec2-user
 	StrictHostKeyChecking no
 	UserKnownHostsFile=/dev/null
+
+Host wl
+	Hostname weblog.sh
+	Port 2222
