@@ -5,6 +5,9 @@ let g:pathogen_blacklist = []
 
 let g:sql_type_default = 'mysql'
 
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_completion_start_length = 3
+
 " Poor man's plugin downloader {{{
 if !isdirectory(g:plugin_dir) | call mkdir(g:plugin_dir, "p") | endif
 
@@ -45,8 +48,12 @@ Pl 'tpope/vim-fugitive'
 Pl 'fatih/vim-go' 'derekwyatt/vim-scala'
 " Linters
 Pl 'benekastah/neomake'
+" Text objects
+Pl 'wellle/targets.vim'
 " Tools
 Pl 'vim-scripts/dbext.vim' 'mileszs/ack.vim'
+Pl 'Shougo/deoplete.nvim'
+Pl 'rizzatti/dash.vim'
 " }}}
 
 " run pathogen
@@ -127,6 +134,17 @@ nnoremap <Leader>q :qall<CR>
 if maparg('<C-L>', 'n') ==# ''
 	nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
 endif
+
+" Tab
+imap <silent><expr> <TAB>
+	\ pumvisible() ? "\<C-n>" :
+	\ <SID>check_back_space() ? "\<TAB>" :
+	\ deoplete#mappings#manual_complete()
+
+function! s:check_back_space()
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1] =~ '\s'
+endfunction
 
 " Git
 nnoremap <Leader>gs :Gstatus<CR>
@@ -239,7 +257,7 @@ augroup filesettings
 	au FileType go setlocal omnifunc=go#complete#Complete
 	au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 	au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-	au FileType yaml setlocal expandtab
+	au FileType yaml setlocal expandtab sw=2 softtabstop=2 ts=2
 
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 
