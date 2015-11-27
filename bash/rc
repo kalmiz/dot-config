@@ -11,9 +11,6 @@ if [ $(uname) == "Darwin" ]; then
 	export PS1='\W\$ '
 fi
 
-export XDG_CONFIG_HOME=$HOME/.config
-export XDG_DATA_HOME=$HOME/.config
-
 if [ -d $HOME/Projects ]; then
 	export GOPATH=$HOME/Projects/go
 	export PATH=$GOPATH/bin:$PATH
