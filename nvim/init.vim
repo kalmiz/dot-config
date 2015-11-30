@@ -259,6 +259,7 @@ augroup filesettings
 	au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 	au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 	au FileType yaml setlocal expandtab sw=2 softtabstop=2 ts=2
+	au FileType terraform setlocal expandtab sw=2 softtabstop=2 ts=2
 
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 
