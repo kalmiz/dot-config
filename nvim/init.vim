@@ -54,6 +54,7 @@ Pl 'wellle/targets.vim'
 Pl 'vim-scripts/dbext.vim' 'mileszs/ack.vim'
 Pl 'Shougo/deoplete.nvim'
 Pl 'rizzatti/dash.vim'
+Pl 'markcornick/vim-terraform'
 " }}}
 
 " run pathogen
