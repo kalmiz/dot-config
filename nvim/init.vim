@@ -63,6 +63,10 @@ execute "source " . g:plugin_dir . '/vim-pathogen/autoload/pathogen.vim'
 let g:pathogen_blacklist = filter(map(split(glob(g:plugin_dir . '/*', 1), "\n"),'fnamemodify(v:val,":t")'), '!has_key(g:plugin_hash, v:val)')
 execute pathogen#infect(g:plugin_dir . '/{}')
 
+if filereadable("/usr/local/opt/fzf/install")
+	set rtp+=/usr/local/opt/fzf
+endif
+
 " Functions {{{
 fun! SbtQuickfix()
 	setlocal errorformat=%E\ %#[error]\ %#%f:%l:\ %m,%-Z\ %#[error]\ %p^,%-G\ %#[error]\ %m
@@ -119,6 +123,7 @@ nnoremap gb :buffers<CR>:buffer<Space>
 nnoremap <Leader>a :Ack 
 noremap <Leader>A :Ack <cword><CR>
 nnoremap <leader>f :find 
+nnoremap <leader>t :FZF<CR> 
 nnoremap <Leader>e :e 
 nnoremap <Leader>/ :e ../
 nnoremap <Leader>m :Neomake<CR>

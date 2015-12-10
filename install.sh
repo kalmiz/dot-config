@@ -50,5 +50,6 @@ else
 		cd /Library/Extensions
 		echo "Loading tun.kext..."
 		sudo kextload -v tun.kext
+		/usr/local/opt/fzf/install
 	fi
 fi

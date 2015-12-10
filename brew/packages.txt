@@ -4,6 +4,7 @@ autojump
 aws
 bash
 ctags
+fzf
 golang
 neovim/neovim/neovim
 openconnect
