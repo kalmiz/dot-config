@@ -3,3 +3,4 @@ nvim/shada
 ssh/known_hosts
 nvim/.netrwhist
 nvim/.init.vim-rplugin~
+configstore/
