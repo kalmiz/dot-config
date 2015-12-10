@@ -18,3 +18,9 @@ Host *.amazonaws.com
 Host wl
 	Hostname weblog.sh
 	Port 2222
+
+Host ereg
+	Hostname 79.172.214.238
+	USer root
+	StrictHostKeyChecking no
+	UserKnownHostsFile=/dev/null
