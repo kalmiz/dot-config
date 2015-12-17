@@ -21,6 +21,11 @@ Host wl
 
 Host ereg
 	Hostname 79.172.214.238
-	USer root
+	User root
 	StrictHostKeyChecking no
 	UserKnownHostsFile=/dev/null
+
+Host 127.0.0.1
+	StrictHostKeyChecking no
+	UserKnownHostsFile=/dev/null
+	
