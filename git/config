@@ -8,5 +8,6 @@
 	st = status
 	pl = pull --rebase
 	cm = checkout master
+	undo = reset --soft HEAD~ 
 [push]
 	default = simple
