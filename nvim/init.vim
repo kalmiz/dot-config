@@ -45,7 +45,7 @@ command! -nargs=0 UpdatePlugins call map( keys(g:plugin_hash), 'UpdatePlugin( v:
 " SCMs
 Pl 'tpope/vim-fugitive'
 " Languages
-Pl 'fatih/vim-go' 'derekwyatt/vim-scala'
+Pl 'fatih/vim-go' 'derekwyatt/vim-scala' 'rodjek/vim-puppet'
 " Linters
 Pl 'benekastah/neomake'
 " Text objects
@@ -263,7 +263,7 @@ augroup filesettings
 	au FileType go setlocal omnifunc=go#complete#Complete
 	au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 	au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-	au FileType yaml setlocal expandtab sw=2 softtabstop=2 ts=2 path=**
+	au FileType yaml,puppet setlocal expandtab sw=2 softtabstop=2 ts=2 path=**
 	au FileType terraform setlocal expandtab sw=2 softtabstop=2 ts=2
 	au FileType dockerfile setlocal path=**
 
