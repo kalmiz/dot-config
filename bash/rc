@@ -1,3 +1,7 @@
+
+export FZF_DEFAULT_COMMAND="ack -f"
+export NVIM_LISTEN_ADDRESS="$TMPDIR/nvimsocket"
+
 alias ll="ls -l"
 alias vi="nvim"
 alias :q="exit"
