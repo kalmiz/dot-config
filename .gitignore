@@ -1,6 +1,7 @@
 nvim/bundle
 nvim/shada
 ssh/known_hosts
+ssh/puppet*
 nvim/.netrwhist
 nvim/.init.vim-rplugin~
 configstore/
