@@ -5,6 +5,7 @@ export NVIM_LISTEN_ADDRESS="$TMPDIR/nvimsocket"
 alias ll="ls -l"
 alias vi="nvim"
 alias :q="exit"
+alias jjbini="docker exec jenkins cat /var/jenkins_home/jenkins-jobs.ini | sed 's/localhost/192.168.99.100/'"
 
 if [ -z "$SCMPUFF_GIT_CMD" ]; then
 	alias gs="git status"
