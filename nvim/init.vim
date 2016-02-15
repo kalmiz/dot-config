@@ -42,6 +42,8 @@ command! -nargs=0 UpdatePlugins call map( keys(g:plugin_hash), 'UpdatePlugin( v:
 " }}}
 
 " Plugins {{{
+" Settings
+Pl 'tpope/vim-unimpaired'
 " SCMs
 Pl 'tpope/vim-fugitive'
 " Languages
