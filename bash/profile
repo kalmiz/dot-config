@@ -6,6 +6,11 @@ function pidof {
 	fi
 }
 
+function vpn_password {
+	security 2>&1 >/dev/null find-generic-password -ga "Gawker VPN" \
+	| ruby -e 'print $1 if STDIN.gets =~ /^password: "(.*)"$/'
+}
+
 #
 # Add these lines to `/etc/sudoers`:
 #
@@ -16,14 +21,16 @@ function vpn {
 	local OPENCONNECT=`pidof openconnect`
 	local HOST=${VPN_HOST:-vpn-xyz.kinja-ops.com}
 	local USERNAME=${VPN_USER:-$USER}
+	local PASS=$(vpn_password) 
 	case "$1" in
 		start)
 			if [ -z "$OPENCONNECT" ] ; then
 				echo "== Starting VPN"
-				echo -n "Pasword: "
-				read -s pass
-				echo
-				echo "$pass" | sudo openconnect --background -u $USERNAME --passwd-on-stdin $HOST
+				#echo -n "Pasword: "
+				#read -s pass
+				#echo
+				echo "$PASS" | pbcopy
+				echo "$PASS" | sudo openconnect --background -u $USERNAME --passwd-on-stdin $HOST
 				echo "Done"
 			fi
 			;;
