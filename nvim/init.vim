@@ -226,7 +226,6 @@ endif
 
 " Bare bone navigation {{{
 set path=**
-set path=src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/**
 set suffixesadd=.java,.scala,.php,.js
 set wildmode=longest,full
 set wildmenu
@@ -270,6 +269,8 @@ augroup filesettings
 	au FileType yaml,puppet setlocal expandtab sw=2 softtabstop=2 ts=2 path=**
 	au FileType terraform setlocal expandtab sw=2 softtabstop=2 ts=2
 	au FileType dockerfile setlocal path=**
+	au FileType scala setlocal path=src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/**
+	au FileType sbt.scala setlocal path=./*,project/*
 
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 
