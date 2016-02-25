@@ -47,7 +47,7 @@ Pl 'tpope/vim-unimpaired'
 " SCMs
 Pl 'tpope/vim-fugitive'
 " Languages
-Pl 'fatih/vim-go' 'derekwyatt/vim-scala' 'rodjek/vim-puppet'
+Pl 'fatih/vim-go' 'derekwyatt/vim-scala' 'rodjek/vim-puppet' 'markcornick/vim-terraform'
 " Linters
 Pl 'benekastah/neomake'
 " Text objects
@@ -56,8 +56,11 @@ Pl 'wellle/targets.vim'
 Pl 'vim-scripts/dbext.vim' 'mileszs/ack.vim'
 Pl 'Shougo/deoplete.nvim'
 Pl 'rizzatti/dash.vim'
-Pl 'markcornick/vim-terraform'
+Pl 'jceb/vim-hier'
 " }}}
+
+" Plugins installed from other sources
+let g:plugin_hash['vim-sbt'] = 1
 
 " run pathogen
 Pl 'tpope/vim-pathogen'
