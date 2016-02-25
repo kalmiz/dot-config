@@ -1,2 +1,2 @@
 
-addSbtPlugin("com.dscleaver.sbt" % "sbt-quickfix" % "0.4.1")
+addSbtPlugin("com.dscleaver.sbt" % "sbt-quickfix" % "0.4.2-SNAPSHOT")
