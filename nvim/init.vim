@@ -94,6 +94,7 @@ set ai
 set noexpandtab sw=4 ts=4 softtabstop=4
 set fo+=c
 set fo+=r
+set ruler showcmd
 if exists('+relativenumber')
 	set relativenumber
 endif
