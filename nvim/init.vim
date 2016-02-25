@@ -85,13 +85,10 @@ endfun
 
 " Settings {{{
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~
-set hidden
-set noswapfile
-set visualbell
+set hidden noswapfile visualbell
 syn on
 set foldmethod=marker
-set ai
-set noexpandtab sw=4 ts=4 softtabstop=4
+set ai noexpandtab sw=4 ts=4 softtabstop=4
 set fo+=c
 set fo+=r
 set ruler showcmd
@@ -228,6 +225,7 @@ endif
 " }}}
 
 " Bare bone navigation {{{
+set path=**
 set path=src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/**
 set suffixesadd=.java,.scala,.php,.js
 set wildmode=longest,full
