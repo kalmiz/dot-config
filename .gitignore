@@ -5,3 +5,4 @@ ssh/puppet*
 nvim/.netrwhist
 nvim/.init.vim-rplugin~
 configstore/
+ensime-vim

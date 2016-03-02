@@ -1,6 +1,7 @@
 
 export FZF_DEFAULT_COMMAND="ack -f"
 export NVIM_LISTEN_ADDRESS="/tmp/nvim.sock"
+export BROWSER="open -a safai"
 
 alias ll="ls -l"
 alias vi="nvim"

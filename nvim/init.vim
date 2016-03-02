@@ -48,10 +48,11 @@ Pl 'tpope/vim-unimpaired'
 Pl 'tpope/vim-fugitive'
 " Languages
 Pl 'fatih/vim-go' 'derekwyatt/vim-scala' 'rodjek/vim-puppet' 'markcornick/vim-terraform'
+Pl 'ensime/ensime-vim'
 " Linters
 Pl 'benekastah/neomake'
 " Text objects
-Pl 'wellle/targets.vim'
+Pl 'wellle/targets.vim' 'tpope/vim-commentary'
 " Tools
 Pl 'vim-scripts/dbext.vim' 'mileszs/ack.vim'
 Pl 'Shougo/deoplete.nvim'
@@ -92,6 +93,8 @@ set ai noexpandtab sw=4 ts=4 softtabstop=4
 set fo+=c
 set fo+=r
 set ruler showcmd
+" Disable mouse
+set mouse= 
 if exists('+relativenumber')
 	set relativenumber
 endif
@@ -119,6 +122,7 @@ cnoremap <Esc>d <S-right><Delete>
 cnoremap <C-g> <C-c><Paste>
 
 " Navigation
+nnoremap <BS> <C-^>
 nnoremap <Leader>. :Ex<CR>
 nnoremap <Leader>k :tj 
 nnoremap <Leader>b :buffers<CR>:buffer<Space>
@@ -269,7 +273,7 @@ augroup filesettings
 	au FileType yaml,puppet setlocal expandtab sw=2 softtabstop=2 ts=2 path=**
 	au FileType terraform setlocal expandtab sw=2 softtabstop=2 ts=2
 	au FileType dockerfile setlocal path=**
-	au FileType scala setlocal path=src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/**
+	au FileType scala setlocal path=src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
 	au FileType sbt.scala setlocal path=./*,project/*
 
 	au BufNewFile,BufRead *.md setlocal ft=markdown
