@@ -82,6 +82,13 @@ fun! SbtQuickfix()
 	call system("echo -n > " . file . "; for i in `find . | grep sbt.quickfix`; do grep -v '\\[warn\\]' $i >> " . file . "; rm $i; done;")
 	exe "cf " . file
 endfun
+
+fun! LocalCd(dir)
+	exe "e " . a:dir
+	exe "lcd " . a:dir
+endfun
+
+command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
 " }}}
 
 " Settings {{{
@@ -98,6 +105,7 @@ set mouse=
 if exists('+relativenumber')
 	set relativenumber
 endif
+set nu
 set shell=bash
 " }}}
 
@@ -128,7 +136,7 @@ nnoremap <Leader>k :tj
 nnoremap <Leader>b :buffers<CR>:buffer<Space>
 nnoremap gb :buffers<CR>:buffer<Space>
 nnoremap <Leader>a :Ack 
-noremap <Leader>A :Ack <cword><CR>
+noremap <Leader>A :Ack --<C-r>=&filetype<CR> <cword><CR>
 nnoremap <leader>f :find 
 nnoremap <leader>t :FZF<CR> 
 nnoremap <Leader>e :e 
