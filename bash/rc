@@ -2,9 +2,11 @@
 export FZF_DEFAULT_COMMAND="ack -f"
 export NVIM_LISTEN_ADDRESS="/tmp/nvim.sock"
 export BROWSER="open -a safai"
+export EDITOR=vim
 
 alias ll="ls -l"
-alias vi="nvim"
+alias vi=$EDITOR
+alias e="$EDITOR \$(fzf)"
 alias :q="exit"
 alias jjbini="docker exec jenkins cat /var/jenkins_home/jenkins-jobs.ini | sed 's/localhost/192.168.99.100/'"
 
