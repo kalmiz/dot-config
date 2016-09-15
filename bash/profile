@@ -84,7 +84,23 @@ function vpn_handler {
 		return 1
 	esac
 }
+function gssh {
+	zone=$(gcloud compute instances list | grep "^$1 " | awk '{print $2}')
+	instance=$1
+	shift 1
+	command=''
+	if [ -n '$1' ]; then
+		gcloud compute ssh $instance --zone=$zone --command "$*"
+	else
+		gcloud compute ssh $1 --zone=$zone
+	fi
+}
 
+function gscp {
+	instance=$(echo "$1 $2" | grep -o '[0-9a-z-]\+:'|cut -d\: -f1)
+	zone=$(gcloud compute instances list | grep "^$instance " | awk '{print $2}')
+	gcloud compute copy-files ${1} ${2} --zone $zone
+}
 if [ -f ~/.bashrc ]; then
 	source ~/.bashrc
 fi
@@ -99,3 +115,18 @@ eval "$(scmpuff init -s)"
 init_rbenv () {
 	eval "$(rbenv init -)"
 }
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+# OPAM configuration
+. /Users/kalmi/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f /Users/kalmi/Projects/3rdParty/google-cloud-sdk/path.bash.inc ]; then
+	source '/Users/kalmi/Projects/3rdParty/google-cloud-sdk/path.bash.inc'
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f /Users/kalmi/Projects/3rdParty/google-cloud-sdk/completion.bash.inc ]; then
+	source '/Users/kalmi/Projects/3rdParty/google-cloud-sdk/completion.bash.inc'
+fi
