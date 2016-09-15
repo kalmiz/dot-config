@@ -48,7 +48,7 @@ Pl 'tpope/vim-unimpaired'
 Pl 'tpope/vim-fugitive'
 " Languages
 Pl 'fatih/vim-go' 'derekwyatt/vim-scala' 'rodjek/vim-puppet' 'markcornick/vim-terraform'
-Pl 'ensime/ensime-vim'
+"Pl 'ensime/ensime-vim'
 " Linters
 Pl 'benekastah/neomake'
 " Text objects
@@ -87,6 +87,17 @@ fun! LocalCd(dir)
 	exe "e " . a:dir
 	exe "lcd " . a:dir
 endfun
+
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
 
 command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
 " }}}
@@ -139,6 +150,12 @@ nnoremap <Leader>a :Ack
 noremap <Leader>A :Ack --<C-r>=&filetype<CR> <cword><CR>
 nnoremap <leader>f :find 
 nnoremap <leader>t :FZF<CR> 
+nnoremap <silent> <Leader>B :call fzf#run({
+\   'source':  reverse(<sid>buflist()),
+\   'sink':    function('<sid>bufopen'),
+\   'options': '+m',
+\   'down':    len(<sid>buflist()) + 2
+\ })<CR>
 nnoremap <Leader>e :e 
 nnoremap <Leader>/ :e ../
 nnoremap <Leader>m :Neomake<CR>
