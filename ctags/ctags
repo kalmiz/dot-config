@@ -14,3 +14,4 @@
 --exclude=.git
 --exclude=node_modules
 --exclude=target
+--exclude=*.json
