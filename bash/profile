@@ -1,6 +1,6 @@
 function pidof {
 	COMMAND=$1
-	PID=`ps -A -o pid,command | grep $COMMAND | grep -v grep | awk '{print $1}'`
+	PID=`ps -A -o pid,command | grep -e $COMMAND | grep -v grep | awk '{print $1}'`
 	if [ -n "$PID" ]; then
 		echo "$PID"
 	fi
@@ -17,45 +17,71 @@ function vpn_password {
 # %admin  ALL=(ALL) NOPASSWD: /usr/local/bin/openconnect
 # %admin  ALL=(ALL) NOPASSWD: /usr/bin/killall -SIGINT openconnect
 #
+VPN_USER=$USER
+
+shopt -s extglob
 function vpn {
-	local OPENCONNECT=`pidof openconnect`
-	local HOST=${VPN_HOST:-vpn-xyz.kinja-ops.com}
-	local USERNAME=${VPN_USER:-$USER}
-	local PASS=$(vpn_password) 
 	case "$1" in
-		start)
-			if [ -z "$OPENCONNECT" ] ; then
-				echo "== Starting VPN"
-				#echo -n "Pasword: "
-				#read -s pass
-				#echo
-				echo "$PASS" | pbcopy
-				echo "$PASS" | sudo openconnect --background -u $USERNAME --passwd-on-stdin $HOST
-				echo "Done"
-			fi
-			;;
-		stop)
-			if [ -n "$OPENCONNECT" ] ; then
-				echo "== Stopping VPN"
-				sudo killall -SIGINT openconnect
-				echo "Done"
-			fi
-			;;
-		restart)
-			vpn stop
-			vpn start
-			;;
-		status)
-			if [ "x$OPENCONNECT" == "x" ]; then
-				echo "VPN is not running."
-				return 1
-			else
-				echo "VPN is running. PID: $OPENCONNECT"
-			fi
-			;;
-		*)
-			echo "Usage: vpn {start|stop|status|restart}"
-			return 1
+	dc)
+		local VPN=${VPN_HOST:-"vpn.kinja-ops.com"}
+		vpn_handler $2
+		;;
+	@(gcp|bfc|xyz) )
+		local VPN="vpn-$1.kinja-ops.com"
+		vpn_handler $2
+		;;
+	 @(start|status) )
+		vpn dc $1
+		[ "$1" = "start" ] && sleep 20
+		vpn gcp $1
+		;;
+	stop)
+		# stop in reserve order
+		vpn gcp $1
+		sleep 5
+		vpn dc $1
+		;;
+	*)
+		vpn_handler help
+	esac
+}
+
+function vpn_handler {
+	local HOST=${VPN:-"vpn.kinja-ops.com"}
+	local OPENCONNECT=$(pidof "openconnect.*${HOST}")
+	local USERNAME=${VPN_USER}
+	local LOCALUSER=$(whoami)
+
+	case "$1" in
+	start)
+		if [ -z "$OPENCONNECT" ] ; then
+		echo "== Starting VPN"
+		echo $(vpn_password) | sudo openconnect --script=/Users/${LOCALUSER}/bin/vpnc-script --background -u ${USERNAME} --passwd-on-stdin ${HOST}
+		echo "Done"
+		fi
+		;;
+	stop)
+		if [ -n "$OPENCONNECT" ] ; then
+		echo "== Stopping VPN"
+		sudo kill -SIGINT ${OPENCONNECT}
+		echo "Done"
+		fi
+		;;
+	restart)
+		vpn stop
+		vpn start
+		;;
+	status)
+		if [ "x$OPENCONNECT" == "x" ]; then
+		echo "$HOST VPN is not running."
+		return 1
+		else
+		echo "$HOST VPN is running. PID: $OPENCONNECT"
+		fi
+		;;
+	help)
+		echo "Usage: vpn [dc|gcp|xyz|bfc] {start|stop|status|restart}"
+		return 1
 	esac
 }
 
