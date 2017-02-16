@@ -1,0 +1,227 @@
+" Base settings {{{
+set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 vb
+set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~
+set mouse=a 
+if exists('+relativenumber')
+	set relativenumber
+endif
+set nu
+syn on
+
+if filereadable("/usr/local/opt/fzf/install")
+	set rtp+=/usr/local/opt/fzf
+endif
+
+if executable('rg')
+	let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --follow --color "never"'
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m
+	"let g:ackprg = 'rg --vimgrep --no-heading'
+	let g:ackprg = g:rg_command
+elseif executable('ack')
+    set grepprg=ack\ --nogroup\ --nocolor\ --ignore-case\ --column
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+" }}}
+
+" Bare bone navigation {{{
+set path=**
+set suffixesadd=.conf,.java,.scala,.php,.js
+set wildmode=longest,full
+set wildmenu
+set wildignore+=*.class
+set wildignore+=*.jar
+set wildignore+=*.jpg
+set wildignore+=*.png 
+set wildignore+=*.gif
+set wildignore+=**/tiny_mce_dev/**
+set wildignore+=**/target/**
+set wildignore+=**/node_modules/**
+set wildignore+=node_modules/**
+set wildignore+=cscope.*
+set wildignore+=.git/**
+set wildignore+=.idea/**
+
+let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
+" }}}
+
+" Functions {{{
+fun! SbtQuickfix()
+	setlocal errorformat=%E\ %#[error]\ %#%f:%l:\ %m,%-Z\ %#[error]\ %p^,%-G\ %#[error]\ %m
+	setlocal errorformat+=%W\ %#[warn]\ %#%f:%l:\ %m,%-Z\ %#[warn]\ %p^,%-G\ %#[warn]\ %m
+	setlocal errorformat+=%C\ %#%m
+	let file = "~/tmp/sbt.quickfix"
+	call system("echo -n > " . file . "; for i in `find . | grep sbt.quickfix`; do grep -v '\\[warn\\]' $i >> " . file . "; done;")
+	exe "cf " . file
+endfun
+
+fun! ScalaC()
+    setlocal errorformat=%E%f:%l:\ %trror:\ %m
+	setlocal errorformat+=%Z%p^
+	setlocal errorformat+=%-G%.%#
+	setlocal makeprg=scalac\ -Ystop-after:parser\ %
+	silent! make
+	redraw!
+	cwindow
+endfun
+
+fun! ExpandSnippet(name)
+	let dir = "/Users/kalmi/tmp/snippets/"	. &ft
+	if isdirectory(dir)
+		let snippet = dir . "/" . a:name . "." . &ft
+		if filereadable(snippet) 
+			normal dw
+			exe 'r ' . snippet
+			normal gg
+			execute "normal /_CURSOR_\<CR>"
+			normal cw
+		endif
+	endif
+endfun
+
+fun! Snippet()
+	normal b
+	call ExpandSnippet(expand('<cword>'))
+endfun
+
+inoremap <C-k> <C-o>:call Snippet()<CR>
+
+function! Replace()
+    let pattern = substitute(escape(@", '\?'), '\n', '\\n', 'g')
+    let replacement = substitute(escape(@., '\?'), '\n', '\\r', 'g')
+    execute "%s/\\V" . pattern . "/" . replacement . "/gc"
+endfunction
+
+fun! LocalCd(dir)
+	exe "e " . a:dir
+	exe "lcd " . a:dir
+endfun
+
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+" Type z/ to toggle highlighting on/off.
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+function! AutoHighlightToggle()
+  let @/ = ''
+  if exists('#auto_highlight')
+    au! auto_highlight
+    augroup! auto_highlight
+    setl updatetime=4000
+    echo 'Highlight current word: off'
+    return 0
+  else
+    augroup auto_highlight
+      au!
+      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    augroup end
+    setl updatetime=500
+    echo 'Highlight current word: ON'
+    return 1
+  endif
+endfunction
+
+command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
+command! -nargs=0 ScalaC call ScalaC()
+" }}}
+
+" Mappings {{{
+let mapleader = ' '
+nnoremap <Leader>. :Ex<CR>
+nnoremap <Leader>a :Ack 
+noremap <Leader>A :Ack -t<C-r>=&filetype<CR> <cword><CR>
+"nnoremap <Leader>b :buffers<CR>:buffer<Space>
+nnoremap <leader>c :call Replace()<cr>
+nnoremap <Leader>f :find 
+nnoremap <Leader>k :tj 
+nnoremap <Leader>m :make<CR>
+nnoremap <leader>t :FZF<CR> 
+nnoremap <silent> <Leader>b :call fzf#run({
+\   'source':  reverse(<sid>buflist()),
+\   'sink':    function('<sid>bufopen'),
+\   'options': '+m',
+\   'down':    len(<sid>buflist()) + 2
+\ })<CR>
+" Git
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gp :Git push<CR>
+nnoremap <Leader>gP :exe 'Git push --set-upstream origin ' . fugitive#head()<CR>
+nnoremap <Leader>gl :Git pl<CR>
+vnoremap <Leader>y "+y
+" Quick save
+nnoremap s :update<CR>
+" Focus window
+nnoremap <C-w>z :tab sp<CR>
+" Show whitespace
+noremap <C-x>w :set list!<CR>
+" change a word under cursor and prepare for repeats via .
+nnoremap <silent> ctw *``cgn
+nnoremap <silent> cTw #``cgN
+
+inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
+inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
+inoremap <expr> <tab> ((pumvisible())?("\<Cr>"):("<Cr>"))
+" }}}
+
+let g:racer_cmd = "~/.cargo/bin/racer"
+let $RUST_SRC_PATH = "~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src/"
+let g:racer_experimental_completer = 1
+
+" Autocommands {{{
+augroup filesettings
+	au!
+	" When editing a file, always jump to the last known cursor position.
+	" Don't do it when the position is invalid or when inside an event
+	" handler (happens when dropping a file on gvim).
+	au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+		\|	exe "normal g`\""
+		\|endif
+
+	"au FileType * if &filetype == 'sql'
+	"	\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.g:sql_type_default.'.vim')
+	"	\|	setl complete-=t
+	"	\|else
+	"	\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
+	"	\|endif
+
+	au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+	au FileType go setlocal makeprg=gometalinter
+	au FileType yaml,tf setlocal et sw=2 ts=2 sts=2
+	au FileType scala setlocal sw=4 ts=4 sts=4 path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
+		\| nnoremap <buffer> <Leader>s :call SbtQuickfix()<CR>copen<CR>
+		\| nnoremap <buffer> <Leader>m :ScalaC<CR>
+	au BufNewFile,BufRead *.md setlocal ft=markdown
+	au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
+	" Poor man's vim-rooter, git only, using fugitive
+	au BufLeave * let b:last_cwd = getcwd()
+	au BufEnter * if exists('b:last_cwd')
+		\|	execute 'lcd ' . b:last_cwd
+		\|else
+		\|	if exists('b:netrw_curdir')
+		\|		execute 'lcd ' . b:netrw_curdir
+		\|	else "if getcwd() != $GOPATH
+		\|		silent! Glcd
+		\|	endif
+		\|endif
+augroup END
+
+augroup templates
+	au!
+	" read in template files
+	"autocmd BufNewFile *.* silent! execute '0r $HOME/.vim/files/templates/skeleton.'.expand("<afile>:e")
+
+	" parse special text in the templates after the read
+	"autocmd BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
+augroup END
+" }}}
