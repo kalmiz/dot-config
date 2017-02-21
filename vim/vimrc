@@ -14,8 +14,8 @@ endif
 
 if executable('rg')
 	let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --follow --color "never"'
-    set grepprg=rg\ --vimgrep\ --no-heading
-    set grepformat=%f:%l:%c:%m
+	set grepprg=rg\ --vimgrep\ --no-heading
+	set grepformat=%f:%l:%c:%m
 	"let g:ackprg = 'rg --vimgrep --no-heading'
 	let g:ackprg = g:rg_command
 elseif executable('ack')
