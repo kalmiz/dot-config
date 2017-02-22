@@ -17,90 +17,47 @@ function vpn_password {
 # %admin  ALL=(ALL) NOPASSWD: /usr/local/bin/openconnect
 # %admin  ALL=(ALL) NOPASSWD: /usr/bin/killall -SIGINT openconnect
 #
-VPN_USER=$USER
+VPN_USER=kalmi
 
-shopt -s extglob
+function vpn_password {
+  security 2>&1 >/dev/null find-generic-password -ga kinja-vpn \
+  | ruby -e 'print $1 if STDIN.gets =~ /^password: "(.*)"$/'
+}
+
 function vpn {
-	case "$1" in
-	dc)
-		local VPN=${VPN_HOST:-"vpn.kinja-ops.com"}
-		vpn_handler $2
-		;;
-	@(gcp|bfc|xyz) )
-		local VPN="vpn-$1.kinja-ops.com"
-		vpn_handler $2
-		;;
-	 @(start|status) )
-		vpn dc $1
-		[ "$1" = "start" ] && sleep 20
-		vpn gcp $1
-		;;
-	stop)
-		# stop in reserve order
-		vpn gcp $1
-		sleep 5
-		vpn dc $1
-		;;
-	*)
-		vpn_handler help
-	esac
+  OPENCONNECT=$(pidof openconnect)
+  echo "User: $VPN_USER"
+  case "$1" in
+    start)
+      if [ -z "$OPENCONNECT" ] ; then
+        echo "Connecting to VPN ..."
+        echo $(vpn_password) | sudo openconnect --background -u $VPN_USER \
+          --passwd-on-stdin vpn.kinja-ops.com
+      fi
+      ;;
+    stop)
+      if [ -n "$OPENCONNECT" ] ; then
+        echo "Closing VPN connection ..."
+        sudo killall -SIGINT openconnect
+      fi
+      ;;
+    restart)
+      vpn stop
+      vpn start
+      ;;
+    status)
+      if [ -n "$OPENCONNECT" ] ; then
+        echo "VPN is connected"
+      else
+        echo "VPN is disconnected"
+      fi
+      ;;
+    *)
+      echo "Usage: vpn {start|stop|restart}"
+      return 1
+  esac
 }
 
-function vpn_handler {
-	local HOST=${VPN:-"vpn.kinja-ops.com"}
-	local OPENCONNECT=$(pidof "openconnect.*${HOST}")
-	local USERNAME=${VPN_USER}
-	local LOCALUSER=$(whoami)
-
-	case "$1" in
-	start)
-		if [ -z "$OPENCONNECT" ] ; then
-		echo "== Starting VPN"
-		echo $(vpn_password) | sudo openconnect --script=/Users/${LOCALUSER}/bin/vpnc-script --background -u ${USERNAME} --passwd-on-stdin ${HOST}
-		echo "Done"
-		fi
-		;;
-	stop)
-		if [ -n "$OPENCONNECT" ] ; then
-		echo "== Stopping VPN"
-		sudo kill -SIGINT ${OPENCONNECT}
-		echo "Done"
-		fi
-		;;
-	restart)
-		vpn stop
-		vpn start
-		;;
-	status)
-		if [ "x$OPENCONNECT" == "x" ]; then
-		echo "$HOST VPN is not running."
-		return 1
-		else
-		echo "$HOST VPN is running. PID: $OPENCONNECT"
-		fi
-		;;
-	help)
-		echo "Usage: vpn [dc|gcp|xyz|bfc] {start|stop|status|restart}"
-		return 1
-	esac
-}
-function gssh {
-	zone=$(gcloud compute instances list | grep "^$1 " | awk '{print $2}')
-	instance=$1
-	shift 1
-	command=''
-	if [ -n '$1' ]; then
-		gcloud compute ssh $instance --zone=$zone --command "$*"
-	else
-		gcloud compute ssh $1 --zone=$zone
-	fi
-}
-
-function gscp {
-	instance=$(echo "$1 $2" | grep -o '[0-9a-z-]\+:'|cut -d\: -f1)
-	zone=$(gcloud compute instances list | grep "^$instance " | awk '{print $2}')
-	gcloud compute copy-files ${1} ${2} --zone $zone
-}
 if [ -f ~/.bashrc ]; then
 	source ~/.bashrc
 fi
