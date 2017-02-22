@@ -69,12 +69,6 @@ complete -C aws_completer aws
 
 eval "$(scmpuff init -s)"
 
-init_rbenv () {
-	eval "$(rbenv init -)"
-}
-
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
-
 # OPAM configuration
 . /Users/kalmi/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
