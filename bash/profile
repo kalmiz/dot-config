@@ -61,9 +61,10 @@ function vpn {
 if [ -f ~/.bashrc ]; then
 	source ~/.bashrc
 fi
-if [ -f ~/.config/git/git-completion.bash ]; then
-	source ~/.config/git/git-completion.bash
-fi
+
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+[ -f /usr/local/bin/kubectl ] && . <(kubectl completion bash)
+[ -f ~/.config/git/git-completion.bash ] && . ~/.config/git/git-completion.bash
 
 complete -C aws_completer aws
 
