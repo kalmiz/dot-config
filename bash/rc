@@ -1,5 +1,5 @@
 
-export FZF_DEFAULT_COMMAND="ack -f"
+export FZF_DEFAULT_COMMAND="rg --files"
 export NVIM_LISTEN_ADDRESS="/tmp/nvim.sock"
 export BROWSER="open -a safai"
 export EDITOR=vim
