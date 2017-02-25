@@ -45,11 +45,11 @@ else
 	if [ $(uname) == "Darwin" ]; then
 		source ./osx/defaults
 		# http://zanshin.net/2013/08/27/setup-openconnect-for-mac-os-x-lion/
-		curl -s http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script > /usr/local/bin/vpnc-script
-		chmod +x /usr/local/bin/vpnc-script
-		cd /Library/Extensions
-		echo "Loading tun.kext..."
-		sudo kextload -v tun.kext
+		#curl -s http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script > /usr/local/bin/vpnc-script
+		#chmod +x /usr/local/bin/vpnc-script
+		#cd /Library/Extensions
+		#echo "Loading tun.kext..."
+		#sudo kextload -v tun.kext
 		/usr/local/opt/fzf/install
 	fi
 fi
