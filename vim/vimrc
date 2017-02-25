@@ -171,7 +171,6 @@ nnoremap <silent> cTw #``cgN
 
 inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
 inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
-inoremap <expr> <tab> ((pumvisible())?("\<Cr>"):("<Cr>"))
 " }}}
 
 let g:racer_cmd = "~/.cargo/bin/racer"
