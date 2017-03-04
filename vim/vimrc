@@ -150,6 +150,7 @@ nnoremap <Leader>m :make<CR>
 nnoremap <leader>t :FZF<CR> 
 nnoremap <leader>w :w<CR> 
 nnoremap <leader>q :q<CR> 
+nnoremap <leader>z :qall<CR> 
 nnoremap <silent> <Leader>b :call fzf#run({
 \   'source':  reverse(<sid>buflist()),
 \   'sink':    function('<sid>bufopen'),
