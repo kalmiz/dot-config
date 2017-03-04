@@ -138,6 +138,7 @@ command! -nargs=0 ScalaC call ScalaC()
 
 " Mappings {{{
 let mapleader = ' '
+nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
 nnoremap <Leader>a :Ack 
 noremap <Leader>A :Ack -t<C-r>=&filetype<CR> <cword><CR>
@@ -147,6 +148,8 @@ nnoremap <Leader>f :find
 nnoremap <Leader>k :tj 
 nnoremap <Leader>m :make<CR>
 nnoremap <leader>t :FZF<CR> 
+nnoremap <leader>w :w<CR> 
+nnoremap <leader>q :q<CR> 
 nnoremap <silent> <Leader>b :call fzf#run({
 \   'source':  reverse(<sid>buflist()),
 \   'sink':    function('<sid>bufopen'),
