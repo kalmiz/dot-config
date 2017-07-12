@@ -201,8 +201,6 @@ nnoremap <Leader>gp :Git push<CR>
 nnoremap <Leader>gP :exe 'Git push --set-upstream origin ' . fugitive#head()<CR>
 nnoremap <Leader>gl :Git pl<CR>
 vnoremap <Leader>y "+y
-" Quick save
-nnoremap s :update<CR>
 " Focus window
 nnoremap <C-w>z :tab sp<CR>
 " Show whitespace
@@ -211,8 +209,6 @@ noremap <C-x>w :set list!<CR>
 nnoremap <silent> ctw *``cgn
 nnoremap <silent> cTw #``cgN
 
-inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
-inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 " }}}
 
 let g:racer_cmd = "~/.cargo/bin/racer"
