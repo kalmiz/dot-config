@@ -22,6 +22,8 @@ elseif executable('ack')
     set grepprg=ack\ --nogroup\ --nocolor\ --ignore-case\ --column
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
+
+let g:PLUGINS = ['kana/vim-textobj-user', 'kana/vim-textobj-indent', 'glts/vim-textobj-comment', 'wellle/targets.vim', 'tpope/surround', 'mileszs/ack.vim', 'w0rp/ale', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner']
 " }}}
 
 " Bare bone navigation {{{
@@ -108,6 +110,39 @@ function! s:bufopen(e)
   execute 'buffer' matchstr(a:e, '^[ 0-9]*')
 endfunction
 
+function! s:InstallPlugin(name)
+	echomsg a:name
+	let dir = split(a:name, '/')
+	if len(dir) == 2
+		let target = $HOME . "/.vim/pack/" . dir[1] . "/start/" . dir[1]
+		if !isdirectory(target)
+			call mkdir(target, "p")
+			let s = system("git clone https://github.com/" . a:name . " " . target)
+		endif
+	endif
+endfunction
+
+function! s:InstallPlugins(list)
+	for p in a:list
+		call s:InstallPlugin(p)
+	endfor
+endfunction
+
+function! s:UpdatePlugins()
+	for p in g:PLUGINS
+		let dir = split(p, '/')
+		let target = $HOME . "/.vim/pack/" . dir[1] . "/start/" . dir[1]
+		if isdirectory(target)
+			echomsg p
+			let s = system("cd " . target . " && git pull")
+			echomsg s
+		endif
+	endfor
+endfunction
+
+function! s:InitPlugins()
+	call s:InstallPlugins(g:PLUGINS)
+endfunction
 
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
@@ -134,6 +169,9 @@ endfunction
 
 command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
 command! -nargs=0 ScalaC call ScalaC()
+command! -nargs=1 InstallPlugin call s:InstallPlugin(<f-args>)
+command! -nargs=0 InitPlugins call s:InitPlugins()
+command! -nargs=0 UpdatePlugins call s:UpdatePlugins()
 " }}}
 
 " Mappings {{{
