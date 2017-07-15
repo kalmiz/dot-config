@@ -1,5 +1,5 @@
 " Base settings {{{
-set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 vb
+set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~
 set mouse=a 
 if exists('+relativenumber')
