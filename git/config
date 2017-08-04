@@ -7,6 +7,7 @@
 
 [alias]
 	ci = commit
+	ca = commit -a -v
 	co = checkout
 	st = status
 	pl = pull --rebase
