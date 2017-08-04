@@ -2,4 +2,5 @@
 --type-set=sbt:ext:sbt
 --ignore-dir=node_modules/
 --ignore-dir=target/
+--ignore-dir=.idea/
 --ignore-file=is:tags

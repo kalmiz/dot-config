@@ -6,6 +6,7 @@
 	excludesfile = ~/.config/git/gitignore_global
 
 [alias]
+	br = branch
 	ci = commit
 	ca = commit -a -v
 	co = checkout

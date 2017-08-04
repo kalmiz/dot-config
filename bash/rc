@@ -1,8 +1,13 @@
 
-export FZF_DEFAULT_COMMAND="rg --files"
+#export FZF_DEFAULT_COMMAND="ack -f"
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --follow --glob "!.git/*"'
+bind -x '"\C-p": vim $(fzf);'
+export FZF_CTRL_T_COMMAND=$FZF_CTRL_T_COMMAND
 export NVIM_LISTEN_ADDRESS="/tmp/nvim.sock"
 export BROWSER="open -a safai"
 export EDITOR=vim
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 alias ll="ls -l"
 alias vi=$EDITOR
@@ -24,6 +29,9 @@ if [ -d $HOME/Projects ]; then
 	export PATH=$GOPATH/bin:$PATH
 fi
 
+if [ -d $HOME/bin ]; then
+	export PATH=$HOME/bin:$PATH
+fi
 
 # added by travis gem
 [ -f /Users/kalmi/.travis/travis.sh ] && source /Users/kalmi/.travis/travis.sh

@@ -31,8 +31,8 @@ function vpn {
     start)
       if [ -z "$OPENCONNECT" ] ; then
         echo "Connecting to VPN ..."
-        echo $(vpn_password) | sudo openconnect --background -u $VPN_USER \
-          --passwd-on-stdin vpn.kinja-ops.com
+        echo $(vpn_password) | sudo openconnect --no-dtls --background -u $VPN_USER \
+          --passwd-on-stdin vpn-aws.kinja-ops.com #vpn.kinja-ops.com
       fi
       ;;
     stop)
@@ -73,3 +73,5 @@ eval "$(scmpuff init -s)"
 # OPAM configuration
 . /Users/kalmi/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
+
+export PATH="$HOME/.cargo/bin:$PATH"
