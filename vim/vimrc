@@ -1,5 +1,5 @@
 " Base settings {{{
-set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 vb
+set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb timeoutlen=1000 ttimeoutlen=0
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~
 set mouse=a 
 if exists('+relativenumber')
@@ -48,6 +48,11 @@ let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " }}}
 
 " Functions {{{
+
+fun! PbCopy() range
+  echo system('echo '.shellescape(join(getline(a:firstline, a:lastline), "\n")).'| reattach-to-user-namespace pbcopy')
+endfun
+
 fun! SbtQuickfix()
 	setlocal errorformat=%E\ %#[error]\ %#%f:%l:\ %m,%-Z\ %#[error]\ %p^,%-G\ %#[error]\ %m
 	setlocal errorformat+=%W\ %#[warn]\ %#%f:%l:\ %m,%-Z\ %#[warn]\ %p^,%-G\ %#[warn]\ %m
@@ -172,6 +177,7 @@ command! -nargs=0 ScalaC call ScalaC()
 command! -nargs=1 InstallPlugin call s:InstallPlugin(<f-args>)
 command! -nargs=0 InitPlugins call s:InitPlugins()
 command! -nargs=0 UpdatePlugins call s:UpdatePlugins()
+command! -range=% -nargs=0 PbCopy :<line1>,<line2>call PbCopy()
 " }}}
 
 " Mappings {{{
@@ -200,9 +206,11 @@ nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gp :Git push<CR>
 nnoremap <Leader>gP :exe 'Git push --set-upstream origin ' . fugitive#head()<CR>
 nnoremap <Leader>gl :Git pl<CR>
-vnoremap <Leader>y "+y
+vnoremap <Leader>y :PbCopy<CR>
 " Focus window
 nnoremap <C-w>z :tab sp<CR>
+nnoremap t. :tabedit %<cr>
+nnoremap tc :tabclose<cr>
 " Show whitespace
 noremap <C-x>w :set list!<CR>
 " change a word under cursor and prepare for repeats via .
