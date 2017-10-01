@@ -1,5 +1,5 @@
 " Base settings {{{
-set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb timeoutlen=1000 ttimeoutlen=0
+set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb timeoutlen=1000 ttimeoutlen=0 fo+=r
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~
 set mouse=a 
 if exists('+relativenumber')
@@ -7,6 +7,8 @@ if exists('+relativenumber')
 endif
 set nu
 syn on
+" btter maching parens
+hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
 
 if filereadable("/usr/local/opt/fzf/install")
 	set rtp+=/usr/local/opt/fzf
@@ -258,6 +260,8 @@ augroup filesettings
 	"	\|endif
 
 	au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+	au FileType css setlocal omnifunc=csscomplete#CompleteCSS
+	au FileType php setlocal omnifunc=phpcomplete#CompletePHP
 	au FileType go setlocal makeprg=gometalinter
 	au FileType yaml,tf setlocal et sw=2 ts=2 sts=2
 	au FileType scala setlocal sw=4 ts=4 sts=4 path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
