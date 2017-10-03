@@ -96,6 +96,7 @@ fun! ScalaSnippets()
 endfun
 
 fun! CssSnippets()
+	" Use ; as trigger key
 	iabbrev <buffer> dbl display: block
 	iabbrev <buffer> din display: inline-block
 	iabbrev <buffer> dno display: none
