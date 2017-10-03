@@ -12,6 +12,9 @@ hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
 
 if filereadable("/usr/local/opt/fzf/install")
 	set rtp+=/usr/local/opt/fzf
+	let g:has_fzf = 1
+else 
+	let g:has_fzf = 0
 endif
 
 if executable('rg')
@@ -25,7 +28,7 @@ elseif executable('ack')
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-let g:PLUGINS = ['kana/vim-textobj-user', 'kana/vim-textobj-indent', 'glts/vim-textobj-comment', 'wellle/targets.vim', 'tpope/surround', 'mileszs/ack.vim', 'w0rp/ale', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner', '907th/vim-auto-save']
+let g:PLUGINS = ['kana/vim-textobj-user', 'kana/vim-textobj-indent', 'glts/vim-textobj-comment', 'wellle/targets.vim', 'tpope/surround', 'w0rp/ale', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner', '907th/vim-auto-save']
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
 " }}}
@@ -90,6 +93,7 @@ endfun
 fun! ScalaSnippets()
 	iabbrev <buffer> iff if () {<CR>}<ESC>kf(a
 	iabbrev <buffer> ife if () {<CR>} else {<CR>}<ESC>2kf(a
+	iabbrev <buffer> flatm flatMap { => <LEFT><LEFT><LEFT><LEFT>
 	iabbrev <buffer> match match {<CR>case => <CR>case _ => <CR>}<ESC>2kfea
 	iabbrev <buffer> def def():  = {<CR>}<ESC>kffa
 	inoremap <buffer> <C-l> <ESC>f:<RIGHT>a
@@ -208,9 +212,8 @@ command! -nargs=+ Find edit __find__ | setl bt=nofile bh=hide nobl | %!rg --file
 let mapleader = ' '
 nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
-nnoremap <Leader>a :Ack 
-noremap <Leader>A :Ack -t<C-r>=&filetype<CR> <cword><CR>
-"nnoremap <Leader>b :buffers<CR>:buffer<Space>
+nnoremap <Leader>a :silent grep 
+nnoremap <Leader>A :silent grep <cword> -t<C-r>=&filetype<CR> \| copen<CR>
 nnoremap <leader>c :call Replace()<cr>
 nnoremap <Leader>f :find 
 nnoremap <Leader>k :tj 
@@ -219,12 +222,16 @@ nnoremap <leader>t :FZF<CR>
 nnoremap <leader>w :w<CR> 
 nnoremap <leader>q :q<CR> 
 nnoremap <leader>z :qall<CR> 
+if (g:has_fzf == 1)
 nnoremap <silent> <Leader>b :call fzf#run({
 \   'source':  reverse(<sid>buflist()),
 \   'sink':    function('<sid>bufopen'),
 \   'options': '+m',
 \   'down':    len(<sid>buflist()) + 2
 \ })<CR>
+else
+	nnoremap <Leader>b :buffers<CR>:buffer<Space>
+endif
 " Git
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gp :Git push<CR>
