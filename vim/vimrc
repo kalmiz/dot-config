@@ -1,5 +1,5 @@
 " Base settings {{{
-set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb timeoutlen=1000 ttimeoutlen=0 fo+=r
+set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb timeoutlen=1000 ttimeoutlen=0 fo+=r si
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~
 set mouse=a 
 if exists('+relativenumber')
@@ -26,6 +26,8 @@ elseif executable('ack')
 endif
 
 let g:PLUGINS = ['kana/vim-textobj-user', 'kana/vim-textobj-indent', 'glts/vim-textobj-comment', 'wellle/targets.vim', 'tpope/surround', 'mileszs/ack.vim', 'w0rp/ale', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner']
+
+let g:auto_save = 1  " enable AutoSave on Vim startup
 " }}}
 
 " Bare bone navigation {{{
@@ -83,6 +85,14 @@ fun! ScalaC()
 	silent! make
 	redraw!
 	cwindow
+endfun
+
+fun! ScalaSnippets()
+	iabbrev <buffer> iff if () {<CR>}<ESC>kf(a
+	iabbrev <buffer> ife if () {<CR>} else {<CR>}<ESC>2kf(a
+	iabbrev <buffer> match match {<CR>case => <CR>case _ => <CR>}<ESC>2kfea
+	iabbrev <buffer> def def():  = {<CR>}<ESC>kffa
+	inoremap <C-l> <ESC>f:<RIGHT>a
 endfun
 
 fun! ExpandSnippet(name)
@@ -267,6 +277,7 @@ augroup filesettings
 	au FileType scala setlocal sw=4 ts=4 sts=4 path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
 		\| nnoremap <buffer> <Leader>s :call SbtQuickfix()<CR>copen<CR>
 		\| nnoremap <buffer> <Leader>m :ScalaC<CR>
+		\| call ScalaSnippets()
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 	au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
 	" Poor man's vim-rooter, git only, using fugitive
