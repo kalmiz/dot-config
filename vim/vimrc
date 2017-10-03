@@ -7,7 +7,7 @@ if exists('+relativenumber')
 endif
 set nu
 syn on
-" btter maching parens
+" better matching parens
 hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
 
 if filereadable("/usr/local/opt/fzf/install")
