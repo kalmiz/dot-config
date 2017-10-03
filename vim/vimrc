@@ -162,7 +162,7 @@ function! s:UpdatePlugins()
 		if isdirectory(target)
 			echomsg p
 			let s = system("cd " . target . " && git pull")
-			echomsg s
+			"echomsg s
 		endif
 	endfor
 endfunction
