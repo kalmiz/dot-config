@@ -92,29 +92,23 @@ fun! ScalaSnippets()
 	iabbrev <buffer> ife if () {<CR>} else {<CR>}<ESC>2kf(a
 	iabbrev <buffer> match match {<CR>case => <CR>case _ => <CR>}<ESC>2kfea
 	iabbrev <buffer> def def():  = {<CR>}<ESC>kffa
-	inoremap <C-l> <ESC>f:<RIGHT>a
+	inoremap <buffer> <C-l> <ESC>f:<RIGHT>a
 endfun
 
-fun! ExpandSnippet(name)
-	let dir = "/Users/kalmi/tmp/snippets/"	. &ft
-	if isdirectory(dir)
-		let snippet = dir . "/" . a:name . "." . &ft
-		if filereadable(snippet) 
-			normal dw
-			exe 'r ' . snippet
-			normal gg
-			execute "normal /_CURSOR_\<CR>"
-			normal cw
-		endif
-	endif
-endfun
+fun! CssSnippets()
+	iabbrev <buffer> dbl display: block
+	iabbrev <buffer> din display: inline-block
+	iabbrev <buffer> dno display: none
+	iabbrev <buffer> ff font-family: '', serif
+	iabbrev <buffer> p0 padding: 0px
+	iabbrev <buffer> m0 margin: 0px
+	iabbrev <buffer> fwb font-weight: bold
+	iabbrev <buffer> cb color: #000
+	iabbrev <buffer> cw color: #fff
+	iabbrev <buffer> tac text-align: center
+	iabbrev <buffer> bgno background-repeat: no-repeat
 
-fun! Snippet()
-	normal b
-	call ExpandSnippet(expand('<cword>'))
 endfun
-
-inoremap <C-k> <C-o>:call Snippet()<CR>
 
 function! Replace()
     let pattern = substitute(escape(@", '\?'), '\n', '\\n', 'g')
@@ -271,6 +265,7 @@ augroup filesettings
 
 	au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 	au FileType css setlocal omnifunc=csscomplete#CompleteCSS
+		\| call CssSnippets()
 	au FileType php setlocal omnifunc=phpcomplete#CompletePHP
 	au FileType go setlocal makeprg=gometalinter
 	au FileType yaml,tf setlocal et sw=2 ts=2 sts=2
