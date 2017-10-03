@@ -25,7 +25,7 @@ elseif executable('ack')
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-let g:PLUGINS = ['kana/vim-textobj-user', 'kana/vim-textobj-indent', 'glts/vim-textobj-comment', 'wellle/targets.vim', 'tpope/surround', 'mileszs/ack.vim', 'w0rp/ale', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner']
+let g:PLUGINS = ['kana/vim-textobj-user', 'kana/vim-textobj-indent', 'glts/vim-textobj-comment', 'wellle/targets.vim', 'tpope/surround', 'mileszs/ack.vim', 'w0rp/ale', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner', '907th/vim-auto-save']
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
 " }}}
@@ -235,6 +235,11 @@ vnoremap <Leader>y :PbCopy<CR>
 nnoremap <C-w>z :tab sp<CR>
 nnoremap t. :tabedit %<cr>
 nnoremap tc :tabclose<cr>
+
+nnoremap [q :cprev<CR>
+nnoremap ]q :cnext<CR>
+nnoremap [l :lprev<CR>
+nnoremap ]l :lnext<CR>
 " Show whitespace
 noremap <C-x>w :set list!<CR>
 " change a word under cursor and prepare for repeats via .
