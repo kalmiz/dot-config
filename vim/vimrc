@@ -248,6 +248,8 @@ nnoremap [q :cprev<CR>
 nnoremap ]q :cnext<CR>
 nnoremap [l :lprev<CR>
 nnoremap ]l :lnext<CR>
+nnoremap [b :bprev<CR>
+nnoremap ]b :bnext<CR>
 " Show whitespace
 noremap <C-x>w :set list!<CR>
 " change a word under cursor and prepare for repeats via .
