@@ -28,7 +28,7 @@ elseif executable('ack')
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-let g:PLUGINS = ['kana/vim-textobj-user', 'kana/vim-textobj-indent', 'glts/vim-textobj-comment', 'wellle/targets.vim', 'tpope/surround', 'w0rp/ale', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner', '907th/vim-auto-save']
+let g:PLUGINS = ['tpope/vim-surround', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner', '907th/vim-auto-save', 'w0rp/ale']
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
 " }}}
@@ -145,7 +145,8 @@ function! s:InstallPlugin(name)
 	echomsg a:name
 	let dir = split(a:name, '/')
 	if len(dir) == 2
-		let target = $HOME . "/.vim/pack/" . dir[1] . "/start/" . dir[1]
+		"let target = $HOME . "/.vim/pack/" . dir[1] . "/start/" . dir[1]
+		let target = $HOME . "/.vim/pack/bundle/start/" . dir[1]
 		if !isdirectory(target)
 			call mkdir(target, "p")
 			let s = system("git clone https://github.com/" . a:name . " " . target)
@@ -162,7 +163,7 @@ endfunction
 function! s:UpdatePlugins()
 	for p in g:PLUGINS
 		let dir = split(p, '/')
-		let target = $HOME . "/.vim/pack/" . dir[1] . "/start/" . dir[1]
+		let target = $HOME . "/.vim/pack/bundle/start/" . dir[1]
 		if isdirectory(target)
 			echomsg p
 			let s = system("cd " . target . " && git pull")
