@@ -31,6 +31,10 @@ endif
 let g:PLUGINS = ['tpope/vim-surround', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner', '907th/vim-auto-save', 'w0rp/ale']
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
+let g:racer_cmd = "~/.cargo/bin/racer"
+let $RUST_SRC_PATH = "~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src/"
+let g:racer_experimental_completer = 1
+
 " }}}
 
 " Bare bone navigation {{{
@@ -257,10 +261,6 @@ nnoremap <silent> ctw *``cgn
 nnoremap <silent> cTw #``cgN
 
 " }}}
-
-let g:racer_cmd = "~/.cargo/bin/racer"
-let $RUST_SRC_PATH = "~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src/"
-let g:racer_experimental_completer = 1
 
 " Autocommands {{{
 augroup filesettings
