@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: [:VIM_EVAL:]substitute(expand("%"), "_service.yaml", "", "")[:END_EVAL:]
+  labels:
+    name: [:VIM_EVAL:]substitute(expand("%"), "_service.yaml", "", "")[:END_EVAL:]
+spec:
+  ports:
+    # the port that this service should serve on
+  - name: webui
+    port: 8080
+    targetPort: 8080
+  - name: [:VIM_EVAL:]substitute(expand("%"), "_service.yaml", "", "")[:END_EVAL:]
+    port: 7077
+    targetPort: 7077
+  selector:
+    name: [:VIM_EVAL:]substitute(expand("%"), "_service.yaml", "", "")[:END_EVAL:]

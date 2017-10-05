@@ -1,0 +1,30 @@
+--
+apiVersion: v1
+kind: Deployment
+metadata:
+  labels:
+    name: [:VIM_EVAL:]substitute(expand("%"), "_deployment.yaml", "", "")[:END_EVAL:]
+  name: [:VIM_EVAL:]substitute(expand("%"), "_deployment.yaml", "", "")[:END_EVAL:]
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: [:VIM_EVAL:]substitute(expand("%"), "_deployment.yaml", "", "")[:END_EVAL:]
+    spec:
+      containers:
+      - name: [:VIM_EVAL:]substitute(expand("%"), "_deployment.yaml", "", "")[:END_EVAL:]
+        image:
+        imagePullPolicy: "IfNotPresent"
+        name: [:VIM_EVAL:]substitute(expand("%"), "_deployment.yaml", "", "")[:END_EVAL:]
+        ports:
+        - containerPort:
+          protocol: TCP
+        command:
+        - "/bin/bash"
+        - "-c"
+        - "--"
+        args:
+        - './startup.sh'
+
+      
