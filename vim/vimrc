@@ -5,6 +5,10 @@ set mouse=a
 if exists('+relativenumber')
 	set relativenumber
 endif
+if has("persistent_undo")
+	set undodir=~/.vim/undodir/
+	set undofile
+endif
 set nu
 syn on
 " better matching parens
@@ -24,8 +28,8 @@ if executable('rg')
 	"let g:ackprg = 'rg --vimgrep --no-heading'
 	let g:ackprg = g:rg_command
 elseif executable('ack')
-    set grepprg=ack\ --nogroup\ --nocolor\ --ignore-case\ --column
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
+	set grepprg=ack\ --nogroup\ --nocolor\ --ignore-case\ --column
+	set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
 let g:PLUGINS = ['tpope/vim-surround', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner', '907th/vim-auto-save', 'w0rp/ale']
