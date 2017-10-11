@@ -98,6 +98,11 @@ fun! ScalaC()
 	cwindow
 endfun
 
+fun! PhpSnippets()
+	iabbrev <buffer> ife <?php if (): ?><CR><?php else: ?><CR><?php endif; ?><ESC>02kf)i
+	iabbrev <buffer> fun function() {<CR>}<ESC>kf(i
+endfun
+
 fun! ScalaSnippets()
 	iabbrev <buffer> iff if () {<CR>}<ESC>kf(a
 	iabbrev <buffer> ife if () {<CR>} else {<CR>}<ESC>2kf(a
@@ -286,6 +291,7 @@ augroup filesettings
 	au FileType css setlocal omnifunc=csscomplete#CompleteCSS et sw=2 ts=2 sts=2
 		\| call CssSnippets()
 	au FileType php setlocal omnifunc=phpcomplete#CompletePHP
+		\| call PhpSnippets()
 	au FileType go setlocal makeprg=gometalinter
 	au FileType yaml,tf setlocal et sw=2 ts=2 sts=2
 	au FileType scala setlocal sw=4 ts=4 sts=4 path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
