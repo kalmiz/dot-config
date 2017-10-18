@@ -14,6 +14,9 @@ syn on
 " better matching parens
 hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
 
+" }}}
+
+" {{{ Plugins
 if filereadable("/usr/local/opt/fzf/install")
 	set rtp+=/usr/local/opt/fzf
 	let g:has_fzf = 1
