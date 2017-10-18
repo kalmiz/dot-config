@@ -37,6 +37,7 @@ else
 	clink bash/profile .bash_profile #clean
 	clink bash/rc .bashrc #clean
 	clink ssh .ssh #clean
+	clink inputrc .inputrc #clean
 	if [ ! -d $DIR/.sbt/0.13/plugins ]; then
 		mkdir -p $DIR/.sbt/0.13/plugins
 	fi
