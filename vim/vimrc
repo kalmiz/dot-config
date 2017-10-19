@@ -268,6 +268,8 @@ nnoremap ]u :later<CR>
 nnoremap [u :earlier<CR>
 " Show whitespace
 noremap <C-x>w :set list!<CR>
+" Toggle paste
+noremap <C-x>p :set paste!<CR>
 " change a word under cursor and prepare for repeats via .
 nnoremap <silent> ctw *``cgn
 nnoremap <silent> cTw #``cgN
