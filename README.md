@@ -4,16 +4,14 @@ My config files for UNIX based systems.
 
 The list of tools:
  - bash
- - neovim
- - ack
+ - fzf
+ - vim
+ - ripgrep
  - aws cli
  - ctags
- - scala
- - sbt
- - golang
  - git
- - scmpuff
  - openconnect
+ - kubernetes
 
 ## Install
 
