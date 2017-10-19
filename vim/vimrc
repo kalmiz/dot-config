@@ -41,7 +41,6 @@ let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:racer_cmd = "~/.cargo/bin/racer"
 let $RUST_SRC_PATH = "~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src/"
 let g:racer_experimental_completer = 1
-let g:AutoPairsFlyMode = 1
 
 " }}}
 
