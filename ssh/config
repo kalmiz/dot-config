@@ -1,7 +1,7 @@
 Host *
 	IdentityFile ~/Dropbox/Home/id_kalmi_2015_rsa
 	ForwardAgent yes
-	ServerAliveInterval 240
+	ServerAliveInterval 239
 	ServerAliveCountMax 2
 
 Host *.amazonaws.com
