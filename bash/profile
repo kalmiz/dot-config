@@ -70,8 +70,4 @@ complete -C aws_completer aws
 
 eval "$(scmpuff init -s)"
 
-# OPAM configuration
-. /Users/kalmi/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
-
-
 export PATH="$HOME/.cargo/bin:$PATH"
