@@ -38,11 +38,6 @@ else
 	clink bash/rc .bashrc #clean
 	clink ssh .ssh #clean
 	clink inputrc .inputrc #clean
-	if [ ! -d $DIR/.sbt/0.13/plugins ]; then
-		mkdir -p $DIR/.sbt/0.13/plugins
-	fi
-	clink sbt/plugins.sbt .sbt/0.13/plugins/plugins.sbt #clean
-	clink sbt/global.sbt .sbt/0.13/global.sbt #clean
 	if [ $(uname) == "Darwin" ]; then
 		source ./osx/defaults
 		# http://zanshin.net/2013/08/27/setup-openconnect-for-mac-os-x-lion/
