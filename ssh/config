@@ -2,12 +2,7 @@ Host *
 	IdentityFile ~/Dropbox/Home/id_kalmi_2015_rsa
 	ForwardAgent yes
 	ServerAliveInterval 240
-    ServerAliveCountMax 2
-
-Host *.xyz
-	Hostname %h.kinja-ops.com
-Host *.bfc
-	Hostname %h.kinja-ops.com
+	ServerAliveCountMax 2
 
 Host *.amazonaws.com
 	IdentityFile ~/Dropbox/Home/GMGWEB.pem
@@ -18,12 +13,6 @@ Host *.amazonaws.com
 Host wl
 	Hostname weblog.sh
 	Port 2222
-
-Host ereg
-	Hostname 79.172.214.238
-	User root
-	StrictHostKeyChecking no
-	UserKnownHostsFile=/dev/null
 
 Host 127.0.0.1
 	StrictHostKeyChecking no
