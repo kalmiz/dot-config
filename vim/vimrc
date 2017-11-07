@@ -1,7 +1,6 @@
 " Base settings {{{
 set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb timeoutlen=1000 ttimeoutlen=0 fo+=r si
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~
-set mouse=a 
 "set mouse=a 
 if exists('+relativenumber')
 	set relativenumber
@@ -14,7 +13,6 @@ set nu
 syn on
 " better matching parens
 hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
-
 if has('nvim')
   let $VISUAL = 'nvr -cc split --remote-wait'
 endif
@@ -39,7 +37,6 @@ elseif executable('ack')
 	set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-let g:PLUGINS = ['tpope/vim-surround', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner', '907th/vim-auto-save', 'w0rp/ale']
 let g:PLUGINS = ['tpope/vim-surround', 'tpope/vim-fugitive', 'vim-rhubarb', 'tpope/vim-rsi', '907th/vim-auto-save', 'w0rp/ale', 'junegunn/fzf.vim']
 let g:THEMES = ['lifepillar/vim-solarized8']
 if has('gui_vimr')
@@ -91,25 +88,6 @@ endfunction
 fun! PbCopy() range
   "echo system('echo '.shellescape(join(getline(a:firstline, a:lastline), "\n")).'| reattach-to-user-namespace pbcopy')
   echo system('echo '.shellescape(s:get_visual_selection()).'| reattach-to-user-namespace pbcopy')
-endfun
-
-fun! SbtQuickfix()
-	setlocal errorformat=%E\ %#[error]\ %#%f:%l:\ %m,%-Z\ %#[error]\ %p^,%-G\ %#[error]\ %m
-	setlocal errorformat+=%W\ %#[warn]\ %#%f:%l:\ %m,%-Z\ %#[warn]\ %p^,%-G\ %#[warn]\ %m
-	setlocal errorformat+=%C\ %#%m
-	let file = "~/tmp/sbt.quickfix"
-	call system("echo -n > " . file . "; for i in `find . | grep sbt.quickfix`; do grep -v '\\[warn\\]' $i >> " . file . "; done;")
-	exe "cf " . file
-endfun
-
-fun! ScalaC()
-    setlocal errorformat=%E%f:%l:\ %trror:\ %m
-	setlocal errorformat+=%Z%p^
-	setlocal errorformat+=%-G%.%#
-	setlocal makeprg=scalac\ -Ystop-after:parser\ %
-	silent! make
-	redraw!
-	cwindow
 endfun
 
 fun! PhpSnippets()
@@ -168,13 +146,11 @@ function! s:bufopen(e)
   execute 'buffer' matchstr(a:e, '^[ 0-9]*')
 endfunction
 
-function! s:InstallPlugin(name)
 function! s:InstallPlugin(name, prefix)
 	echomsg a:name
 	let dir = split(a:name, '/')
 	if len(dir) == 2
 		"let target = $HOME . "/.vim/pack/" . dir[1] . "/start/" . dir[1]
-		let target = $HOME . "/.vim/pack/bundle/start/" . dir[1]
 		let target = $HOME . "/" . a:prefix . dir[1]
 		if !isdirectory(target)
 			call mkdir(target, "p")
@@ -183,10 +159,8 @@ function! s:InstallPlugin(name, prefix)
 	endif
 endfunction
 
-function! s:InstallPlugins(list)
 function! s:InstallPlugins(list, prefix)
 	for p in a:list
-		call s:InstallPlugin(p)
 		call s:InstallPlugin(p, prefix)
 	endfor
 endfunction
@@ -208,7 +182,6 @@ function! s:UpdatePlugins()
 endfunction
 
 function! s:InitPlugins()
-	call s:InstallPlugins(g:PLUGINS)
 	call s:InstallPlugins(g:PLUGINS, ".vim/pack/bundle/start/")
 	call s:InstallPlugins(g:THEMES, ".vim/pack/themes/opt/")
 endfunction
@@ -238,8 +211,6 @@ endfunction
 
 command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
 command! -nargs=1 -complete=file Lcdt call LocalCd(<f-args>, "t")
-command! -nargs=0 ScalaC call ScalaC()
-command! -nargs=1 InstallPlugin call s:InstallPlugin(<f-args>)
 command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
 command! -nargs=0 InitPlugins call s:InitPlugins()
 command! -nargs=0 UpdatePlugins call s:UpdatePlugins()
@@ -255,7 +226,13 @@ nnoremap <Leader>a :silent grep
 nnoremap <Leader>A :silent grep <cword> -t<C-r>=&filetype<CR> \| copen<CR>
 nnoremap <leader>c :call Replace()<cr>
 nnoremap <Leader>f :find 
-nnoremap <Leader>k :tj 
+nnoremap <Leader>l :Lines<CR> 
+nnoremap <Leader>s :below 15sp term://bash<CR>i
+if (g:has_fzf == 1)
+	nnoremap <Leader>k :Tags<CR>
+else
+	nnoremap <Leader>k :tj 
+endif
 nnoremap <Leader>m :make<CR>
 nnoremap <leader>t :FZF<CR> 
 nnoremap <leader>w :w<CR> 
@@ -275,13 +252,9 @@ if has('nvim')
     nnoremap <A-k> <C-w>k
     nnoremap <A-l> <C-w>l
 endif
+nnoremap <Leader>x :below 15sp term://
 if (g:has_fzf == 1)
-nnoremap <silent> <Leader>b :call fzf#run({
-\   'source':  reverse(<sid>buflist()),
-\   'sink':    function('<sid>bufopen'),
-\   'options': '+m',
-\   'down':    len(<sid>buflist()) + 2
-\ })<CR>
+	nnoremap <silent> <Leader>b :Buffers<CR>
 else
 	nnoremap <Leader>b :buffers<CR>:buffer<Space>
 endif
@@ -322,12 +295,6 @@ augroup filesettings
 		\|	exe "normal g`\""
 		\|endif
 
-	"au FileType * if &filetype == 'sql'
-	"	\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.g:sql_type_default.'.vim')
-	"	\|	setl complete-=t
-	"	\|else
-	"	\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
-	"	\|endif
 	au FileType * if &filetype == 'sql'
 		\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.g:sql_type_default.'.vim')
 		\|	setl complete-=t
@@ -344,8 +311,6 @@ augroup filesettings
 	au FileType go setlocal makeprg=gometalinter
 	au FileType yaml,tf setlocal et sw=2 ts=2 sts=2
 	au FileType scala setlocal sw=4 ts=4 sts=4 path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
-		\| nnoremap <buffer> <Leader>s :call SbtQuickfix()<CR>copen<CR>
-		\| nnoremap <buffer> <Leader>m :ScalaC<CR>
 		\| call ScalaSnippets()
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 	au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
