@@ -1,23 +1,26 @@
-
-#export FZF_DEFAULT_COMMAND="ack -f"
-export FZF_DEFAULT_COMMAND='rg --files'
-bind -x '"\C-p": vim $(fzf);'
+#!/bin/bash
+if [ -x "$(command -v rg)" ]; then
+    export FZF_DEFAULT_COMMAND='rg --files'
+else
+    export FZF_DEFAULT_COMMAND="ack -f"
+fi
+#bind -x '"\C-p": vim $(fzf);'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-export NVIM_LISTEN_ADDRESS="/tmp/nvim.sock"
+export NVIM_LISTEN_ADDRESS="/tmp/nvimsocket"
 export BROWSER="open -a safai"
-export EDITOR=vim
+if [ -x "$(command -v nvim)" ]; then
+	export EDITOR="nvim"
+else
+	export EDITOR="vim"
+fi
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 alias ll="ls -l"
 alias vi=$EDITOR
+alias r="nvr --remote"
 alias e="$EDITOR \$(fzf)"
 alias :q="exit"
-alias jjbini="docker exec jenkins cat /var/jenkins_home/jenkins-jobs.ini | sed 's/localhost/192.168.99.100/'"
-
-if [ -z "$SCMPUFF_GIT_CMD" ]; then
-	alias gs="git status"
-fi
 
 if [ $(uname) == "Darwin" ]; then
 	[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
@@ -32,18 +35,3 @@ fi
 if [ -d $HOME/bin ]; then
 	export PATH=$HOME/bin:$PATH
 fi
-
-# added by travis gem
-[ -f /Users/kalmi/.travis/travis.sh ] && source /Users/kalmi/.travis/travis.sh
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-# ftags - search ctags
-ftags() {
-  local line
-  [ -e tags ] &&
-  line=$(
-    awk 'BEGIN { FS="\t" } !/^!/ {print toupper($4)"\t"$1"\t"$2"\t"$3}' tags |
-    cut -c1-80 | fzf --nth=1,2
-  ) && $EDITOR $(cut -f3 <<< "$line")
-}
