@@ -46,6 +46,8 @@ let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:racer_cmd = "~/.cargo/bin/racer"
 let $RUST_SRC_PATH = "~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src/"
 let g:racer_experimental_completer = 1
+let g:sql_type_default = 'mysql'
+let g:ftplugin_sql_omni_key = '<C-z>'
 
 " }}}
 
@@ -308,6 +310,12 @@ augroup filesettings
 	"	\|else
 	"	\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
 	"	\|endif
+	au FileType * if &filetype == 'sql'
+		\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.g:sql_type_default.'.vim')
+		\|	setl complete-=t
+		\|else
+		\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
+		\|endif
 
 	au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags et sw=2 ts=2 sts=2
 	au FileType html setlocal omnifunc=htmlcomplete#CompleteTags et sw=2 ts=2 sts=2
@@ -323,6 +331,7 @@ augroup filesettings
 		\| call ScalaSnippets()
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 	au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
+	au BufNewFile,BufRead *.sql runtime! ftplugin/sql.vim
 	" Poor man's vim-rooter, git only, using fugitive
 	au BufLeave * let b:last_cwd = getcwd()
 	au BufEnter * if exists('b:last_cwd')
