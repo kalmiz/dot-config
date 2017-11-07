@@ -14,6 +14,9 @@ syn on
 " better matching parens
 hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
 
+if has('nvim')
+  let $VISUAL = 'nvr -cc split --remote-wait'
+endif
 " }}}
 
 " {{{ Plugins
@@ -257,6 +260,20 @@ nnoremap <leader>t :FZF<CR>
 nnoremap <leader>w :w<CR> 
 nnoremap <leader>q :q<CR> 
 nnoremap <leader>z :qall<CR> 
+if exepath('nvr') != ''
+	nnoremap <leader>r :!nvr --remote %<CR> 
+endif
+if has('nvim')
+	tnoremap <A-x> <C-\><C-n>
+    tnoremap <A-h> <C-\><C-n><C-w>h
+    tnoremap <A-j> <C-\><C-n><C-w>j
+    tnoremap <A-k> <C-\><C-n><C-w>k
+    tnoremap <A-l> <C-\><C-n><C-w>l
+    nnoremap <A-h> <C-w>h
+    nnoremap <A-j> <C-w>j
+    nnoremap <A-k> <C-w>k
+    nnoremap <A-l> <C-w>l
+endif
 if (g:has_fzf == 1)
 nnoremap <silent> <Leader>b :call fzf#run({
 \   'source':  reverse(<sid>buflist()),
