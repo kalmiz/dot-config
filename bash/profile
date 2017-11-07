@@ -68,6 +68,4 @@ fi
 
 complete -C aws_completer aws
 
-eval "$(scmpuff init -s)"
-
 export PATH="$HOME/.cargo/bin:$PATH"

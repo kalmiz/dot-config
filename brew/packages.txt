@@ -5,7 +5,6 @@ fzf
 rigrep
 vim
 openconnect
-scmpuff
 awscli
 kubectl
 git-crypt
