@@ -4,6 +4,7 @@ ctags
 fzf
 rigrep
 vim
+neovim
 openconnect
 awscli
 kubectl
