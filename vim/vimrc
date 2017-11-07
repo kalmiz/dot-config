@@ -36,6 +36,11 @@ elseif executable('ack')
 endif
 
 let g:PLUGINS = ['tpope/vim-surround', 'tpope/vim-fugitive', 'tpope/vim-rsi', 'christoomey/vim-tmux-runner', '907th/vim-auto-save', 'w0rp/ale']
+let g:PLUGINS = ['tpope/vim-surround', 'tpope/vim-fugitive', 'vim-rhubarb', 'tpope/vim-rsi', '907th/vim-auto-save', 'w0rp/ale', 'junegunn/fzf.vim']
+let g:THEMES = ['lifepillar/vim-solarized8']
+if has('gui_vimr')
+	color solarized8_light
+endif
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:racer_cmd = "~/.cargo/bin/racer"
@@ -158,11 +163,13 @@ function! s:bufopen(e)
 endfunction
 
 function! s:InstallPlugin(name)
+function! s:InstallPlugin(name, prefix)
 	echomsg a:name
 	let dir = split(a:name, '/')
 	if len(dir) == 2
 		"let target = $HOME . "/.vim/pack/" . dir[1] . "/start/" . dir[1]
 		let target = $HOME . "/.vim/pack/bundle/start/" . dir[1]
+		let target = $HOME . "/" . a:prefix . dir[1]
 		if !isdirectory(target)
 			call mkdir(target, "p")
 			let s = system("git clone https://github.com/" . a:name . " " . target)
@@ -171,9 +178,15 @@ function! s:InstallPlugin(name)
 endfunction
 
 function! s:InstallPlugins(list)
+function! s:InstallPlugins(list, prefix)
 	for p in a:list
 		call s:InstallPlugin(p)
+		call s:InstallPlugin(p, prefix)
 	endfor
+endfunction
+
+function! s:InstallPluginCmd(name)
+	call s:InstallPlugin(a:name, ".vim/pack/bundle/start/")
 endfunction
 
 function! s:UpdatePlugins()
@@ -190,6 +203,8 @@ endfunction
 
 function! s:InitPlugins()
 	call s:InstallPlugins(g:PLUGINS)
+	call s:InstallPlugins(g:PLUGINS, ".vim/pack/bundle/start/")
+	call s:InstallPlugins(g:THEMES, ".vim/pack/themes/opt/")
 endfunction
 
 " Highlight all instances of word under cursor, when idle.
@@ -219,6 +234,7 @@ command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
 command! -nargs=1 -complete=file Lcdt call LocalCd(<f-args>, "t")
 command! -nargs=0 ScalaC call ScalaC()
 command! -nargs=1 InstallPlugin call s:InstallPlugin(<f-args>)
+command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
 command! -nargs=0 InitPlugins call s:InitPlugins()
 command! -nargs=0 UpdatePlugins call s:UpdatePlugins()
 command! -range=% -nargs=0 PbCopy :<line1>,<line2>call PbCopy()
