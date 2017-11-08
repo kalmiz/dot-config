@@ -237,6 +237,11 @@ nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
 nnoremap <Leader>a :silent grep 
 nnoremap <Leader>A :silent grep <cword> -t<C-r>=&filetype<CR> \| copen<CR>
+if executable('rg')
+    nnoremap <Leader>A :silent grep <cword> -t<C-r>=&filetype<CR> \| copen<CR>
+else
+    nnoremap <Leader>A :silent grep <cword> --type=<C-r>=&filetype<CR> \| copen<CR>
+endif
 nnoremap <leader>c :call Replace()<cr>
 nnoremap <Leader>f :find 
 nnoremap <Leader>l :Lines<CR> 
