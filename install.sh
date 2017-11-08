@@ -33,13 +33,14 @@ if [ "$1" == "clean" ]; then
 	done
 else
 	[ ! -d $HOME/bin ] && mkdir $HOME/bin
-	[ ! -d $HOME/.vim/pack/bundle/start] && mkdir -p $HOME/.vim/pack/bundle/start
+	[ ! -d $HOME/.vim/{undodir,pack}/{bundle,themes}/{start,opt} ] && mkdir -p $HOME/.vim/pack/bundle/start
 	[ ! -d $HOME/.local/share/nvim/site ] && mkdir -p $HOME/.local/share/nvim/site
-	[ ! -h $HOME/.local/share/nvim/site/pack] && ln -s $HOME/.vim/pack $HOME/.local/share/nvim/site/
+	[ ! -h $HOME/.local/share/nvim/site/pack ] && ln -s $HOME/.vim/pack $HOME/.local/share/nvim/site/
 	clink ack/rc .ackrc #clean
 	clink ctags/ctags .ctags #clean
 	clink ssh .ssh #clean
 	clink inputrc .inputrc #clean
+	clink nvim/init.vim .vim/vimrc #clean
 	if [ $(uname) == "Darwin" ]; then
 		source ./osx/defaults
 		# http://zanshin.net/2013/08/27/setup-openconnect-for-mac-os-x-lion/
