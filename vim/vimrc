@@ -222,6 +222,11 @@ function! AutoHighlightToggle()
   endif
 endfunction
 
+function! Align()
+    '<,'>!column -t|sed 's/  \(\S\)/ \1/g'
+    normal gv=
+endfunction
+
 command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
 command! -nargs=1 -complete=file Lcdt call LocalCd(<f-args>, "t")
 command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
@@ -233,6 +238,7 @@ command! -nargs=+ Find edit __find__ | setl bt=nofile bh=hide nobl | %!rg --file
 
 " Mappings {{{
 let mapleader = ' '
+xnoremap <silent> <leader>= :<C-u>silent call Align()<CR>
 nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
 nnoremap <Leader>a :silent grep 
