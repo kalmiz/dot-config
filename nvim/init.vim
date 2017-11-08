@@ -166,7 +166,7 @@ endfunction
 
 function! s:InstallPlugins(list, prefix)
 	for p in a:list
-		call s:InstallPlugin(p, prefix)
+		call s:InstallPlugin(p, a:prefix)
 	endfor
 endfunction
 
