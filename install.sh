@@ -32,6 +32,7 @@ if [ "$1" == "clean" ]; then
 		fi
 	done
 else
+	[ ! -d $HOME/bin ] && mkdir $HOME/bin
 	[ ! -d $HOME/.vim/pack/bundle/start] && mkdir -p $HOME/.vim/pack/bundle/start
 	[ ! -d $HOME/.local/share/nvim/site ] && mkdir -p $HOME/.local/share/nvim/site
 	[ ! -h $HOME/.local/share/nvim/site/pack] && ln -s $HOME/.vim/pack $HOME/.local/share/nvim/site/
@@ -47,6 +48,7 @@ else
 		#cd /Library/Extensions
 		#echo "Loading tun.kext..."
 		#sudo kextload -v tun.kext
+		clink vpn bin/vpn #clean
 		/usr/local/opt/fzf/install
 	else
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
