@@ -47,5 +47,8 @@ else
 		#echo "Loading tun.kext..."
 		#sudo kextload -v tun.kext
 		/usr/local/opt/fzf/install
+	else
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+		~/.fzf/install
 	fi
 fi
