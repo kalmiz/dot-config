@@ -56,6 +56,7 @@ let $RUST_SRC_PATH = "~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rus
 let g:racer_experimental_completer = 1
 let g:sql_type_default = 'mysql'
 let g:ftplugin_sql_omni_key = '<C-z>'
+let g:ale_python_pylint_options = "--disable=deprecated-module,C0103 --const-rgx='[a-z_][a-z0-9_]{2,30}$'"
 
 " }}}
 
