@@ -32,10 +32,11 @@ if [ "$1" == "clean" ]; then
 		fi
 	done
 else
+	[ ! -d $HOME/.vim/pack/bundle/start] && mkdir -p $HOME/.vim/pack/bundle/start
+	[ ! -d $HOME/.local/share/nvim/site ] && mkdir -p $HOME/.local/share/nvim/site
+	[ ! -h $HOME/.local/share/nvim/site/pack] && ln -s $HOME/.vim/pack $HOME/.local/share/nvim/site/
 	clink ack/rc .ackrc #clean
 	clink ctags/ctags .ctags #clean
-	clink bash/profile .bash_profile #clean
-	clink bash/rc .bashrc #clean
 	clink ssh .ssh #clean
 	clink inputrc .inputrc #clean
 	if [ $(uname) == "Darwin" ]; then
