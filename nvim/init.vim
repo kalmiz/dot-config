@@ -22,7 +22,7 @@ endif
 if filereadable("/usr/local/opt/fzf/install")
 	set rtp+=/usr/local/opt/fzf
 	let g:has_fzf = 1
-elseif filereadable("$HOME/.fzf/install")
+elseif filereadable($HOME . "/.fzf/install")
 	set rtp+=$HOME/.fzf
 	let g:has_fzf = 1
 else
