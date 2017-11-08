@@ -122,6 +122,7 @@ fun! CssSnippets()
 	iabbrev <buffer> din display: inline-block
 	iabbrev <buffer> dno display: none
 	iabbrev <buffer> ff font-family: '', serif
+	iabbrev <buffer> fs font-size: 
 	iabbrev <buffer> p0 padding: 0px
 	iabbrev <buffer> m0 margin: 0px
 	iabbrev <buffer> fwb font-weight: bold
