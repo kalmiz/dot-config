@@ -33,7 +33,7 @@ if [ "$1" == "clean" ]; then
 	done
 else
 	[ ! -d $HOME/bin ] && mkdir $HOME/bin
-	[ ! -d $HOME/.vim/{undodir,pack}/{bundle,themes}/{start,opt} ] && mkdir -p $HOME/.vim/pack/bundle/start
+	[ ! -d $HOME/.vim/pack/bundle/start ] && mkdir -p $HOME/.vim/pack/{undodir,pack}/{bundle,themes}/{start,opt}
 	[ ! -d $HOME/.local/share/nvim/site ] && mkdir -p $HOME/.local/share/nvim/site
 	[ ! -h $HOME/.local/share/nvim/site/pack ] && ln -s $HOME/.vim/pack $HOME/.local/share/nvim/site/
 	clink ack/rc .ackrc #clean
