@@ -219,6 +219,9 @@ function! Align()
     normal gv=
 endfunction
 
+if executable('nc') && executable('tee')
+    command! -range=% TB <line1>,<line2>w !nc termbin.com 9999 | tee $HOME/tmp/termbin.com
+endif
 command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
 command! -nargs=1 -complete=file Lcdt call LocalCd(<f-args>, "t")
 command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
