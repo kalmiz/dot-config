@@ -19,22 +19,18 @@ endif
 " }}}
 
 " {{{ Plugins
+let g:has_fzf = 1
 if filereadable("/usr/local/opt/fzf/install")
 	set rtp+=/usr/local/opt/fzf
-	let g:has_fzf = 1
 elseif filereadable($HOME . "/.fzf/install")
 	set rtp+=$HOME/.fzf
-	let g:has_fzf = 1
 else
 	let g:has_fzf = 0
 endif
 
 if executable('rg')
-	let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --follow --color "never"'
 	set grepprg=rg\ --vimgrep\ --no-heading
 	set grepformat=%f:%l:%c:%m
-	"let g:ackprg = 'rg --vimgrep --no-heading'
-	let g:ackprg = g:rg_command
 elseif executable('ack')
 	set grepprg=ack\ --nogroup\ --nocolor\ --ignore-case\ --column
 	set grepformat=%f:%l:%c:%m,%f:%l:%m
@@ -53,7 +49,6 @@ let g:racer_experimental_completer = 1
 let g:sql_type_default = 'mysql'
 let g:ftplugin_sql_omni_key = '<C-z>'
 let g:ale_python_pylint_options = "--disable=deprecated-module,C0103 --const-rgx='[a-z_][a-z0-9_]{2,30}$'"
-
 " }}}
 
 " Bare bone navigation {{{
@@ -61,24 +56,12 @@ set path=**
 set suffixesadd=.conf,.java,.scala,.php,.js
 set wildmode=longest,full
 set wildmenu
-set wildignore+=*.class
-set wildignore+=*.jar
-set wildignore+=*.jpg
-set wildignore+=*.png 
-set wildignore+=*.gif
-set wildignore+=**/tiny_mce_dev/**
-set wildignore+=**/target/**
-set wildignore+=**/node_modules/**
-set wildignore+=node_modules/**
-set wildignore+=cscope.*
-set wildignore+=.git/**
-set wildignore+=.idea/**
+set wildignore+=*.class,*.jar,*.jpg,*.png,*.gif,**/tiny_mce_dev/**,**/target/**,**/node_modules/**,node_modules/**,cscope.*,.git/**,.idea/**
 
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " }}}
 
 " Functions {{{
-
 func! s:get_visual_selection()
   " Why is this not a built-in Vim script function?!
   let [lnum1, col1] = getpos("'<")[1:2]
@@ -90,8 +73,7 @@ func! s:get_visual_selection()
 endfunction
 
 fun! PbCopy() range
-  "echo system('echo '.shellescape(join(getline(a:firstline, a:lastline), "\n")).'| reattach-to-user-namespace pbcopy')
-  echo system('echo '.shellescape(s:get_visual_selection()).'| reattach-to-user-namespace pbcopy')
+  echo system('echo '.shellescape(s:get_visual_selection()).'| pbcopy')
 endfun
 
 fun! PhpSnippets()
@@ -122,7 +104,6 @@ fun! CssSnippets()
 	iabbrev <buffer> cw color: #fff
 	iabbrev <buffer> tac text-align: center
 	iabbrev <buffer> bgno background-repeat: no-repeat
-
 endfun
 
 function! Replace()
@@ -139,17 +120,6 @@ fun! LocalCd(dir, tab)
 	exe cmd . a:dir
 	exe "lcd " . a:dir
 endfun
-
-function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
 
 function! s:InstallPlugin(name, prefix)
 	echomsg a:name
@@ -219,9 +189,7 @@ function! Align()
     normal gv=
 endfunction
 
-if executable('nc') && executable('tee')
-    command! -range=% TB <line1>,<line2>w !nc termbin.com 9999 | tee $HOME/tmp/termbin.com
-endif
+command! -range=% TB <line1>,<line2>w !nc termbin.com 9999 | tee /tmp/termbin.com
 command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
 command! -nargs=1 -complete=file Lcdt call LocalCd(<f-args>, "t")
 command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
@@ -297,10 +265,9 @@ nnoremap [u :earlier<CR>
 noremap <C-x>w :set list!<CR>
 " Toggle paste
 noremap <C-x>p :set paste!<CR>
-" change a word under cursor and prepare for repeats via .
+" Change a word under cursor and prepare for repeats via .
 nnoremap <silent> ctw *``cgn
 nnoremap <silent> cTw #``cgN
-
 " }}}
 
 " Autocommands {{{
@@ -313,6 +280,11 @@ augroup filesettings
 		\|	exe "normal g`\""
 		\|endif
 
+    " Keep window position when switching buffers
+    " https://stackoverflow.com/questions/4251533/vim-keep-window-position-when-switching-buffers
+    au BufLeave * let b:winview = winsaveview()
+    au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
+
 	au FileType * if &filetype == 'sql'
 		\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.g:sql_type_default.'.vim')
 		\|	setl complete-=t
@@ -320,6 +292,7 @@ augroup filesettings
 		\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
 		\|endif
 
+    au FileType vim setlocal expandtab
 	au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags et sw=2 ts=2 sts=2
 	au FileType html setlocal omnifunc=htmlcomplete#CompleteTags et sw=2 ts=2 sts=2
 	au FileType css setlocal omnifunc=csscomplete#CompleteCSS et sw=2 ts=2 sts=2
@@ -333,17 +306,6 @@ augroup filesettings
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 	au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
 	au BufNewFile,BufRead *.sql runtime! ftplugin/sql.vim
-	" Poor man's vim-rooter, git only, using fugitive
-	au BufLeave * let b:last_cwd = getcwd()
-	au BufEnter * if exists('b:last_cwd')
-		\|	execute 'lcd ' . b:last_cwd
-		\|else
-		\|	if exists('b:netrw_curdir')
-		\|		execute 'lcd ' . b:netrw_curdir
-		\|	else "if getcwd() != $GOPATH
-		\|		silent! Glcd
-		\|	endif
-		\|endif
 augroup END
 
 augroup templates
