@@ -224,6 +224,7 @@ nnoremap <leader>t :FZF<CR>
 nnoremap <leader>w :w<CR> 
 nnoremap <leader>q :q<CR> 
 nnoremap <leader>z :qall<CR> 
+nnoremap Q @q
 if exepath('nvr') != ''
 	nnoremap <leader>r :!nvr --remote %<CR> 
 endif
