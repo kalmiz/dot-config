@@ -21,6 +21,8 @@ alias vi=$EDITOR
 alias r="nvr --remote"
 alias e="$EDITOR \$(fzf)"
 alias :q="exit"
+alias gd="git diff"
+alias gs="git status"
 # set kubectl config and namespace to help autocomplete.
 # example: `$ kcn --namespace=prod
 alias kcn="kubectl config set-context \$(kubectl config current-context)"
