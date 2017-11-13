@@ -21,10 +21,16 @@ alias vi=$EDITOR
 alias r="nvr --remote"
 alias e="$EDITOR \$(fzf)"
 alias :q="exit"
+# set kubectl config and namespace to help autocomplete.
+# example: `$ kcn --namespace=prod
+alias kcn="kubectl config set-context \$(kubectl config current-context)"
 
 if [ $(uname) == "Darwin" ]; then
 	[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 	export PS1='\W\$ '
+	if [ -f /usr/local/bin/kubectl ]; then
+		export PS1="[\$(kubectl config current-context)\$(kubectl config view | grep 'namespace: [a-z]*' | grep -o ': [a-z]*$')]$PS1"
+	fi
 fi
 
 if [ -d $HOME/Projects ]; then
