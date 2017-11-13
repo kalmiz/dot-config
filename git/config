@@ -2,9 +2,6 @@
 	name = Zoltan Kalmar
 	email = kalmiz@gmail.com
 
-[core]
-	excludesfile = ~/.config/git/gitignore_global
-
 [alias]
 	br = branch
 	ci = commit
