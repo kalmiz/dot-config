@@ -197,6 +197,7 @@ command! -nargs=0 InitPlugins call s:InitPlugins()
 command! -nargs=0 UpdatePlugins call s:UpdatePlugins()
 command! -range=% -nargs=0 PbCopy :<line1>,<line2>call PbCopy()
 command! -nargs=+ Find edit __find__ | setl bt=nofile bh=hide nobl | %!rg --files | rg <args>
+command! -nargs=0 Ctags :!ctags .
 " }}}
 
 " Mappings {{{
