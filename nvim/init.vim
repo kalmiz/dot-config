@@ -1,5 +1,5 @@
 " Base settings {{{ vim: set expandtab : 
-set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb timeoutlen=1000 ttimeoutlen=0 fo+=r si title so=999 nohls
+set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb timeoutlen=1000 ttimeoutlen=0 fo+=r si title nohls
 set titlestring="%F %a%r%m"
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~
 if exists('+relativenumber')
@@ -36,7 +36,7 @@ elseif executable('ack')
 	set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-fugitive', 'vim-rhubarb', 'tpope/vim-rsi', '907th/vim-auto-save', 'w0rp/ale', 'junegunn/fzf.vim']
+let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-fugitive', 'tpope/vim-rhubarb', 'tpope/vim-rsi', '907th/vim-auto-save', 'w0rp/ale', 'junegunn/fzf.vim']
 let g:THEMES = ['lifepillar/vim-solarized8']
 if has('gui_vimr')
 	color solarized8_light
