@@ -224,13 +224,13 @@ else
     nnoremap <Leader>k :tj 
 endif
 nnoremap <Leader>m :make<CR>
-nnoremap <leader>t :FZF<CR> 
-nnoremap <leader>w :w<CR> 
-nnoremap <leader>q :q<CR> 
-nnoremap <leader>z :qall<CR> 
+nnoremap <leader>t :FZF<CR>
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>z :qall<CR>
 nnoremap Q @q
 if exepath('nvr') != ''
-    nnoremap <leader>r :!nvr --remote %<CR> 
+    nnoremap <leader>r :!nvr --remote %<CR>
 endif
 if has('nvim')
     tnoremap <A-x> <C-\><C-n>
