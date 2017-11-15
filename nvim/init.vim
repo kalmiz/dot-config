@@ -125,7 +125,6 @@ function! s:InstallPlugin(name, prefix)
 	echomsg a:name
 	let dir = split(a:name, '/')
 	if len(dir) == 2
-		"let target = $HOME . "/.vim/pack/" . dir[1] . "/start/" . dir[1]
 		let target = $HOME . "/" . a:prefix . dir[1]
 		if !isdirectory(target)
 			call mkdir(target, "p")
@@ -214,7 +213,11 @@ endif
 nnoremap <leader>c :call Replace()<cr>
 nnoremap <Leader>f :find 
 nnoremap <Leader>l :Lines<CR> 
-nnoremap <Leader>s :below 15sp term://bash<CR>i
+if has('nvim')
+    nnoremap <Leader>s :below 15sp term://bash<CR>i
+else
+    nnoremap <Leader>s :below term ++rows=15<CR>
+endif
 if (g:has_fzf == 1)
 	nnoremap <Leader>k :Tags<CR>
 else
@@ -231,6 +234,7 @@ if exepath('nvr') != ''
 endif
 if has('nvim')
 	tnoremap <A-x> <C-\><C-n>
+    tnoremap <C-w>N <C-\><C-n>
     tnoremap <A-h> <C-\><C-n><C-w>h
     tnoremap <A-j> <C-\><C-n><C-w>j
     tnoremap <A-k> <C-\><C-n><C-w>k
@@ -240,7 +244,6 @@ if has('nvim')
     nnoremap <A-k> <C-w>k
     nnoremap <A-l> <C-w>l
 endif
-nnoremap <Leader>x :below 15sp term://
 if (g:has_fzf == 1)
 	nnoremap <silent> <Leader>b :Buffers<CR>
 else
