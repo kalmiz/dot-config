@@ -21,25 +21,25 @@ endif
 " {{{ Plugins
 let g:has_fzf = 1
 if filereadable("/usr/local/opt/fzf/install")
-	set rtp+=/usr/local/opt/fzf
+    set rtp+=/usr/local/opt/fzf
 elseif filereadable($HOME . "/.fzf/install")
-	set rtp+=$HOME/.fzf
+    set rtp+=$HOME/.fzf
 else
-	let g:has_fzf = 0
+    let g:has_fzf = 0
 endif
 
 if executable('rg')
-	set grepprg=rg\ --vimgrep\ --no-heading
-	set grepformat=%f:%l:%c:%m
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m
 elseif executable('ack')
-	set grepprg=ack\ --nogroup\ --nocolor\ --ignore-case\ --column
-	set grepformat=%f:%l:%c:%m,%f:%l:%m
+    set grepprg=ack\ --nogroup\ --nocolor\ --ignore-case\ --column
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
 let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-fugitive', 'tpope/vim-rhubarb', 'tpope/vim-rsi', '907th/vim-auto-save', 'w0rp/ale', 'junegunn/fzf.vim']
 let g:THEMES = ['lifepillar/vim-solarized8']
 if has('gui_vimr')
-	color solarized8_light
+    color solarized8_light
 endif
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
@@ -63,47 +63,47 @@ let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 
 " Functions {{{
 func! s:get_visual_selection()
-  " Why is this not a built-in Vim script function?!
-  let [lnum1, col1] = getpos("'<")[1:2]
-  let [lnum2, col2] = getpos("'>")[1:2]
-  let lines = getline(lnum1, lnum2)
-  let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
-  let lines[0] = lines[0][col1 - 1:]
-  return join(lines, "\n")
+    " Why is this not a built-in Vim script function?!
+    let [lnum1, col1] = getpos("'<")[1:2]
+    let [lnum2, col2] = getpos("'>")[1:2]
+    let lines = getline(lnum1, lnum2)
+    let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+    let lines[0] = lines[0][col1 - 1:]
+    return join(lines, "\n")
 endfunction
 
 fun! PbCopy() range
-  echo system('echo '.shellescape(s:get_visual_selection()).'| pbcopy')
+    echo system('echo '.shellescape(s:get_visual_selection()).'| pbcopy')
 endfun
 
 fun! PhpSnippets()
-	iabbrev <buffer> ife <?php if (): ?><CR><?php else: ?><CR><?php endif; ?><ESC>02kf)i
-	iabbrev <buffer> fun function() {<CR>}<ESC>kf(i
+    iabbrev <buffer> ife <?php if (): ?><CR><?php else: ?><CR><?php endif; ?><ESC>02kf)i
+    iabbrev <buffer> fun function() {<CR>}<ESC>kf(i
 endfun
 
 fun! ScalaSnippets()
-	iabbrev <buffer> iff if () {<CR>}<ESC>kf(a
-	iabbrev <buffer> ife if () {<CR>} else {<CR>}<ESC>2kf(a
-	iabbrev <buffer> flatm flatMap { => <LEFT><LEFT><LEFT><LEFT>
-	iabbrev <buffer> match match {<CR>case => <CR>case _ => <CR>}<ESC>2kfea
-	iabbrev <buffer> def def():  = {<CR>}<ESC>kffa
-	inoremap <buffer> <C-l> <ESC>f:<RIGHT>a
+    iabbrev <buffer> iff if () {<CR>}<ESC>kf(a
+    iabbrev <buffer> ife if () {<CR>} else {<CR>}<ESC>2kf(a
+    iabbrev <buffer> flatm flatMap { => <LEFT><LEFT><LEFT><LEFT>
+    iabbrev <buffer> match match {<CR>case => <CR>case _ => <CR>}<ESC>2kfea
+    iabbrev <buffer> def def():  = {<CR>}<ESC>kffa
+    inoremap <buffer> <C-l> <ESC>f:<RIGHT>a
 endfun
 
 fun! CssSnippets()
-	" Use ; as trigger key
-	iabbrev <buffer> dbl display: block
-	iabbrev <buffer> din display: inline-block
-	iabbrev <buffer> dno display: none
-	iabbrev <buffer> ff font-family: '', serif
-	iabbrev <buffer> fs font-size: 
-	iabbrev <buffer> p0 padding: 0px
-	iabbrev <buffer> m0 margin: 0px
-	iabbrev <buffer> fwb font-weight: bold
-	iabbrev <buffer> cb color: #000
-	iabbrev <buffer> cw color: #fff
-	iabbrev <buffer> tac text-align: center
-	iabbrev <buffer> bgno background-repeat: no-repeat
+    " Use ; as trigger key
+    iabbrev <buffer> dbl display: block
+    iabbrev <buffer> din display: inline-block
+    iabbrev <buffer> dno display: none
+    iabbrev <buffer> ff font-family: '', serif
+    iabbrev <buffer> fs font-size: 
+    iabbrev <buffer> p0 padding: 0px
+    iabbrev <buffer> m0 margin: 0px
+    iabbrev <buffer> fwb font-weight: bold
+    iabbrev <buffer> cb color: #000
+    iabbrev <buffer> cw color: #fff
+    iabbrev <buffer> tac text-align: center
+    iabbrev <buffer> bgno background-repeat: no-repeat
 endfun
 
 function! Replace()
@@ -113,51 +113,51 @@ function! Replace()
 endfunction
 
 fun! LocalCd(dir, tab)
-	let cmd = "e "
-	if a:tab != ""
-		let cmd = "tabnew "
-	endif
-	exe cmd . a:dir
-	exe "lcd " . a:dir
+    let cmd = "e "
+    if a:tab != ""
+        let cmd = "tabnew "
+    endif
+    exe cmd . a:dir
+    exe "lcd " . a:dir
 endfun
 
 function! s:InstallPlugin(name, prefix)
-	echomsg a:name
-	let dir = split(a:name, '/')
-	if len(dir) == 2
-		let target = $HOME . "/" . a:prefix . dir[1]
-		if !isdirectory(target)
-			call mkdir(target, "p")
-			let s = system("git clone https://github.com/" . a:name . " " . target)
-		endif
-	endif
+    echomsg a:name
+    let dir = split(a:name, '/')
+    if len(dir) == 2
+        let target = $HOME . "/" . a:prefix . dir[1]
+        if !isdirectory(target)
+            call mkdir(target, "p")
+            let s = system("git clone https://github.com/" . a:name . " " . target)
+        endif
+    endif
 endfunction
 
 function! s:InstallPlugins(list, prefix)
-	for p in a:list
-		call s:InstallPlugin(p, a:prefix)
-	endfor
+    for p in a:list
+        call s:InstallPlugin(p, a:prefix)
+    endfor
 endfunction
 
 function! s:InstallPluginCmd(name)
-	call s:InstallPlugin(a:name, ".vim/pack/bundle/start/")
+    call s:InstallPlugin(a:name, ".vim/pack/bundle/start/")
 endfunction
 
 function! s:UpdatePlugins()
-	for p in g:PLUGINS
-		let dir = split(p, '/')
-		let target = $HOME . "/.vim/pack/bundle/start/" . dir[1]
-		if isdirectory(target)
-			echomsg p
-			let s = system("cd " . target . " && git pull")
-			"echomsg s
-		endif
-	endfor
+    for p in g:PLUGINS
+        let dir = split(p, '/')
+        let target = $HOME . "/.vim/pack/bundle/start/" . dir[1]
+        if isdirectory(target)
+            echomsg p
+            let s = system("cd " . target . " && git pull")
+            "echomsg s
+        endif
+    endfor
 endfunction
 
 function! s:InitPlugins()
-	call s:InstallPlugins(g:PLUGINS, ".vim/pack/bundle/start/")
-	call s:InstallPlugins(g:THEMES, ".vim/pack/themes/opt/")
+    call s:InstallPlugins(g:PLUGINS, ".vim/pack/bundle/start/")
+    call s:InstallPlugins(g:THEMES, ".vim/pack/themes/opt/")
 endfunction
 
 " Highlight all instances of word under cursor, when idle.
@@ -219,9 +219,9 @@ else
     nnoremap <Leader>s :below term ++rows=15<CR>
 endif
 if (g:has_fzf == 1)
-	nnoremap <Leader>k :Tags<CR>
+    nnoremap <Leader>k :Tags<CR>
 else
-	nnoremap <Leader>k :tj 
+    nnoremap <Leader>k :tj 
 endif
 nnoremap <Leader>m :make<CR>
 nnoremap <leader>t :FZF<CR> 
@@ -230,10 +230,10 @@ nnoremap <leader>q :q<CR>
 nnoremap <leader>z :qall<CR> 
 nnoremap Q @q
 if exepath('nvr') != ''
-	nnoremap <leader>r :!nvr --remote %<CR> 
+    nnoremap <leader>r :!nvr --remote %<CR> 
 endif
 if has('nvim')
-	tnoremap <A-x> <C-\><C-n>
+    tnoremap <A-x> <C-\><C-n>
     tnoremap <C-w>N <C-\><C-n>
     tnoremap <A-h> <C-\><C-n><C-w>h
     tnoremap <A-j> <C-\><C-n><C-w>j
@@ -245,9 +245,9 @@ if has('nvim')
     nnoremap <A-l> <C-w>l
 endif
 if (g:has_fzf == 1)
-	nnoremap <silent> <Leader>b :Buffers<CR>
+    nnoremap <silent> <Leader>b :Buffers<CR>
 else
-	nnoremap <Leader>b :buffers<CR>:buffer<Space>
+    nnoremap <Leader>b :buffers<CR>:buffer<Space>
 endif
 " Git
 nnoremap <Leader>gs :Gstatus<CR>
@@ -277,50 +277,50 @@ nnoremap <silent> cTw #``cgN
 
 " Autocommands {{{
 augroup filesettings
-	au!
-	" When editing a file, always jump to the last known cursor position.
-	" Don't do it when the position is invalid or when inside an event
-	" handler (happens when dropping a file on gvim).
-	au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-		\|	exe "normal g`\""
-		\|endif
+    au!
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid or when inside an event
+    " handler (happens when dropping a file on gvim).
+    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+        \|  exe "normal g`\""
+        \|endif
 
     " Keep window position when switching buffers
     " https://stackoverflow.com/questions/4251533/vim-keep-window-position-when-switching-buffers
     au BufLeave * let b:winview = winsaveview()
     au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
 
-	au FileType * if &filetype == 'sql'
-		\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.g:sql_type_default.'.vim')
-		\|	setl complete-=t
-		\|else
-		\|	exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
-		\|endif
+    au FileType * if &filetype == 'sql'
+        \|  exe('setl dict+='.$VIMRUNTIME.'/syntax/'.g:sql_type_default.'.vim')
+        \|  setl complete-=t
+        \|else
+        \|  exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
+        \|endif
 
     au FileType vim setlocal expandtab
-	au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags et sw=2 ts=2 sts=2
-	au FileType html setlocal omnifunc=htmlcomplete#CompleteTags et sw=2 ts=2 sts=2
-	au FileType css setlocal omnifunc=csscomplete#CompleteCSS et sw=2 ts=2 sts=2
-		\| call CssSnippets()
-	au FileType php setlocal omnifunc=phpcomplete#CompletePHP
-		\| call PhpSnippets()
-	au FileType go setlocal makeprg=gometalinter
-	au FileType yaml,tf setlocal et sw=2 ts=2 sts=2
-	au FileType scala setlocal sw=4 ts=4 sts=4 path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
-		\| call ScalaSnippets()
-	au BufNewFile,BufRead *.md setlocal ft=markdown
-	au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
-	au BufNewFile,BufRead *.sql runtime! ftplugin/sql.vim
+    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags et sw=2 ts=2 sts=2
+    au FileType html setlocal omnifunc=htmlcomplete#CompleteTags et sw=2 ts=2 sts=2
+    au FileType css setlocal omnifunc=csscomplete#CompleteCSS et sw=2 ts=2 sts=2
+        \| call CssSnippets()
+    au FileType php setlocal omnifunc=phpcomplete#CompletePHP
+        \| call PhpSnippets()
+    au FileType go setlocal makeprg=gometalinter
+    au FileType yaml,tf setlocal et sw=2 ts=2 sts=2
+    au FileType scala setlocal sw=4 ts=4 sts=4 path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
+        \| call ScalaSnippets()
+    au BufNewFile,BufRead *.md setlocal ft=markdown
+    au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
+    au BufNewFile,BufRead *.sql runtime! ftplugin/sql.vim
 augroup END
 
 augroup templates
-	au!
-	" read in template files
-	autocmd BufNewFile *_deployment.yaml execute '0r $HOME/.config/nvim/templates/skeleton-k8s-deployment.yaml'
-	autocmd BufNewFile *_service.yaml execute '0r $HOME/.config/nvim/templates/skeleton-k8s-service.yaml'
-	autocmd BufNewFile *.* silent! execute '0r $HOME/.config/nvim/templates/skeleton.'.expand("<afile>:e")
+    au!
+    " read in template files
+    autocmd BufNewFile *_deployment.yaml execute '0r $HOME/.config/nvim/templates/skeleton-k8s-deployment.yaml'
+    autocmd BufNewFile *_service.yaml execute '0r $HOME/.config/nvim/templates/skeleton-k8s-service.yaml'
+    autocmd BufNewFile *.* silent! execute '0r $HOME/.config/nvim/templates/skeleton.'.expand("<afile>:e")
 
-	" parse special text in the templates after the read
-	autocmd BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
+    " parse special text in the templates after the read
+    autocmd BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
 augroup END
 " }}}
