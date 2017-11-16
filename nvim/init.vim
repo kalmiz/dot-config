@@ -8,11 +8,22 @@ if has("persistent_undo")
     set undodir=~/.vim/undodir/
     set undofile
 endif
-set nu
-syn on
+set number
+filetype plugin indent on
+syntax on
 if has('nvim')
     let $VISUAL = 'nvr -cc split --remote-wait'
 endif
+" }}}
+
+" Bare bone navigation {{{
+set path=**
+set suffixesadd=.conf,.java,.scala,.php,.js
+set wildmode=longest,full
+set wildmenu
+set wildignore+=*.class,*.jar,*.jpg,*.png,*.gif,**/tiny_mce_dev/**,**/target/**,**/node_modules/**,node_modules/**,cscope.*,.git/**,.idea/**
+
+let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " }}}
 
 " {{{ Plugins
@@ -48,16 +59,6 @@ let g:ftplugin_sql_omni_key = '<C-z>'
 let g:ale_python_pylint_options = "--disable=deprecated-module,C0103 --const-rgx='[a-z_][a-z0-9_]{2,30}$'"
 " }}}
 
-" Bare bone navigation {{{
-set path=**
-set suffixesadd=.conf,.java,.scala,.php,.js
-set wildmode=longest,full
-set wildmenu
-set wildignore+=*.class,*.jar,*.jpg,*.png,*.gif,**/tiny_mce_dev/**,**/target/**,**/node_modules/**,node_modules/**,cscope.*,.git/**,.idea/**
-
-let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
-" }}}
-
 " Functions {{{
 function! s:get_visual_selection() abort
     " Why is this not a built-in Vim script function?!
@@ -71,12 +72,12 @@ endfunction
 
 function! PbCopy() range
     echo system('echo '.shellescape(s:get_visual_selection()).'| pbcopy')
-endfun
+endfunction
 
 function! PhpSnippets() abort
     iabbrev <buffer> ife <?php if (): ?><CR><?php else: ?><CR><?php endif; ?><ESC>02kf)i
     iabbrev <buffer> fun function() {<CR>}<ESC>kf(i
-endfun
+endfunction
 
 function! ScalaSnippets() abort
     iabbrev <buffer> iff if () {<CR>}<ESC>kf(a
@@ -85,7 +86,7 @@ function! ScalaSnippets() abort
     iabbrev <buffer> match match {<CR>case => <CR>case _ => <CR>}<ESC>2kfea
     iabbrev <buffer> def def():  = {<CR>}<ESC>kffa
     inoremap <buffer> <C-l> <ESC>f:<RIGHT>a
-endfun
+endfunction
 
 function! CssSnippets() abort
     " Use ; as trigger key
@@ -101,7 +102,7 @@ function! CssSnippets() abort
     iabbrev <buffer> cw color: #fff
     iabbrev <buffer> tac text-align: center
     iabbrev <buffer> bgno background-repeat: no-repeat
-endfun
+endfunction
 
 function! Replace() abort
     let pattern = substitute(escape(@", '\?'), '\n', '\\n', 'g')
@@ -116,7 +117,7 @@ function! LocalCd(dir, tab) abort
     endif
     exe cmd . a:dir
     exe "lcd " . a:dir
-endfun
+endfunction
 
 function! s:InstallPlugin(name, prefix) abort
     echomsg a:name
@@ -147,7 +148,6 @@ function! s:UpdatePlugins() abort
         if isdirectory(target)
             echomsg p
             let s = system("cd " . target . " && git pull")
-            "echomsg s
         endif
     endfor
 endfunction
@@ -160,7 +160,6 @@ endfunction
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
 " Type z/ to toggle highlighting on/off.
-nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 function! AutoHighlightToggle() abort
   let @/ = ''
   if exists('#auto_highlight')
@@ -225,6 +224,7 @@ nnoremap <leader>t :FZF<CR>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>z :qall<CR>
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 nnoremap Q @q
 if exepath('nvr') != ''
     nnoremap <leader>r :!nvr --remote %<CR>
