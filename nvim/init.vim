@@ -1,5 +1,5 @@
 " Base settings {{{ vim: set expandtab : 
-set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb timeoutlen=1000 ttimeoutlen=0 fo+=r si title nohls
+set ai noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb timeoutlen=1000 ttimeoutlen=0 fo+=r ai title nohls
 set titlestring="%F %a%r%m"
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~
 if exists('+relativenumber')
@@ -11,8 +11,6 @@ if has("persistent_undo")
 endif
 set nu
 syn on
-" better matching parens
-hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
 if has('nvim')
     let $VISUAL = 'nvr -cc split --remote-wait'
 endif
@@ -62,7 +60,7 @@ let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " }}}
 
 " Functions {{{
-func! s:get_visual_selection()
+function! s:get_visual_selection() abort
     " Why is this not a built-in Vim script function?!
     let [lnum1, col1] = getpos("'<")[1:2]
     let [lnum2, col2] = getpos("'>")[1:2]
@@ -72,16 +70,16 @@ func! s:get_visual_selection()
     return join(lines, "\n")
 endfunction
 
-fun! PbCopy() range
+function! PbCopy() range
     echo system('echo '.shellescape(s:get_visual_selection()).'| pbcopy')
 endfun
 
-fun! PhpSnippets()
+function! PhpSnippets() abort
     iabbrev <buffer> ife <?php if (): ?><CR><?php else: ?><CR><?php endif; ?><ESC>02kf)i
     iabbrev <buffer> fun function() {<CR>}<ESC>kf(i
 endfun
 
-fun! ScalaSnippets()
+function! ScalaSnippets() abort
     iabbrev <buffer> iff if () {<CR>}<ESC>kf(a
     iabbrev <buffer> ife if () {<CR>} else {<CR>}<ESC>2kf(a
     iabbrev <buffer> flatm flatMap { => <LEFT><LEFT><LEFT><LEFT>
@@ -90,7 +88,7 @@ fun! ScalaSnippets()
     inoremap <buffer> <C-l> <ESC>f:<RIGHT>a
 endfun
 
-fun! CssSnippets()
+function! CssSnippets() abort
     " Use ; as trigger key
     iabbrev <buffer> dbl display: block
     iabbrev <buffer> din display: inline-block
@@ -106,13 +104,13 @@ fun! CssSnippets()
     iabbrev <buffer> bgno background-repeat: no-repeat
 endfun
 
-function! Replace()
+function! Replace() abort
     let pattern = substitute(escape(@", '\?'), '\n', '\\n', 'g')
     let replacement = substitute(escape(@., '\?'), '\n', '\\r', 'g')
     execute "%s/\\V" . pattern . "/" . replacement . "/gc"
 endfunction
 
-fun! LocalCd(dir, tab)
+function! LocalCd(dir, tab) abort
     let cmd = "e "
     if a:tab != ""
         let cmd = "tabnew "
@@ -121,7 +119,7 @@ fun! LocalCd(dir, tab)
     exe "lcd " . a:dir
 endfun
 
-function! s:InstallPlugin(name, prefix)
+function! s:InstallPlugin(name, prefix) abort
     echomsg a:name
     let dir = split(a:name, '/')
     if len(dir) == 2
@@ -133,17 +131,17 @@ function! s:InstallPlugin(name, prefix)
     endif
 endfunction
 
-function! s:InstallPlugins(list, prefix)
+function! s:InstallPlugins(list, prefix) abort
     for p in a:list
         call s:InstallPlugin(p, a:prefix)
     endfor
 endfunction
 
-function! s:InstallPluginCmd(name)
+function! s:InstallPluginCmd(name) abort
     call s:InstallPlugin(a:name, ".vim/pack/bundle/start/")
 endfunction
 
-function! s:UpdatePlugins()
+function! s:UpdatePlugins() abort
     for p in g:PLUGINS
         let dir = split(p, '/')
         let target = $HOME . "/.vim/pack/bundle/start/" . dir[1]
@@ -155,7 +153,7 @@ function! s:UpdatePlugins()
     endfor
 endfunction
 
-function! s:InitPlugins()
+function! s:InitPlugins() abort
     call s:InstallPlugins(g:PLUGINS, ".vim/pack/bundle/start/")
     call s:InstallPlugins(g:THEMES, ".vim/pack/themes/opt/")
 endfunction
@@ -164,7 +162,7 @@ endfunction
 " Useful when studying strange source code.
 " Type z/ to toggle highlighting on/off.
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
-function! AutoHighlightToggle()
+function! AutoHighlightToggle() abort
   let @/ = ''
   if exists('#auto_highlight')
     au! auto_highlight
@@ -183,7 +181,7 @@ function! AutoHighlightToggle()
   endif
 endfunction
 
-function! Align()
+function! Align() abort
     '<,'>!column -t|sed 's/  \(\S\)/ \1/g'
     normal gv=
 endfunction
@@ -267,15 +265,19 @@ nnoremap ]b :bnext<CR>
 nnoremap ]u :later<CR>
 nnoremap [u :earlier<CR>
 " Show whitespace
-noremap <C-x>w :set list!<CR>
+nnoremap <C-x>w :set list!<CR>
 " Toggle paste
-noremap <C-x>p :set paste!<CR>
+nnoremap <C-x>p :set paste!<CR>
 " Change a word under cursor and prepare for repeats via .
 nnoremap <silent> ctw *``cgn
 nnoremap <silent> cTw #``cgN
 " }}}
 
 " Autocommands {{{
+augroup CustomColors
+    " better matching parens
+    hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
+augroup END
 augroup filesettings
     au!
     " When editing a file, always jump to the last known cursor position.
