@@ -1,5 +1,5 @@
 " Base settings {{{ vim: set expandtab : 
-set noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb timeoutlen=1000 ttimeoutlen=0 fo+=r title nohls
+set noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb fo+=r title nohls
 set titlestring="%F %a%r%m"
 if exists('+relativenumber')
     set relativenumber
