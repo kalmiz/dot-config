@@ -184,6 +184,9 @@ function! Align() abort
     normal gv=
 endfunction
 
+" }}}
+
+" Commands {{{
 command! -range=% TB <line1>,<line2>w !nc termbin.com 9999 | tee /tmp/termbin.com
 command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
 command! -nargs=1 -complete=file Lcdt call LocalCd(<f-args>, "t")
@@ -249,8 +252,9 @@ endif
 " Git
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gp :Git push<CR>
-nnoremap <Leader>gP :exe 'Git push --set-upstream origin ' . fugitive#head()<CR>
+nnoremap <Leader>gP :exe 'Git push --set-upstream origin ' . system('git symbolic-ref --short HEAD')<CR>
 nnoremap <Leader>gl :Git pl<CR>
+" Copy
 vnoremap <Leader>y :PbCopy<CR>
 " Focus window
 nnoremap <C-w>z :tab sp<CR>
