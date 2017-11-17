@@ -11,3 +11,6 @@ defaults write com.apple.terminal "Startup Window Settings" "Man Page"
 
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
+
+# Enable the tap-to-click
+defaults -currentHost write -globalDomain com.apple.mouse.tapBehavior -int 1
