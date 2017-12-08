@@ -1,4 +1,9 @@
+.tags
 tags
 work
 gcloud
 .DS_Store
+target/
+project/target/
+src/main/webapp/WEB-INF/classes
+src/main/webapp/WEB-INF/lib
