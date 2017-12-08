@@ -1,14 +1,13 @@
-" Base settings {{{ vim: set expandtab : 
-set noet ts=4 sw=4 sts=4 hidden ruler showcmd foldmethod=marker noswapfile shell=bash bs=2 novb fo+=r title nohls
-set titlestring="%F %a%r%m"
+" Base settings {{{
+set et sw=4 sts=4 hidden ruler showcmd fdm=marker shell=bash bs=2 fo+=r nohls
+set title titlestring="%F %a%r%m"
 if exists('+relativenumber')
     set relativenumber
 endif
-if has("persistent_undo")
-    set undodir=~/.vim/undodir/
-    set undofile
-endif
 set number
+if has("persistent_undo")
+    set noswapfile undofile undodir=~/.vim/undodir/ 
+endif
 filetype plugin indent on
 syntax on
 if has('nvim')
@@ -234,7 +233,7 @@ if exepath('nvr') != ''
 endif
 if has('nvim')
     tnoremap <A-x> <C-\><C-n>
-    tnoremap <C-w>N <C-\><C-n>
+    tnoremap <C-w> <C-\><C-n><C-w>
     tnoremap <A-h> <C-\><C-n><C-w>h
     tnoremap <A-j> <C-\><C-n><C-w>j
     tnoremap <A-k> <C-\><C-n><C-w>k
@@ -243,6 +242,11 @@ if has('nvim')
     nnoremap <A-j> <C-w>j
     nnoremap <A-k> <C-w>k
     nnoremap <A-l> <C-w>l
+    inoremap <A-h> <Esc><C-w>h
+    inoremap <A-j> <Esc><C-w>j
+    inoremap <A-k> <Esc><C-w>k
+    inoremap <A-l> <Esc><C-w>l
+    au TermOpen * setlocal nonumber
 endif
 if (g:has_fzf == 1)
     nnoremap <silent> <Leader>b :Buffers<CR>
@@ -259,6 +263,8 @@ vnoremap <Leader>y :PbCopy<CR>
 " Focus window
 nnoremap <C-w>z :tab sp<CR>
 
+nnoremap <BS> <C-^>
+
 nnoremap [q :cprev<CR>
 nnoremap ]q :cnext<CR>
 nnoremap [l :lprev<CR>
@@ -272,8 +278,8 @@ nnoremap <C-x>w :set list!<CR>
 " Toggle paste
 nnoremap <C-x>p :set paste!<CR>
 " Change a word under cursor and prepare for repeats via .
-nnoremap <silent> ctw *``cgn
-nnoremap <silent> cTw #``cgN
+nnoremap <Leader>; *``cgn
+nnoremap <Leader>, #``cgN
 " }}}
 
 " Autocommands {{{
@@ -302,19 +308,20 @@ augroup filesettings
         \|  exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
         \|endif
 
-    au FileType vim setlocal expandtab
-    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags et sw=2 ts=2 sts=2
-    au FileType html setlocal omnifunc=htmlcomplete#CompleteTags et sw=2 ts=2 sts=2
-    au FileType css setlocal omnifunc=csscomplete#CompleteCSS et sw=2 ts=2 sts=2
+    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags sw=2 ts=2 sts=2
+    au FileType html setlocal omnifunc=htmlcomplete#CompleteTags sw=2 ts=2 sts=2
+    au FileType css setlocal omnifunc=csscomplete#CompleteCSS sw=2 ts=2 sts=2
         \| call CssSnippets()
     au FileType php setlocal omnifunc=phpcomplete#CompletePHP
         \| call PhpSnippets()
     au FileType go setlocal makeprg=gometalinter
-    au FileType yaml,tf setlocal et sw=2 ts=2 sts=2
-    au FileType scala setlocal sw=4 ts=4 sts=4 path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
+    au FileType yaml,tf setlocal sw=2 ts=2 sts=2
+    au FileType scala setlocal path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
+        \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
         \| call ScalaSnippets()
-    au BufNewFile,BufRead *.md setlocal ft=markdown
     au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
+        \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
+    au BufNewFile,BufRead *.md setlocal ft=markdown
     au BufNewFile,BufRead *.sql runtime! ftplugin/sql.vim
 augroup END
 
