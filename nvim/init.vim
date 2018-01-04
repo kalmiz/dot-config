@@ -1,5 +1,5 @@
 " Base settings {{{
-set et sw=4 sts=4 hidden ruler showcmd fdm=marker shell=bash bs=2 fo+=r nohls
+set et sw=4 sts=4 hidden ruler showcmd fdm=marker shell=bash bs=2 fo+=r
 set title titlestring="%F %a%r%m"
 if exists('+relativenumber')
     set relativenumber
@@ -17,10 +17,11 @@ endif
 
 " Bare bone navigation {{{
 set path=**
-set suffixesadd=.conf,.java,.scala,.php,.js
-set wildmode=longest,full
+set suffixesadd=.conf,.java,.scala,.php,.js,.yaml
+set wildmode=list:longest,full
 set wildmenu
 set wildignore+=*.class,*.jar,*.jpg,*.png,*.gif,**/tiny_mce_dev/**,**/target/**,**/node_modules/**,node_modules/**,cscope.*,.git/**,.idea/**
+set wildignorecase
 
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " }}}
@@ -277,6 +278,8 @@ nnoremap [u :earlier<CR>
 nnoremap <C-x>w :set list!<CR>
 " Toggle paste
 nnoremap <C-x>p :set paste!<CR>
+" Disable search highlight
+nnoremap <esc> :noh<cr>
 " Change a word under cursor and prepare for repeats via .
 nnoremap <Leader>; *``cgn
 nnoremap <Leader>, #``cgN
