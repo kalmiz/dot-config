@@ -325,6 +325,7 @@ augroup filesettings
     au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
         \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
     au BufNewFile,BufRead *.md setlocal ft=markdown
+    au BufNewFile,BufRead *.es6 setlocal ft=javascript
     au BufNewFile,BufRead *.sql runtime! ftplugin/sql.vim
 augroup END
 
