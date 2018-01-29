@@ -1,5 +1,5 @@
 " Base settings {{{
-set et sw=4 sts=4 hidden ruler showcmd fdm=marker shell=bash bs=2 fo+=r
+set et sw=4 sts=4 ts=4 hidden ruler showcmd fdm=marker shell=bash bs=2 fo+=r
 set title titlestring="%F %a%r%m"
 if exists('+relativenumber')
     set relativenumber
