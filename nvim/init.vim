@@ -292,6 +292,7 @@ if &diff
     map <buffer> [ [c
 endif
 augroup CustomColors
+    au!
     " better matching parens
     hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
 augroup END
