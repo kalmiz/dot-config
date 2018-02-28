@@ -7,3 +7,6 @@ target/
 project/target/
 src/main/webapp/WEB-INF/classes
 src/main/webapp/WEB-INF/lib
+node_modules
+docker_node_modules
+dist/

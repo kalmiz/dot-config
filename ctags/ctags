@@ -14,5 +14,7 @@
 --scala-kinds=cmtpT
 --exclude=.git
 --exclude=node_modules
+--exclude=docker_node_modules
 --exclude=target
+--exclude=dist
 --exclude=*.json
