@@ -286,6 +286,11 @@ nnoremap <Leader>, #``cgN
 " }}}
 
 " Autocommands {{{
+if &diff
+    set cursorline
+    map <buffer> ] ]c
+    map <buffer> [ [c
+endif
 augroup CustomColors
     " better matching parens
     hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
