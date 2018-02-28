@@ -247,7 +247,10 @@ if has('nvim')
     inoremap <A-j> <Esc><C-w>j
     inoremap <A-k> <Esc><C-w>k
     inoremap <A-l> <Esc><C-w>l
-    au TermOpen * setlocal nonumber
+    augroup nterm
+        au!
+        au TermOpen * setlocal nonumber norelativenumber | if expand("%:p") =~ '^term://.//\d\+:git' | nnoremap <buffer> q :bd!<CR> | endif
+    augroup END
 endif
 if (g:has_fzf == 1)
     nnoremap <silent> <Leader>b :Buffers<CR>
