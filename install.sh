@@ -36,6 +36,7 @@ else
 	[ ! -d $HOME/.vim/pack/bundle/start ] && mkdir -p $HOME/.vim/pack/{undodir,pack}/{bundle,themes}/{start,opt}
 	[ ! -d $HOME/.local/share/nvim/site ] && mkdir -p $HOME/.local/share/nvim/site
 	[ ! -h $HOME/.local/share/nvim/site/pack ] && ln -s $HOME/.vim/pack $HOME/.local/share/nvim/site/
+	clink bash/rc .bash_profile
 	clink ack/rc .ackrc #clean
 	clink ctags/ctags .ctags #clean
 	clink ssh .ssh #clean
