@@ -1,4 +1,5 @@
 bash
+bash-completion
 autojump
 ctags
 fzf
