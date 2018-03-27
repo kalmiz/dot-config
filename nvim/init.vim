@@ -283,6 +283,10 @@ nnoremap <C-x>w :set list!<CR>
 nnoremap <C-x>p :set paste!<CR>
 " Disable search highlight
 nnoremap <esc> :noh<cr>
+" Redraw screen and de-highlighting the matches,
+" fixing syntax highlighting,
+" updating the syntax highlighting in diff mode
+nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 " Change a word under cursor and prepare for repeats via .
 nnoremap <Leader>; *``cgn
 nnoremap <Leader>, #``cgN
