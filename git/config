@@ -11,5 +11,6 @@
 	pl = pull --rebase
 	cm = checkout master
 	undo = reset --soft HEAD~ 
+	lu = ls-files --others --exclude-standard
 [push]
 	default = simple
