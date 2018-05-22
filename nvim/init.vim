@@ -200,7 +200,7 @@ command! -nargs=0 Ctags :!/usr/local/bin/ctags .
 
 " Mappings {{{
 let mapleader = ' '
-xnoremap <silent> <leader>= :<C-u>silent call Align()<CR>
+xnoremap <silent> <Leader>= :<C-u>silent call Align()<CR>
 nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
 nnoremap <Leader>a :silent grep 
@@ -209,7 +209,7 @@ if executable('rg')
 else
     nnoremap <Leader>A :silent grep <cword> --type=<C-r>=&filetype<CR> \| copen<CR>
 endif
-nnoremap <leader>c :call Replace()<cr>
+nnoremap <Leader>c :call Replace()<CR>
 nnoremap <Leader>f :find 
 nnoremap <Leader>l :Lines<CR> 
 if has('nvim')
@@ -223,14 +223,14 @@ else
     nnoremap <Leader>k :tj 
 endif
 nnoremap <Leader>m :make<CR>
-nnoremap <leader>t :FZF<CR>
-nnoremap <leader>w :w<CR>
-nnoremap <leader>q :q<CR>
-nnoremap <leader>z :qall<CR>
+nnoremap <Leader>t :FZF<CR>
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>z :qall<CR>
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 nnoremap Q @q
 if exepath('nvr') != ''
-    nnoremap <leader>r :!nvr --remote %<CR>
+    nnoremap <Leader>r :!nvr --remote %<CR>
 endif
 if has('nvim')
     tnoremap <A-x> <C-\><C-n>
@@ -281,12 +281,10 @@ nnoremap [u :earlier<CR>
 nnoremap <C-x>w :set list!<CR>
 " Toggle paste
 nnoremap <C-x>p :set paste!<CR>
-" Disable search highlight
-nnoremap <esc> :noh<cr>
 " Redraw screen and de-highlighting the matches,
 " fixing syntax highlighting,
 " updating the syntax highlighting in diff mode
-nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
+nnoremap <Leader>l :nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
 " Change a word under cursor and prepare for repeats via .
 nnoremap <Leader>; *``cgn
 nnoremap <Leader>, #``cgN
