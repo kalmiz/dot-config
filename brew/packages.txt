@@ -11,6 +11,7 @@ awscli
 kubectl
 git-crypt
 caskroom/cask/slack
+caskroom/cask/kitty
 caskroom/cask/spectacle
 caskroom/versions/java8
 sbt
