@@ -7,12 +7,7 @@ fi
 #bind -x '"\C-p": vim $(fzf);'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export NVIM_LISTEN_ADDRESS="/tmp/nvimsocket"
-export BROWSER="open -a safai"
-if [ -x "$(command -v nvim)" ]; then
-	export EDITOR="nvim"
-else
-	export EDITOR="vim"
-fi
+export EDITOR="vim"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export PATH="/usr/local/bin:$PATH"
@@ -56,3 +51,4 @@ fi
 [ -f ~/.config/git/git-completion.bash ] && . ~/.config/git/git-completion.bash
 
 complete -C aws_completer aws
+. /Users/kalmi/.profabevjava
