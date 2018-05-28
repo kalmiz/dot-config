@@ -51,4 +51,4 @@ fi
 [ -f ~/.config/git/git-completion.bash ] && . ~/.config/git/git-completion.bash
 
 complete -C aws_completer aws
-. /Users/kalmi/.profabevjava
+[ -f ~/.profabevjava ] && . ~/.profabevjava
