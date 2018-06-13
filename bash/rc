@@ -22,6 +22,7 @@ alias gs="git status"
 # set kubectl config and namespace to help autocomplete.
 # example: `$ kcn --namespace=prod
 alias kcn="kubectl config set-context \$(kubectl config current-context)"
+alias clean="printf '\E[H\E[3J'"
 
 if [ $(uname) == "Darwin" ]; then
 	[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
