@@ -203,6 +203,7 @@ let mapleader = ' '
 xnoremap <silent> <Leader>= :<C-u>silent call Align()<CR>
 nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
+nnoremap <Leader>e :e ../k
 nnoremap <Leader>a :silent grep  \| copen<Left><Left><Left><Left><Left><Left><Left><Left>
 if executable('rg')
     nnoremap <Leader>A :silent grep <cword> -t<C-r>=&filetype<CR> \| copen<CR>
