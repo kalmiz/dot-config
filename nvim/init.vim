@@ -44,11 +44,12 @@ elseif executable('ack')
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-repeat', 'tpope/vim-fugitive', 'tpope/vim-rhubarb', 'tpope/vim-rsi', '907th/vim-auto-save', 'w0rp/ale', 'junegunn/fzf.vim', 'tpope/vim-fireplace', 'guns/vim-sexp', 'tpope/vim-sexp-mappings-for-regular-people']
+let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-repeat', 'tpope/vim-fugitive', 'tpope/vim-rhubarb', 'tpope/vim-rsi', '907th/vim-auto-save', 'w0rp/ale', 'junegunn/fzf.vim', 'tpope/vim-fireplace', 'guns/vim-sexp', 'tpope/vim-sexp-mappings-for-regular-people', 'l04m33/vlime']
 let g:THEMES = ['lifepillar/vim-solarized8']
 if has('gui_vimr')
     color solarized8_light
 endif
+set rtp+=$HOME/.vim/pack/bundle/start/vlime/vim
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:racer_cmd = "~/.cargo/bin/racer"
