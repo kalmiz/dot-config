@@ -268,9 +268,6 @@ nnoremap <Leader>gl :Git pl<CR>
 vnoremap <Leader>y :PbCopy<CR>
 " Focus window
 nnoremap <C-w>z :tab sp<CR>
-
-nnoremap <BS> <C-^>
-
 nnoremap [q :cprev<CR>
 nnoremap ]q :cnext<CR>
 nnoremap [l :lprev<CR>
