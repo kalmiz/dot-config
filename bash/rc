@@ -1,4 +1,8 @@
 #!/bin/bash
+
+export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+shopt -s histappend # append to history, don't overwrite it
+
 if [ -x "$(command -v rg)" ]; then
     export FZF_DEFAULT_COMMAND='rg --files'
 else
