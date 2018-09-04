@@ -42,6 +42,7 @@ else
 	clink ssh .ssh #clean
 	clink inputrc .inputrc #clean
 	clink nvim/init.vim .vim/vimrc #clean
+    clink lein/profiles.clj .lein/profiles.clj #clean
 	if [ $(uname) == "Darwin" ]; then
 		source ./osx/defaults
 		# http://zanshin.net/2013/08/27/setup-openconnect-for-mac-os-x-lion/
