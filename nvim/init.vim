@@ -218,6 +218,7 @@ if has('nvim')
     nnoremap <Leader>s :below 15sp term://bash<CR>i
 else
     nnoremap <Leader>s :below term ++rows=15 ++close bash --login<CR>
+    nnoremap <Leader>S :vertical rightbelow term ++cols=80 ++close bash --login<CR>
 endif
 if (g:has_fzf == 1)
     nnoremap <Leader>k :Tags<CR>
