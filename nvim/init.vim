@@ -61,20 +61,6 @@ let g:ale_python_pylint_options = "--disable=deprecated-module,C0103 --const-rgx
 " }}}
 
 " Functions {{{
-function! s:get_visual_selection() abort
-    " Why is this not a built-in Vim script function?!
-    let [lnum1, col1] = getpos("'<")[1:2]
-    let [lnum2, col2] = getpos("'>")[1:2]
-    let lines = getline(lnum1, lnum2)
-    let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
-    let lines[0] = lines[0][col1 - 1:]
-    return join(lines, "\n")
-endfunction
-
-function! PbCopy() range
-    echo system('echo '.shellescape(s:get_visual_selection()).'| pbcopy')
-endfunction
-
 function! PhpSnippets() abort
     iabbrev <buffer> ife <?php if (): ?><CR><?php else: ?><CR><?php endif; ?><ESC>02kf)i
     iabbrev <buffer> fun function() {<CR>}<ESC>kf(i
@@ -180,11 +166,6 @@ function! AutoHighlightToggle() abort
   endif
 endfunction
 
-function! Align() abort
-    '<,'>!column -t|sed 's/  \(\S\)/ \1/g'
-    normal gv=
-endfunction
-
 " }}}
 
 " Commands {{{
@@ -194,14 +175,12 @@ command! -nargs=1 -complete=file Lcdt call LocalCd(<f-args>, "t")
 command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
 command! -nargs=0 InitPlugins call s:InitPlugins()
 command! -nargs=0 UpdatePlugins call s:UpdatePlugins()
-command! -range=% -nargs=0 PbCopy :<line1>,<line2>call PbCopy()
 command! -nargs=+ Find edit __find__ | setl bt=nofile bh=hide nobl | %!rg --files | rg <args>
 command! -nargs=0 Ctags :!/usr/local/bin/ctags .
 " }}}
 
 " Mappings {{{
 let mapleader = ' '
-xnoremap <silent> <Leader>= :<C-u>silent call Align()<CR>
 nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
 nnoremap <Leader>e :tabe ../k
@@ -266,8 +245,6 @@ nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gp :Git push<CR>
 nnoremap <Leader>gP :exe 'Git push --set-upstream origin ' . system('git symbolic-ref --short HEAD')<CR>
 nnoremap <Leader>gl :Git pl<CR>
-" Copy
-vnoremap <Leader>y :PbCopy<CR>
 " Focus window
 nnoremap <C-w>z :tab sp<CR>
 nnoremap [q :cprev<CR>
