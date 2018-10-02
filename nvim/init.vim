@@ -10,9 +10,6 @@ if has("persistent_undo")
 endif
 filetype plugin indent on
 syntax on
-if has('nvim')
-    let $VISUAL = 'nvr -cc split --remote-wait'
-endif
 " }}}
 
 " Bare bone navigation {{{
