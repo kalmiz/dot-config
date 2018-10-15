@@ -27,6 +27,7 @@ alias gs="git status"
 # example: `$ kcn --namespace=prod
 alias kcn="kubectl config set-context \$(kubectl config current-context)"
 alias clean="printf '\E[H\E[3J'"
+alias icat="kitty +kitten icat"
 
 if [ $(uname) == "Darwin" ]; then
 	[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
