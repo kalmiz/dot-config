@@ -30,6 +30,7 @@ alias clean="printf '\E[H\E[3J'"
 alias icat="kitty +kitten icat"
 
 if [ $(uname) == "Darwin" ]; then
+	alias iprenew="sudo ipconfig set en0 DHCP"
 	[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 	export PS1='\W\$ '
 	if [ -f /usr/local/bin/kubectl ]; then
