@@ -45,6 +45,8 @@ let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-repeat
 let g:THEMES = ['lifepillar/vim-solarized8']
 if has('gui_vimr')
     color solarized8_light
+else
+    set bg=light
 endif
 set rtp+=$HOME/.vim/pack/bundle/start/vlime/vim
 
