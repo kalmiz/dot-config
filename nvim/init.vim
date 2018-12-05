@@ -1,6 +1,8 @@
 " Base settings {{{
 set et sw=4 sts=4 ts=4 hidden ruler showcmd fdm=marker shell=bash bs=2 fo+=r is
 set title titlestring="%F %a%r%m"
+set mouse=a
+set ttymouse=xterm
 if exists('+relativenumber')
     set relativenumber
 endif
@@ -43,16 +45,29 @@ endif
 
 let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-repeat', 'tpope/vim-fugitive', 'tpope/vim-rhubarb', 'tpope/vim-rsi']
 let g:THEMES = ['lifepillar/vim-solarized8']
-if has('gui_vimr')
-    color solarized8_light
-else
-    set bg=light
+set bg=light
+if has('gui')
+    color solarized8
 endif
 let g:sql_type_default = 'mysql'
 let g:ftplugin_sql_omni_key = '<C-z>'
 " }}}
 
 " Functions {{{
+function! s:get_visual_selection() abort
+    " Why is this not a built-in Vim script function?!
+    let [lnum1, col1] = getpos("'<")[1:2]
+    let [lnum2, col2] = getpos("'>")[1:2]
+    let lines = getline(lnum1, lnum2)
+    let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+    let lines[0] = lines[0][col1 - 1:]
+    return join(lines, "\n")
+endfunction
+
+function! Xcopy() range
+    echo system('echo -n '.shellescape(s:get_visual_selection()).'| wxcopy --clear-selection')
+endfunction
+
 function! PhpSnippets() abort
     iabbrev <buffer> ife <?php if (): ?><CR><?php else: ?><CR><?php endif; ?><ESC>02kf)i
     iabbrev <buffer> fun function() {<CR>}<ESC>kf(i
@@ -173,13 +188,14 @@ endfunction
 
 " Commands {{{
 command! -range=% TB <line1>,<line2>w !nc termbin.com 9999 | tee /tmp/termbin.com
+command! -range=% Xcopy <line1>,<line2>call Xcopy()
 command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
 command! -nargs=1 -complete=file Lcdt call LocalCd(<f-args>, "t")
 command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
 command! -nargs=0 InitPlugins call s:InitPlugins()
 command! -nargs=0 UpdatePlugins call s:UpdatePlugins()
 command! -nargs=+ Find edit __find__ | setl bt=nofile bh=hide nobl | %!rg --files | rg <args>
-command! -nargs=0 Ctags :!/usr/local/bin/ctags .
+command! -nargs=0 Ctags :!ctags .
 " }}}
 
 " Mappings {{{
@@ -213,8 +229,10 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>z :qall<CR>
 nnoremap <C-C> :update<CR>
+inoremap <C-c> <C-o>:update<CR>
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 nnoremap Q @q
+vnoremap <Leader>y :Xcopy<CR>
 if exepath('nvr') != ''
     nnoremap <Leader>r :!nvr --remote %<CR>
 endif
