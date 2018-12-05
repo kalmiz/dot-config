@@ -67,6 +67,17 @@ function! ScalaSnippets() abort
     inoremap <buffer> <C-l> <ESC>f:<RIGHT>a
 endfunction
 
+function! ScalacSettings() abort
+	func! CloseHandler(channel)
+        let line = ''
+        while ch_status(a:channel, {'part': 'out'}) == 'buffered'
+            let line .= ch_read(a:channel)
+        endwhile
+        call writefile(['-Ystop-before:jvm', '-cp ' . line], '.scalac')
+	endfunc
+	let job = job_start('sbt --error "export fullClasspath"', {'close_cb': 'CloseHandler', 'in_mode': 'nl'})
+endfunction
+
 function! CssSnippets() abort
     " Use ; as trigger key
     iabbrev <buffer> dbl display: block
@@ -303,12 +314,18 @@ augroup filesettings
     au FileType scala setlocal path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
         \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
         \| call ScalaSnippets()
+        \| if filereadable(".scalac") | setlocal makeprg=scalac\ @.scalac | else
+        \| setlocal makeprg=scalac\ -Ystop-after:parser | endif
     au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
         \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
     au FileType javascript if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
     au BufNewFile,BufRead *.md setlocal ft=markdown
     au BufNewFile,BufRead *.es6 setlocal ft=javascript
     au BufNewFile,BufRead *.sql runtime! ftplugin/sql.vim
+
+    " Liniting
+    autocmd BufWritePost *.scala silent make! <afile> | silent redraw!
+    autocmd QuickFixCmdPost [^l]* cwindow
 augroup END
 
 augroup templates
