@@ -193,6 +193,7 @@ command! -nargs=0 InitPlugins call s:InitPlugins()
 command! -nargs=0 UpdatePlugins call s:UpdatePlugins()
 command! -nargs=+ Find edit __find__ | setl bt=nofile bh=hide nobl | %!rg --files | rg <args>
 command! -nargs=0 Ctags :!ctags .
+command! -nargs=0 JavaDoc :!ivy-doc-viewer.sh 
 " }}}
 
 " Mappings {{{
