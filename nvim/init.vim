@@ -215,11 +215,11 @@ else
     nnoremap <Leader>s :below term ++rows=15 ++close bash --login<CR>
     nnoremap <Leader>S :vertical rightbelow term ++cols=80 ++close bash --login<CR>
 endif
-if (g:has_fzf == 1)
-    nnoremap <Leader>k :Tags<CR>
-else
+" if (g:has_fzf == 1)
+"     nnoremap <Leader>k :Tags<CR>
+" else
     nnoremap <Leader>k :tj 
-endif
+" endif
 nnoremap <Leader>m :make<CR>
 nnoremap <Leader>t :FZF<CR>
 nnoremap <Leader>w :w<CR>
@@ -250,11 +250,11 @@ if has('nvim')
         au TermOpen * setlocal nonumber norelativenumber | if expand("%:p") =~ '^term://.//\d\+:git' | nnoremap <buffer> q :bd!<CR> | endif
     augroup END
 endif
-if (g:has_fzf == 1)
-    nnoremap <silent> <Leader>b :Buffers<CR>
-else
+" if (g:has_fzf == 1)
+"     nnoremap <silent> <Leader>b :Buffers<CR>
+" else
     nnoremap <Leader>b :buffers<CR>:buffer<Space>
-endif
+" endif
 " Git
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gp :Git push<CR>
