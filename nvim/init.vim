@@ -63,8 +63,13 @@ function! s:get_visual_selection() abort
     return join(lines, "\n")
 endfunction
 
-function! Xcopy() range
-    echo system('echo -n '.shellescape(s:get_visual_selection()).'| wxcopy --clear-selection')
+function! Xcopy(cmd) range
+    if a:cmd != ''
+        let command = a:cmd
+    else
+        let command = 'wxcopy --clear-selection'
+    endif
+    return system('echo -n '.shellescape(s:get_visual_selection()).'|' . command)
 endfunction
 
 function! PhpSnippets() abort
@@ -187,7 +192,11 @@ endfunction
 
 " Commands {{{
 command! -range=% TB <line1>,<line2>w !nc termbin.com 9999 | tee /tmp/termbin.com
-command! -range=% Xcopy <line1>,<line2>call Xcopy()
+if has('macunix')
+    command! -range=% Xcopy <line1>,<line2>call Xcopy('pbcopy')
+else
+    command! -range=% Xcopy <line1>,<line2>call Xcopy()
+endif
 command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
 command! -nargs=1 -complete=file Lcdt call LocalCd(<f-args>, "t")
 command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
