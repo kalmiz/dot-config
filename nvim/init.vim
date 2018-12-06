@@ -119,15 +119,6 @@ function! Replace() abort
     execute "%s/\\V" . pattern . "/" . replacement . "/gc"
 endfunction
 
-function! LocalCd(dir, tab) abort
-    let cmd = "e "
-    if a:tab != ""
-        let cmd = "tabnew "
-    endif
-    exe cmd . a:dir
-    exe "lcd " . a:dir
-endfunction
-
 function! s:InstallPlugin(name, prefix) abort
     echomsg a:name
     let dir = split(a:name, '/')
@@ -197,8 +188,6 @@ if has('macunix')
 else
     command! -range=% Xcopy <line1>,<line2>call Xcopy()
 endif
-command! -nargs=1 -complete=file Lcd call LocalCd(<f-args>)
-command! -nargs=1 -complete=file Lcdt call LocalCd(<f-args>, "t")
 command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
 command! -nargs=0 InitPlugins call s:InitPlugins()
 command! -nargs=0 UpdatePlugins call s:UpdatePlugins()
