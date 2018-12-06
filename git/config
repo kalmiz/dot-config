@@ -14,3 +14,13 @@
 	lu = ls-files --others --exclude-standard
 [push]
 	default = simple
+[merge]
+	tool = vimdiff4
+	# if not using a tool name with builtin support, must supply mergetool cmd
+	# as below
+
+[mergetool "vimdiff4"]
+	cmd = vim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+
+[mergetool "fugitive"]
+	cmd = vim -f -c "Gdiff" "$MERGED"
