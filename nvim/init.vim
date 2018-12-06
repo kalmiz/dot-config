@@ -233,9 +233,6 @@ inoremap <C-c> <C-o>:update<CR>
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 nnoremap Q @q
 vnoremap <Leader>y :Xcopy<CR>
-if exepath('nvr') != ''
-    nnoremap <Leader>r :!nvr --remote %<CR>
-endif
 if has('nvim')
     tnoremap <A-x> <C-\><C-n>
     tnoremap <C-w> <C-\><C-n><C-w>
@@ -292,8 +289,8 @@ nnoremap <Leader>, #``cgN
 " Autocommands {{{
 if &diff
     set cursorline
-    map <buffer> ] ]c
-    map <buffer> [ [c
+    nnoremap <buffer> ] ]c
+    nnoremap <buffer> [ [c
 endif
 augroup CustomColors
     au!
