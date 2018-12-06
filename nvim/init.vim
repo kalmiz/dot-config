@@ -286,8 +286,6 @@ nnoremap <Leader>, #``cgN
 " Autocommands {{{
 if &diff
     set cursorline
-    nnoremap <buffer> ] ]c
-    nnoremap <buffer> [ [c
 endif
 augroup CustomColors
     au!
