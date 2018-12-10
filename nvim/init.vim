@@ -1,4 +1,4 @@
-" Base settings {{{
+" Base settings {{{ vim: set et 
 set et sw=4 sts=4 ts=4 hidden ruler showcmd fdm=marker shell=bash bs=2 fo+=r is
 set title titlestring="%F %a%r%m"
 set mouse=a
@@ -87,14 +87,14 @@ function! ScalaSnippets() abort
 endfunction
 
 function! ScalacSettings() abort
-	func! CloseHandler(channel)
+    func! CloseHandler(channel)
         let line = ''
         while ch_status(a:channel, {'part': 'out'}) == 'buffered'
             let line .= ch_read(a:channel)
         endwhile
         call writefile(['-Ystop-before:jvm', '-cp ' . line], '.scalac')
-	endfunc
-	let job = job_start('sbt --error "export fullClasspath"', {'close_cb': 'CloseHandler', 'in_mode': 'nl'})
+    endfunc
+    let job = job_start('sbt --error "export fullClasspath"', {'close_cb': 'CloseHandler', 'in_mode': 'nl'})
 endfunction
 
 function! CssSnippets() abort
@@ -161,24 +161,23 @@ endfunction
 " Useful when studying strange source code.
 " Type z/ to toggle highlighting on/off.
 function! AutoHighlightToggle() abort
-  let @/ = ''
-  if exists('#auto_highlight')
-    au! auto_highlight
-    augroup! auto_highlight
-    setl updatetime=4000
-    echo 'Highlight current word: off'
-    return 0
-  else
-    augroup auto_highlight
-      au!
-      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=500
-    echo 'Highlight current word: ON'
-    return 1
-  endif
+    let @/ = ''
+    if exists('#auto_highlight')
+        au! auto_highlight
+        augroup! auto_highlight
+        setl updatetime=4000
+        echo 'Highlight current word: off'
+        return 0
+    else
+        augroup auto_highlight
+            au!
+            au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+        augroup end
+        setl updatetime=500
+        echo 'Highlight current word: ON'
+        return 1
+    endif
 endfunction
-
 " }}}
 
 " Commands {{{
