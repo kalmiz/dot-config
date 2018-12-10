@@ -191,8 +191,9 @@ command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
 command! -nargs=0 InitPlugins call s:InitPlugins()
 command! -nargs=0 UpdatePlugins call s:UpdatePlugins()
 command! -nargs=+ Find edit __find__ | setl bt=nofile bh=hide nobl | %!rg --files | rg <args>
-command! -nargs=0 Ctags :!ctags .
-command! -nargs=0 JavaDoc :!ivy-doc-viewer.sh 
+command! -nargs=0 Ctags !ctags .
+command! -nargs=0 -bar JavaDoc silent execute('!ivy-doc-viewer.sh') | redraw!
+command! -nargs=0 -bar JavaClass silent execute('!ivy-class-search.sh ' . shellescape(expand('<cword>'))) | redraw!
 " }}}
 
 " Mappings {{{
