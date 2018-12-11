@@ -329,7 +329,8 @@ augroup filesettings
         \| setlocal makeprg=scalac\ -Ystop-after:parser | endif
     au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
         \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
-    au FileType javascript setlocal ts=2 sw=2 sts=2 et makeprg=./node_modules/.bin/eslint efm=%E\ \ %l:%c\ \ error\ \ %m,%-G✖\ %.%#,%-G%.%#,%f
+    au FileType javascript setlocal ts=2 sw=2 sts=2 et makeprg=./node_modules/.bin/eslint\ -f\ compact efm=%E%f:\ line\ %l\\,\ col\ %c\\,\ Error\ -\ %m,%-G%.%#,%W%f:\ line\ %l\\,\ col\ %c\\,\ Warning\ -\ %m,%-G%.%#
+
     au FileType javascript if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
     au BufNewFile,BufRead *.md setlocal ft=markdown
     au BufNewFile,BufRead *.es6 setlocal ft=javascript
@@ -337,7 +338,7 @@ augroup filesettings
 
     " Liniting
     autocmd BufWritePost *.scala silent make! <afile> | silent redraw!
-    autocmd BufWritePost *.javascript silent make! <afile> | silent redraw!
+    autocmd BufWritePost *.js silent make! <afile> | silent redraw!
     autocmd QuickFixCmdPost [^l]* cwindow
 augroup END
 
