@@ -185,7 +185,7 @@ command! -range=% TB <line1>,<line2>w !nc termbin.com 9999 | tee /tmp/termbin.co
 if has('macunix')
     command! -range=% Xcopy <line1>,<line2>call Xcopy('pbcopy')
 else
-    command! -range=% Xcopy <line1>,<line2>call Xcopy()
+    command! -range=% Xcopy <line1>,<line2>call Xcopy('')
 endif
 command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
 command! -nargs=0 InitPlugins call s:InitPlugins()
@@ -329,6 +329,7 @@ augroup filesettings
         \| setlocal makeprg=scalac\ -Ystop-after:parser | endif
     au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
         \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
+    au FileType javascript setlocal ts=2 sw=2 sts=2 et makeprg=./node_modules/.bin/eslint efm=%E\ \ %l:%c\ \ error\ \ %m,%-G✖\ %.%#,%-G%.%#,%f
     au FileType javascript if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
     au BufNewFile,BufRead *.md setlocal ft=markdown
     au BufNewFile,BufRead *.es6 setlocal ft=javascript
@@ -336,6 +337,7 @@ augroup filesettings
 
     " Liniting
     autocmd BufWritePost *.scala silent make! <afile> | silent redraw!
+    autocmd BufWritePost *.javascript silent make! <afile> | silent redraw!
     autocmd QuickFixCmdPost [^l]* cwindow
 augroup END
 
