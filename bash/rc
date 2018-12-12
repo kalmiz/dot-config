@@ -18,6 +18,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export PATH="/usr/local/bin:$PATH"
 
+alias hh="history -r"
 alias ll="ls -lG"
 alias l.="ls -ldG .?*"
 alias vi=$EDITOR
