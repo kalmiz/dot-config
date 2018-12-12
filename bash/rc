@@ -85,3 +85,4 @@ function ap() {
     echo Using aws profile $AP_PROFILE
   fi
 }
+if [ -e /Users/kalmi/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/kalmi/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
