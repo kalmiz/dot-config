@@ -42,7 +42,7 @@ elseif executable('ack')
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-repeat', 'tpope/vim-fugitive', 'tpope/vim-rhubarb', 'tpope/vim-rsi']
+let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-repeat', 'tpope/vim-fugitive', 'tpope/vim-rhubarb', 'tpope/vim-rsi', 'hauleth/asyncdo.vim']
 let g:THEMES = ['lifepillar/vim-solarized8']
 set bg=light
 if has('gui')
@@ -194,6 +194,7 @@ command! -nargs=+ Find edit __find__ | setl bt=nofile bh=hide nobl | %!rg --file
 command! -nargs=0 Ctags !ctags .
 command! -nargs=0 -bar JavaDoc silent execute('!ivy-doc-viewer.sh') | redraw!
 command! -nargs=0 -bar JavaClass silent execute('!ivy-class-search.sh ' . shellescape(expand('<cword>'))) | redraw!
+command! -bang -nargs=* -complete=file Make call asyncdo#run(<bang>0, &makeprg, <f-args>)
 " }}}
 
 " Mappings {{{
@@ -322,7 +323,7 @@ augroup filesettings
         \| call PhpSnippets()
     au FileType go setlocal makeprg=gometalinter
     au FileType yaml,tf setlocal sw=2 ts=2 sts=2
-    au FileType scala setlocal path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s
+    au FileType scala setlocal path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s efm=%E%f:%l:\ %trror:\ %m,%W%f:%l:\ %tarning:%m,%Z%p^,%-G%.%#
         \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
         \| call ScalaSnippets()
         \| if filereadable(".scalac") | setlocal makeprg=scalac\ @.scalac | else
@@ -337,8 +338,8 @@ augroup filesettings
     au BufNewFile,BufRead *.sql runtime! ftplugin/sql.vim
 
     " Liniting
-    autocmd BufWritePost *.scala silent make! <afile> | silent redraw!
-    autocmd BufWritePost *.js silent make! <afile> | silent redraw!
+    autocmd BufWritePost *.scala silent Make! <afile>
+    autocmd BufWritePost *.js silent Make! <afile>
     autocmd QuickFixCmdPost [^l]* cwindow
 augroup END
 
