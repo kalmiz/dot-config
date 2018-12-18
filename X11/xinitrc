@@ -1,0 +1,4 @@
+export PASSWORD_STORE_DIR=$HOME/Dropbox/Home/pass/store
+xinput --set-prop 11 "libinput Natural Scrolling Enabled" 1
+xdotool behave_screen_edge --delay 500 bottom-right exec slock &
+exec wmaker

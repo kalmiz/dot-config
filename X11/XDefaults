@@ -1,0 +1,4 @@
+XTerm*background:#FEF49C
+XTerm.vt100.faceName: "Liberation Mono:pixelsize=12:antialias=true:autohint=true"
+XTerm*utf8: 1
+St*background:#FEF49C
