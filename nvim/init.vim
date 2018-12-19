@@ -50,6 +50,7 @@ if has('gui')
 endif
 let g:sql_type_default = 'mysql'
 let g:ftplugin_sql_omni_key = '<C-z>'
+packadd! matchit
 " }}}
 
 " Functions {{{
@@ -323,7 +324,8 @@ augroup filesettings
         \| call PhpSnippets()
     au FileType go setlocal makeprg=gometalinter
     au FileType yaml,tf setlocal sw=2 ts=2 sts=2
-    au FileType scala setlocal path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s efm=%E%f:%l:\ %trror:\ %m,%W%f:%l:\ %tarning:%m,%Z%p^,%-G%.%#
+    au FileType sh setlocal makeprg=bash\ -n efm=%f:\ line\ %l:\ %m
+    au FileType scala setlocal path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s efm=%E%f:%l:\ %trror:\ %m,%W%f:%l:\ %tarning:%m,%Z%p^,%-G%.%# define=\(def\\s\|class\\s\|trait\\s\|object\\s\|val\\s\\|:\\s)
         \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
         \| call ScalaSnippets()
         \| if filereadable(".scalac") | setlocal makeprg=scalac\ @.scalac | else
@@ -340,6 +342,7 @@ augroup filesettings
     " Liniting
     autocmd BufWritePost *.scala silent Make! <afile>
     autocmd BufWritePost *.js silent Make! <afile>
+    autocmd BufWritePost *.sh silent Make! <afile>
     autocmd QuickFixCmdPost [^l]* cwindow
 augroup END
 
