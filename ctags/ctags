@@ -18,6 +18,7 @@
 --exclude=target
 --exclude=dist
 --exclude=*.json
+--exclude=.venv
 
 --langmap=javascript:.js.es6.es.jsx
 --javascript-kinds=-c-f-m-p-v
