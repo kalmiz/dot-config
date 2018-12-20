@@ -2,6 +2,7 @@
 set et sw=4 sts=4 ts=4 hidden ruler showcmd fdm=marker shell=bash bs=2 fo+=r is
 set title titlestring="%F %a%r%m"
 set mouse=a
+set iskeyword+=-
 if exists('+relativenumber')
     set relativenumber
 endif
