@@ -203,7 +203,11 @@ command! -bang -nargs=* -complete=file Make call asyncdo#run(<bang>0, &makeprg, 
 let mapleader = ' '
 nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
-nnoremap <Leader>e :tabe ../k
+cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
+map <leader>ew :e %%
+map <leader>es :sp %%
+map <leader>ev :vsp %%
+map <leader>et :tabe %%
 nnoremap <Leader>a :silent grep  \| copen<Left><Left><Left><Left><Left><Left><Left><Left>
 if executable('rg')
     nnoremap <Leader>A :silent grep <cword> -t<C-r>=&filetype<CR> \| copen<CR>
