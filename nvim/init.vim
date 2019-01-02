@@ -3,6 +3,7 @@ set et sw=4 sts=4 ts=4 hidden ruler showcmd fdm=marker shell=bash bs=2 fo+=r is
 set title titlestring="%F %a%r%m"
 set mouse=a
 set iskeyword+=-
+set smartcase
 if exists('+relativenumber')
     set relativenumber
 endif
@@ -43,7 +44,7 @@ elseif executable('ack')
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-repeat', 'tpope/vim-fugitive', 'tpope/vim-rhubarb', 'tpope/vim-rsi', 'hauleth/asyncdo.vim']
+let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-repeat', 'tpope/vim-fugitive', 'tpope/vim-rhubarb', 'tpope/vim-rsi', 'hauleth/asyncdo.vim', 'RRethy/vim-quickscope']
 let g:THEMES = ['lifepillar/vim-solarized8']
 set bg=light
 if has('gui')
@@ -330,7 +331,7 @@ augroup filesettings
     au FileType go setlocal makeprg=gometalinter
     au FileType yaml,tf setlocal sw=2 ts=2 sts=2
     au FileType sh setlocal makeprg=bash\ -n efm=%f:\ line\ %l:\ %m
-    au FileType scala setlocal path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/** commentstring=//%s efm=%E%f:%l:\ %trror:\ %m,%W%f:%l:\ %tarning:%m,%Z%p^,%-G%.%# define=\(def\\s\|class\\s\|trait\\s\|object\\s\|val\\s\\|:\\s)
+    au FileType scala setlocal path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/**,*/*/src/** commentstring=//%s efm=%E%f:%l:\ %trror:\ %m,%W%f:%l:\ %tarning:%m,%Z%p^,%-G%.%# define=\(def\\s\|class\\s\|trait\\s\|object\\s\|val\\s\\|:\\s) includeexpr=substitute(substitute(v:fname,'\\.','/','g'),'_','\.','g') include=^import
         \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
         \| call ScalaSnippets()
         \| if filereadable(".scalac") | setlocal makeprg=scalac\ @.scalac | else
