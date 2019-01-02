@@ -19,6 +19,7 @@
 --exclude=dist
 --exclude=*.json
 --exclude=.venv
+--exclude=generated
 
 --langmap=javascript:.js.es6.es.jsx
 --javascript-kinds=-c-f-m-p-v
