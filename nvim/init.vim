@@ -1,8 +1,19 @@
-" Base settings {{{ vim: set et 
-set et sw=4 sts=4 ts=4 hidden ruler showcmd fdm=marker shell=bash bs=2 fo+=r is
+" Base settings {{{ vim: set et
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+set hidden
+set ruler
+set showcmd
+set foldmethod=marker
+set shell=bash
+set backspace=2
+set formatoptions+=r
 set title titlestring="%F %a%r%m"
 set mouse=a
 set iskeyword+=-
+set incsearch
 set smartcase
 if exists('+relativenumber')
     set relativenumber
