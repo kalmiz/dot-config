@@ -24,3 +24,6 @@
 
 [mergetool "fugitive"]
 	cmd = vim -f -c "Gdiff" "$MERGED"
+
+[github]
+    user = kalmiz
