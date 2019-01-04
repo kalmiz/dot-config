@@ -1,19 +1,16 @@
 " Base settings {{{ vim: set et
+runtime defaults.vim
 set expandtab
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 set hidden
-set ruler
-set showcmd
 set foldmethod=marker
 set shell=bash
-set backspace=2
 set formatoptions+=r
 set title titlestring="%F %a%r%m"
-set mouse=a
 set iskeyword+=-
-set incsearch
+set ignorecase
 set smartcase
 if exists('+relativenumber')
     set relativenumber
@@ -22,15 +19,12 @@ set number
 if has("persistent_undo")
     set noswapfile undofile undodir=~/.vim/undodir/ 
 endif
-filetype plugin indent on
-syntax on
 " }}}
 
 " Bare bone navigation {{{
 set path=**
 set suffixesadd=.conf,.java,.scala,.php,.js,.yaml
 set wildmode=list:longest,full
-set wildmenu
 set wildignore+=*.class,*.jar,*.jpg,*.png,*.gif,**/tiny_mce_dev/**,**/target/**,**/node_modules/**,node_modules/**,cscope.*,.git/**,.idea/**
 set wildignorecase
 
@@ -63,7 +57,7 @@ if has('gui')
 endif
 let g:sql_type_default = 'mysql'
 let g:ftplugin_sql_omni_key = '<C-z>'
-packadd! matchit
+if !has('nvim') | packadd! matchit | endif
 " }}}
 
 " Functions {{{
@@ -251,20 +245,7 @@ nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 nnoremap Q @q
 vnoremap <Leader>y :Xcopy<CR>
 if has('nvim')
-    tnoremap <A-x> <C-\><C-n>
     tnoremap <C-w> <C-\><C-n><C-w>
-    tnoremap <A-h> <C-\><C-n><C-w>h
-    tnoremap <A-j> <C-\><C-n><C-w>j
-    tnoremap <A-k> <C-\><C-n><C-w>k
-    tnoremap <A-l> <C-\><C-n><C-w>l
-    nnoremap <A-h> <C-w>h
-    nnoremap <A-j> <C-w>j
-    nnoremap <A-k> <C-w>k
-    nnoremap <A-l> <C-w>l
-    inoremap <A-h> <Esc><C-w>h
-    inoremap <A-j> <Esc><C-w>j
-    inoremap <A-k> <Esc><C-w>k
-    inoremap <A-l> <Esc><C-w>l
     augroup nterm
         au!
         au TermOpen * setlocal nonumber norelativenumber | if expand("%:p") =~ '^term://.//\d\+:git' | nnoremap <buffer> q :bd!<CR> | endif
@@ -314,13 +295,6 @@ augroup CustomColors
 augroup END
 augroup filesettings
     au!
-    " When editing a file, always jump to the last known cursor position.
-    " Don't do it when the position is invalid or when inside an event
-    " handler (happens when dropping a file on gvim).
-    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-        \|  exe "normal g`\""
-        \|endif
-
     " Keep window position when switching buffers
     " https://stackoverflow.com/questions/4251533/vim-keep-window-position-when-switching-buffers
     au BufLeave * let b:winview = winsaveview()
