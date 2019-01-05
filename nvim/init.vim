@@ -12,10 +12,6 @@ set title titlestring="%F %a%r%m"
 set iskeyword+=-
 set ignorecase
 set smartcase
-if exists('+relativenumber')
-    set relativenumber
-endif
-set number
 if has("persistent_undo")
     set noswapfile undofile undodir=~/.vim/undodir/ 
 endif
