@@ -218,17 +218,14 @@ else
 endif
 nnoremap <Leader>c :call Replace()<CR>
 nnoremap <Leader>f :find 
+nnoremap <Leader>l :Lines<CR> 
 if has('nvim')
     nnoremap <Leader>s :below 15sp term://bash<CR>i
 else
     nnoremap <Leader>s :below term ++rows=15 ++close bash --login<CR>
     nnoremap <Leader>S :vertical rightbelow term ++cols=80 ++close bash --login<CR>
 endif
-" if (g:has_fzf == 1)
-"     nnoremap <Leader>k :Tags<CR>
-" else
-    nnoremap <Leader>k :tj 
-" endif
+nnoremap <Leader>k :tj 
 nnoremap <Leader>m :make<CR>
 nnoremap <Leader>t :FZF<CR>
 nnoremap <Leader>w :w<CR>
@@ -246,12 +243,7 @@ if has('nvim')
         au TermOpen * setlocal nonumber norelativenumber | if expand("%:p") =~ '^term://.//\d\+:git' | nnoremap <buffer> q :bd!<CR> | endif
     augroup END
 endif
-" if (g:has_fzf == 1)
-"     nnoremap <silent> <Leader>b :Buffers<CR>
-" else
-    nnoremap <Leader>b :buffers<CR>:buffer<Space>
-" endif
-" Git
+nnoremap <Leader>b :buffers<CR>:buffer<Space>
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gp :Git push<CR>
 nnoremap <Leader>gP :exe 'Git push --set-upstream origin ' . system('git symbolic-ref --short HEAD')<CR>
