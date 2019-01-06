@@ -218,7 +218,6 @@ else
 endif
 nnoremap <Leader>c :call Replace()<CR>
 nnoremap <Leader>f :find 
-nnoremap <Leader>l :Lines<CR> 
 if has('nvim')
     nnoremap <Leader>s :below 15sp term://bash<CR>i
 else
