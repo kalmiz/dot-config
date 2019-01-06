@@ -315,7 +315,7 @@ augroup filesettings
     au BufNewFile,BufRead *.es6 setlocal ft=javascript
     au BufNewFile,BufRead *.sql runtime! ftplugin/sql.vim
 
-    " Liniting
+    " Linting
     autocmd BufWritePost *.scala silent Make! <afile>
     autocmd BufWritePost *.js silent Make! <afile>
     autocmd BufWritePost *.sh silent Make! <afile>
