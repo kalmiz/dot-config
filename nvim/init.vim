@@ -257,8 +257,6 @@ nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gp :Git push<CR>
 nnoremap <Leader>gP :exe 'Git push --set-upstream origin ' . system('git symbolic-ref --short HEAD')<CR>
 nnoremap <Leader>gl :Git pl<CR>
-" Focus window
-nnoremap <C-w>z :tab sp<CR>
 nnoremap [q :cprev<CR>
 nnoremap ]q :cnext<CR>
 nnoremap [l :lprev<CR>
