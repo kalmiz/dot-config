@@ -229,9 +229,6 @@ endif
 nnoremap <Leader>k :tj 
 nnoremap <Leader>m :make<CR>
 nnoremap <Leader>t :FZF<CR>
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :q<CR>
-nnoremap <Leader>z :qall<CR>
 nnoremap <C-C> :update<CR>
 inoremap <C-c> <C-o>:update<CR>
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
