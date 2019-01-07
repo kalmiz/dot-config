@@ -23,6 +23,7 @@ set suffixesadd=.conf,.java,.scala,.php,.js,.yaml
 set wildmode=list:longest,full
 set wildignore+=*.class,*.jar,*.jpg,*.png,*.gif,**/tiny_mce_dev/**,**/target/**,**/node_modules/**,node_modules/**,cscope.*,.git/**,.idea/**
 set wildignorecase
+set wildcharm=<C-z>
 
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " }}}
