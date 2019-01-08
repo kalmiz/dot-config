@@ -1,5 +1,6 @@
 " Base settings {{{ vim: set et
 runtime defaults.vim
+set secure
 set expandtab
 set shiftwidth=4
 set softtabstop=4
