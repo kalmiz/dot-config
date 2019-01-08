@@ -163,8 +163,6 @@ function! s:InitPlugins() abort
 endfunction
 
 " Highlight all instances of word under cursor, when idle.
-" Useful when studying strange source code.
-" Type z/ to toggle highlighting on/off.
 function! AutoHighlightToggle() abort
     let @/ = ''
     if exists('#auto_highlight')
