@@ -7,7 +7,6 @@ set softtabstop=4
 set tabstop=4
 set hidden
 set foldmethod=marker
-set shell=bash
 set formatoptions+=r
 set title titlestring="%F %a%r%m"
 set iskeyword+=-
