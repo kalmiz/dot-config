@@ -233,7 +233,7 @@ nnoremap <C-C> :update<CR>
 inoremap <C-c> <C-o>:update<CR>
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 nnoremap Q @q
-vnoremap <Leader>y :Xcopy<CR>
+xnoremap <Leader>y :Xcopy<CR>
 if has('nvim')
     tnoremap <C-w> <C-\><C-n><C-w>
     augroup nterm
