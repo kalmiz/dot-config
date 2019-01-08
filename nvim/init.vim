@@ -28,7 +28,7 @@ set wildcharm=<C-z>
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " }}}
 
-" {{{ Plugins
+" Plugins and settings {{{ 
 let g:has_fzf = 1
 if filereadable("/usr/local/opt/fzf/install")
     set rtp+=/usr/local/opt/fzf
