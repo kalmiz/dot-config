@@ -202,6 +202,7 @@ command! -bang -nargs=* -complete=file Make call asyncdo#run(<bang>0, &makeprg, 
 
 " Mappings {{{
 let mapleader = ' '
+nnoremap <Up> :
 nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
