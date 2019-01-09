@@ -202,7 +202,6 @@ command! -bang -nargs=* -complete=file Make call asyncdo#run(<bang>0, &makeprg, 
 
 " Mappings {{{
 let mapleader = ' '
-nnoremap <Up> :
 nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
@@ -289,6 +288,7 @@ augroup filesettings
         \|  exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
         \|endif
 
+    au FileType vim setlocal path=.,$VIMRUNTIME
     au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags sw=2 ts=2 sts=2
     au FileType html setlocal omnifunc=htmlcomplete#CompleteTags sw=2 ts=2 sts=2
     au FileType css setlocal omnifunc=csscomplete#CompleteCSS sw=2 ts=2 sts=2
