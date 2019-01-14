@@ -1,73 +1,46 @@
 #!/bin/bash
-export VPN_USER="kalmi"
 
 function vpn_password {
   security 2>&1 >/dev/null find-generic-password -ga kinja-vpn \
   | ruby -e 'print $1 if STDIN.gets =~ /^password: "(.*)"$/'
 }
 
-shopt -s extglob
 function vpnf {
-    case "$1" in
-            us)
-                local VPN=${VPN_HOST:-"vpn-aws.kinja-ops.com"}
-                vpn_handler $2
-                ;;
-            eu)
-                local VPN="vpn-aws-eu.kinja-ops.com"
-                vpn_handler $2
-                ;;
-             @(start|status) )
-                vpn us $1
-                [ "$1" = "status" ] && vpn eu $1
-#                    sleep 5 && vpn eu $1
-                ;;
-            stop)
-                vpn eu $1
-                sleep 1
-                vpn us $1
-                ;;
-            *)
-                vpn_handler help
-    esac
-}
-
-function vpn_handler {
-  local HOST=${VPN:-"vpn-aws.kinja-ops.com"}
-  local OPENCONNECT=$(pidof "openconnect.*${HOST}")
-  local USERNAME=${VPN_USER}
-  local LOCALUSER=$(whoami)
+  local VPN_HOST=${VPN_HOST:-"vpn-aws.kinja-ops.com"}
+  local OPENCONNECT=$(pidof "openconnect.*${VPN_HOST}")
+  local VPN_USER=${VPN_USER:-"$USER"}
 
   case "$1" in
     start)
       if [ -z "$OPENCONNECT" ] ; then
-        echo "Connecting to VPN ($VPN)..."
-        echo $(vpn_password) | sudo openconnect --no-dtls --script=/Users/${LOCALUSER}/bin/vpnc-script \
-          --background -u ${USERNAME} --passwd-on-stdin ${HOST}
-      echo "Done"
+        echo "Connecting to VPN ($VPN_HOST) as $VPN_USER..."
+        echo $(vpn_password) | sudo openconnect --no-dtls \
+          --background -u ${VPN_USER} --passwd-on-stdin ${VPN_HOST}
+        echo "Done"
       fi
       ;;
     stop)
       if [ -n "$OPENCONNECT" ] ; then
-        echo "Closing VPN connection ($VPN)..."
+        echo "Closing VPN connection ($VPN_HOST)..."
         sudo kill -SIGINT ${OPENCONNECT}
         echo "Done"
       fi
       ;;
     restart)
       vpn stop
+      sleep 1
       vpn start
       ;;
     status)
       if [ "x$OPENCONNECT" == "x" ]; then
-        echo "$HOST VPN is not running."
+        echo "$VPN_HOST VPN is not running."
         return 1
       else
-        echo "$HOST VPN is running. PID: $OPENCONNECT"
+        echo "$VPN_HOST VPN is running. PID: $OPENCONNECT"
       fi
       ;;
-    help)
-      echo "Usage: vpn [us|eu] {start|stop|status|restart}"
+    *)
+      echo "Usage: vpn {start|stop|status|restart}"
       return 1
   esac
 }
