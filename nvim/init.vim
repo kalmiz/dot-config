@@ -67,6 +67,7 @@ function! PackInit() abort
     call minpac#add('tpope/vim-rhubarb')
     call minpac#add('hauleth/asyncdo.vim')
     call minpac#add('RRethy/vim-quickscope')
+    call minpac#add('maralla/completor.vim')
 endfunction
 
 function! s:get_visual_selection() abort
@@ -160,6 +161,8 @@ command! -bang -nargs=* -complete=file Make call asyncdo#run(<bang>0, &makeprg, 
 " Mappings {{{
 let mapleader = ' '
 nnoremap <Up> :
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
