@@ -29,6 +29,8 @@ let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " }}}
 
 " Plugins and settings {{{ 
+if has('nvim') | set packpath^=~/.vim | else | packadd! matchit | endif
+
 let g:has_fzf = 1
 if filereadable("/usr/local/opt/fzf/install")
     set rtp+=/usr/local/opt/fzf
@@ -46,18 +48,27 @@ elseif executable('ack')
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-let g:PLUGINS = ['tpope/vim-commentary', 'tpope/vim-surround', 'tpope/vim-repeat', 'tpope/vim-fugitive', 'tpope/vim-rhubarb', 'tpope/vim-rsi', 'hauleth/asyncdo.vim', 'RRethy/vim-quickscope']
-let g:THEMES = ['lifepillar/vim-solarized8']
-set bg=light
-if has('gui')
-    color solarized8
-endif
 let g:sql_type_default = 'mysql'
 let g:ftplugin_sql_omni_key = '<C-z>'
-if !has('nvim') | packadd! matchit | endif
 " }}}
 
 " Functions {{{
+function! PackInit() abort
+    " git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac
+    packadd minpac 
+
+    call minpac#init()
+    call minpac#add('k-takata/minpac', {'type': 'opt'})
+    call minpac#add('tpope/vim-rsi')
+    call minpac#add('tpope/vim-repeat')
+    call minpac#add('tpope/vim-commentary')
+    call minpac#add('tpope/vim-surround')
+    call minpac#add('tpope/vim-fugitive')
+    call minpac#add('tpope/vim-rhubarb')
+    call minpac#add('hauleth/asyncdo.vim')
+    call minpac#add('RRethy/vim-quickscope')
+endfunction
+
 function! s:get_visual_selection() abort
     " Why is this not a built-in Vim script function?!
     let [lnum1, col1] = getpos("'<")[1:2]
@@ -124,44 +135,6 @@ function! Replace() abort
     execute "%s/\\V" . pattern . "/" . replacement . "/gc"
 endfunction
 
-function! s:InstallPlugin(name, prefix) abort
-    echomsg a:name
-    let dir = split(a:name, '/')
-    if len(dir) == 2
-        let target = $HOME . "/" . a:prefix . dir[1]
-        if !isdirectory(target)
-            call mkdir(target, "p")
-            let s = system("git clone https://github.com/" . a:name . " " . target)
-        endif
-    endif
-endfunction
-
-function! s:InstallPlugins(list, prefix) abort
-    for p in a:list
-        call s:InstallPlugin(p, a:prefix)
-    endfor
-endfunction
-
-function! s:InstallPluginCmd(name) abort
-    call s:InstallPlugin(a:name, ".vim/pack/bundle/start/")
-endfunction
-
-function! s:UpdatePlugins() abort
-    for p in g:PLUGINS
-        let dir = split(p, '/')
-        let target = $HOME . "/.vim/pack/bundle/start/" . dir[1]
-        if isdirectory(target)
-            echomsg p
-            let s = system("cd " . target . " && git pull")
-        endif
-    endfor
-endfunction
-
-function! s:InitPlugins() abort
-    call s:InstallPlugins(g:PLUGINS, ".vim/pack/bundle/start/")
-    call s:InstallPlugins(g:THEMES, ".vim/pack/themes/opt/")
-endfunction
-
 " Highlight all instances of word under cursor, when idle.
 function! AutoHighlightToggle() abort
     let @/ = ''
@@ -184,15 +157,15 @@ endfunction
 " }}}
 
 " Commands {{{
+command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
+command! PackClean  call PackInit() | call minpac#clean()
+command! PackStatus call PackInit() | call minpac#status()
 command! -range=% TB <line1>,<line2>w !nc termbin.com 9999 | tee /tmp/termbin.com
 if has('macunix')
     command! -range=% Xcopy <line1>,<line2>call Xcopy('pbcopy')
 else
     command! -range=% Xcopy <line1>,<line2>call Xcopy('')
 endif
-command! -nargs=1 InstallPlugin call s:InstallPluginCmd(<f-args>)
-command! -nargs=0 InitPlugins call s:InitPlugins()
-command! -nargs=0 UpdatePlugins call s:UpdatePlugins()
 command! -nargs=+ Find edit __find__ | setl bt=nofile bh=hide nobl | %!rg --files | rg <args>
 command! -nargs=0 Ctags !ctags .
 command! -nargs=0 -bar JavaDoc silent execute('!ivy-doc-viewer.sh') | redraw!
