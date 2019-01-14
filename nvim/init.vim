@@ -113,22 +113,6 @@ function! ScalacSettings() abort
     let job = job_start('sbt --error "export fullClasspath"', {'close_cb': 'CloseHandler', 'in_mode': 'nl'})
 endfunction
 
-function! CssSnippets() abort
-    " Use ; as trigger key
-    iabbrev <buffer> dbl display: block
-    iabbrev <buffer> din display: inline-block
-    iabbrev <buffer> dno display: none
-    iabbrev <buffer> ff font-family: '', serif
-    iabbrev <buffer> fs font-size: 
-    iabbrev <buffer> p0 padding: 0px
-    iabbrev <buffer> m0 margin: 0px
-    iabbrev <buffer> fwb font-weight: bold
-    iabbrev <buffer> cb color: #000
-    iabbrev <buffer> cw color: #fff
-    iabbrev <buffer> tac text-align: center
-    iabbrev <buffer> bgno background-repeat: no-repeat
-endfunction
-
 function! Replace() abort
     let pattern = substitute(escape(@", '\?'), '\n', '\\n', 'g')
     let replacement = substitute(escape(@., '\?'), '\n', '\\r', 'g')
@@ -266,7 +250,6 @@ augroup filesettings
     au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags sw=2 ts=2 sts=2
     au FileType html setlocal omnifunc=htmlcomplete#CompleteTags sw=2 ts=2 sts=2
     au FileType css setlocal omnifunc=csscomplete#CompleteCSS sw=2 ts=2 sts=2
-        \| call CssSnippets()
     au FileType php setlocal omnifunc=phpcomplete#CompletePHP
         \| call PhpSnippets()
     au FileType go setlocal makeprg=gometalinter
