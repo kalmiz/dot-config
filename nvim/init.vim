@@ -282,8 +282,8 @@ augroup END
 augroup templates
     au!
     " read in template files
-    autocmd BufNewFile *_deployment.yaml execute '0r $HOME/.config/nvim/templates/skeleton-k8s-deployment.yaml'
-    autocmd BufNewFile *_service.yaml execute '0r $HOME/.config/nvim/templates/skeleton-k8s-service.yaml'
+    autocmd BufNewFile *_deployment.yaml silent! execute '0r $HOME/.config/nvim/templates/skeleton-k8s-deployment.yaml'
+    autocmd BufNewFile *_service.yaml silent! execute '0r $HOME/.config/nvim/templates/skeleton-k8s-service.yaml'
     autocmd BufNewFile *.* silent! execute '0r $HOME/.config/nvim/templates/skeleton.'.expand("<afile>:e")
 
     " parse special text in the templates after the read
