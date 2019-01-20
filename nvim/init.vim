@@ -270,41 +270,38 @@ augroup filesettings
         \|endif
 
     au FileType vim setlocal path=.,$VIMRUNTIME
-    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags sw=2 ts=2 sts=2
-    au FileType html setlocal omnifunc=htmlcomplete#CompleteTags sw=2 ts=2 sts=2
-    au FileType css setlocal omnifunc=csscomplete#CompleteCSS sw=2 ts=2 sts=2
-    au FileType go setlocal makeprg=gometalinter
-    au FileType yaml,tf setlocal sw=2 ts=2 sts=2
     au FileType sh setlocal makeprg=bash\ -n efm=%f:\ line\ %l:\ %m keywordprg=:Man | runtime ftplugin/man.vim
-    au FileType scala setlocal path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/**,*/*/src/** commentstring=//%s efm=%E%f:%l:\ %trror:\ %m,%W%f:%l:\ %tarning:%m,%Z%p^,%-G%.%# define=\(def\\s\|class\\s\|trait\\s\|object\\s\|val\\s\\|:\\s) includeexpr=substitute(substitute(v:fname,'\\.','/','g'),'_','\.','g') include=^import
-        \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
+
+    " Languages with different indent size
+    au FileType yaml,tf,css,html,xml,javascript setlocal sw=2 ts=2 sts=2
+
+    " FMG's projects have different indening
+    au FileType scala,javascript if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet sw=4 ts=4 sts=4 | endif
+
+    au FileType javascript setlocal makeprg=./node_modules/.bin/eslint\ -f\ compact efm=%E%f:\ line\ %l\\,\ col\ %c\\,\ Error\ -\ %m,%-G%.%#,%W%f:\ line\ %l\\,\ col\ %c\\,\ Warning\ -\ %m,%-G%.%#
+
+    au FileType scala setlocal path=.,conf/*,src/**,app/**,public/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,*/*/src/** efm=%E%f:%l:\ %trror:\ %m,%W%f:%l:\ %tarning:%m,%Z%p^,%-G%.%# define=\(def\\s\|class\\s\|trait\\s\|object\\s\|val\\s\\|:\\s) includeexpr=substitute(substitute(v:fname,'\\.','/','g'),'_','\.','g') include=^import
         \| call ScalaSnippets()
         \| if filereadable(".scalac") | setlocal makeprg=scalac\ @.scalac | else
         \| setlocal makeprg=scalac\ -Ystop-after:parser | endif
-    au BufNewFile,BufRead *.sbt setlocal path=./*,project/* ft=sbt syntax=scala
-        \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
-    au FileType javascript setlocal ts=2 sw=2 sts=2 et makeprg=./node_modules/.bin/eslint\ -f\ compact efm=%E%f:\ line\ %l\\,\ col\ %c\\,\ Error\ -\ %m,%-G%.%#,%W%f:\ line\ %l\\,\ col\ %c\\,\ Warning\ -\ %m,%-G%.%#
+    au BufNewFile,BufRead *.sbt setlocal path=.,project/* ft=sbt syntax=scala
 
-    au FileType javascript if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
     au BufNewFile,BufRead *.md setlocal ft=markdown
     au BufNewFile,BufRead *.es6 setlocal ft=javascript
-    au BufNewFile,BufRead *.sql runtime! ftplugin/sql.vim
 
     " Linting
-    autocmd BufWritePost *.scala silent Make! <afile>
-    autocmd BufWritePost *.js silent Make! <afile>
-    autocmd BufWritePost *.sh silent Make! <afile>
-    autocmd QuickFixCmdPost [^l]* cwindow
+    au BufWritePost *.scala,*.js,*.sh silent Make! <afile>
+    au QuickFixCmdPost [^l]* cwindow
 augroup END
 
 augroup templates
     au!
     " read in template files
-    autocmd BufNewFile *_deployment.yaml silent! execute '0r $HOME/.config/nvim/templates/skeleton-k8s-deployment.yaml'
-    autocmd BufNewFile *_service.yaml silent! execute '0r $HOME/.config/nvim/templates/skeleton-k8s-service.yaml'
-    autocmd BufNewFile *.* silent! execute '0r $HOME/.config/nvim/templates/skeleton.'.expand("<afile>:e")
+    au BufNewFile *_deployment.yaml silent! execute '0r $HOME/.config/nvim/templates/skeleton-k8s-deployment.yaml'
+    au BufNewFile *_service.yaml silent! execute '0r $HOME/.config/nvim/templates/skeleton-k8s-service.yaml'
+    au BufNewFile *.* silent! execute '0r $HOME/.config/nvim/templates/skeleton.'.expand("<afile>:e")
 
     " parse special text in the templates after the read
-    autocmd BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
+    au BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
 augroup END
 " }}}
