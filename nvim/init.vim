@@ -54,20 +54,23 @@ let g:ftplugin_sql_omni_key = '<C-z>'
 
 " Functions {{{
 function! PackInit() abort
-    " git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac
     packadd minpac 
 
-    call minpac#init()
-    call minpac#add('k-takata/minpac', {'type': 'opt'})
-    call minpac#add('tpope/vim-rsi')
-    call minpac#add('tpope/vim-repeat')
-    call minpac#add('tpope/vim-commentary')
-    call minpac#add('tpope/vim-surround')
-    call minpac#add('tpope/vim-fugitive')
-    call minpac#add('tpope/vim-rhubarb')
-    call minpac#add('hauleth/asyncdo.vim')
-    call minpac#add('RRethy/vim-quickscope')
-    call minpac#add('maralla/completor.vim')
+    if exists('*minpac#init')
+        call minpac#init()
+        call minpac#add('k-takata/minpac', {'type': 'opt'})
+        call minpac#add('tpope/vim-rsi')
+        call minpac#add('tpope/vim-repeat')
+        call minpac#add('tpope/vim-commentary')
+        call minpac#add('tpope/vim-surround')
+        call minpac#add('tpope/vim-fugitive')
+        call minpac#add('tpope/vim-rhubarb')
+        call minpac#add('hauleth/asyncdo.vim')
+        call minpac#add('RRethy/vim-quickscope')
+        call minpac#add('maralla/completor.vim')
+    else
+        call system('git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac')
+    endif
 endfunction
 
 function! s:get_visual_selection() abort
