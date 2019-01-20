@@ -114,11 +114,6 @@ function! Xcopy(cmd) range
     return system('echo -n '.shellescape(s:get_visual_selection()).'|' . command)
 endfunction
 
-function! PhpSnippets() abort
-    iabbrev <buffer> ife <?php if (): ?><CR><?php else: ?><CR><?php endif; ?><ESC>02kf)i
-    iabbrev <buffer> fun function() {<CR>}<ESC>kf(i
-endfunction
-
 function! ScalaSnippets() abort
     iabbrev <buffer> iff if () {<CR>}<ESC>kf(a
     iabbrev <buffer> ife if () {<CR>} else {<CR>}<ESC>2kf(a
@@ -278,8 +273,6 @@ augroup filesettings
     au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags sw=2 ts=2 sts=2
     au FileType html setlocal omnifunc=htmlcomplete#CompleteTags sw=2 ts=2 sts=2
     au FileType css setlocal omnifunc=csscomplete#CompleteCSS sw=2 ts=2 sts=2
-    au FileType php setlocal omnifunc=phpcomplete#CompletePHP
-        \| call PhpSnippets()
     au FileType go setlocal makeprg=gometalinter
     au FileType yaml,tf setlocal sw=2 ts=2 sts=2
     au FileType sh setlocal makeprg=bash\ -n efm=%f:\ line\ %l:\ %m keywordprg=:Man | runtime ftplugin/man.vim
