@@ -69,7 +69,25 @@ function! PackInit() abort
         call minpac#add('maralla/completor.vim')
     else
         call system('git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac')
+        throw 'minpac has been installed, please restart Vim'
     endif
+endfunction
+
+function! Pack(cmd) abort
+    try
+        if !exists('g:loaded_minpac')
+            call PackInit()
+        endif
+        if a:cmd == 'clean'
+            call minpac#clean()
+        elseif a:cmd == 'update'
+            call minpac#update('', {'do': 'call minpac#status()'})
+        else
+            call minpac#status()
+        endif
+    catch /^minpac
+        echomsg v:exception
+    endtry
 endfunction
 
 function! s:get_visual_selection() abort
@@ -144,9 +162,9 @@ endfunction
 " }}}
 
 " Commands {{{
-command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
-command! PackClean  call PackInit() | call minpac#clean()
-command! PackStatus call PackInit() | call minpac#status()
+command! PackUpdate call Pack('update')
+command! PackClean  call Pack('clean')
+command! PackStatus call Pack('status')
 command! -range=% TB <line1>,<line2>w !nc termbin.com 9999 | tee /tmp/termbin.com
 if has('macunix')
     command! -range=% Xcopy <line1>,<line2>call Xcopy('pbcopy')
