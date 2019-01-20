@@ -1,4 +1,4 @@
-" Base settings {{{ vim: set et
+" Base settings {{{ vim: set foldmethod=marker :
 runtime defaults.vim
 set secure
 set expandtab
@@ -6,7 +6,6 @@ set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 set hidden
-set foldmethod=marker
 set formatoptions+=r
 set title titlestring="%F %a%r%m"
 set iskeyword+=-
