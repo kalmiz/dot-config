@@ -49,6 +49,11 @@ endif
 
 let g:sql_type_default = 'mysql'
 let g:ftplugin_sql_omni_key = '<C-z>'
+
+" Disable unused distributed plugins
+let g:loaded_getscriptPlugin = 1
+let g:loaded_logiPat = 1
+let g:loaded_vimballPlugin = 1
 " }}}
 
 " Functions {{{
@@ -277,7 +282,7 @@ augroup filesettings
         \| call PhpSnippets()
     au FileType go setlocal makeprg=gometalinter
     au FileType yaml,tf setlocal sw=2 ts=2 sts=2
-    au FileType sh setlocal makeprg=bash\ -n efm=%f:\ line\ %l:\ %m
+    au FileType sh setlocal makeprg=bash\ -n efm=%f:\ line\ %l:\ %m keywordprg=:Man | runtime ftplugin/man.vim
     au FileType scala setlocal path=.,src/**,app/**,application/**,public/**,conf/**,subprojects/*/src/**,subprojects/*/app/**,*/src/**,*/app/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,modules/**,subprojects/*/conf/**,*/*/src/** commentstring=//%s efm=%E%f:%l:\ %trror:\ %m,%W%f:%l:\ %tarning:%m,%Z%p^,%-G%.%# define=\(def\\s\|class\\s\|trait\\s\|object\\s\|val\\s\\|:\\s) includeexpr=substitute(substitute(v:fname,'\\.','/','g'),'_','\.','g') include=^import
         \| if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet ts=4 sw=4 | endif
         \| call ScalaSnippets()
