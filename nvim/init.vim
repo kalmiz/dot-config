@@ -239,14 +239,6 @@ augroup filesettings
 	au BufLeave * let b:winview = winsaveview()
 	au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
 
-	au FileType * if &filetype == 'sql'
-		\|  exe('setl dict+='.$VIMRUNTIME.'/syntax/'.g:sql_type_default.'.vim')
-		\|  setlocal complete-=t
-		\|else
-		\|  exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
-		\|  setlocal complete+=k
-		\|endif
-
 	au FileType vim setlocal path=.,$VIMRUNTIME
 	au FileType sh setlocal makeprg=bash\ -n efm=%f:\ line\ %l:\ %m keywordprg=:Man | runtime ftplugin/man.vim
 	au FileType conf setlocal suffixesadd=.conf
