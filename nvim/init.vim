@@ -16,14 +16,10 @@ endif
 " }}}
 
 " Bare bone navigation {{{
-set path=**
-set suffixesadd=.conf,.java,.scala,.php,.js,.yaml
 set wildmode=list:longest,full
-set wildignore+=*.class,*.jar,*.jpg,*.png,*.gif,**/tiny_mce_dev/**,**/target/**,**/node_modules/**,node_modules/**,cscope.*,.git/**,.idea/**
+set wildignore+=*.class,*.jar,*.jpg,*.png,*.gif,**/target/**,**/node_modules/**,node_modules/**,cscope.*,.git/**,.idea/**
 set wildignorecase
 set wildcharm=<C-z>
-
-let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " }}}
 
 " Plugins and settings {{{ 
@@ -46,6 +42,7 @@ elseif executable('ack')
 	set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
+let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 let g:sql_type_default = 'mysql'
 let g:ftplugin_sql_omni_key = '<C-z>'
 
@@ -80,14 +77,14 @@ endfunction
 function! Pack(cmd) abort
 	try
 		if !exists('g:loaded_minpac')
-				call PackInit()
+			call PackInit()
 		endif
 		if a:cmd == 'clean'
-				call minpac#clean()
+			call minpac#clean()
 		elseif a:cmd == 'update'
-				call minpac#update('', {'do': 'call minpac#status()'})
+			call minpac#update('', {'do': 'call minpac#status()'})
 		else
-				call minpac#status()
+			call minpac#status()
 		endif
 	catch /^minpac
 		echomsg v:exception
@@ -111,26 +108,6 @@ function! Xcopy(cmd) range
 		let command = 'wxcopy --clear-selection'
 	endif
 	return system('echo -n '.shellescape(s:get_visual_selection()).'|' . command)
-endfunction
-
-function! ScalaSnippets() abort
-	iabbrev <buffer> iff if () {<CR>}<ESC>kf(a
-	iabbrev <buffer> ife if () {<CR>} else {<CR>}<ESC>2kf(a
-	iabbrev <buffer> flatm flatMap { => <LEFT><LEFT><LEFT><LEFT>
-	iabbrev <buffer> match match {<CR>case => <CR>case _ => <CR>}<ESC>2kfea
-	iabbrev <buffer> def def():  = {<CR>}<ESC>kffa
-	inoremap <buffer> <C-l> <ESC>f:<RIGHT>a
-endfunction
-
-function! ScalacSettings() abort
-	func! CloseHandler(channel)
-		let line = ''
-		while ch_status(a:channel, {'part': 'out'}) == 'buffered'
-			let line .= ch_read(a:channel)
-		endwhile
-		call writefile(['-Ystop-before:jvm', '-cp ' . line], '.scalac')
-	endfunc
-	let job = job_start('sbt --error "export fullClasspath"', {'close_cb': 'CloseHandler', 'in_mode': 'nl'})
 endfunction
 
 function! Replace() abort
@@ -263,24 +240,20 @@ augroup filesettings
 
 	au FileType * if &filetype == 'sql'
 		\|  exe('setl dict+='.$VIMRUNTIME.'/syntax/'.g:sql_type_default.'.vim')
-		\|  setl complete-=t
+		\|  setlocal complete-=t
 		\|else
 		\|  exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
+		\|  setlocal complete+=k
 		\|endif
 
 	au FileType vim setlocal path=.,$VIMRUNTIME
 	au FileType sh setlocal makeprg=bash\ -n efm=%f:\ line\ %l:\ %m keywordprg=:Man | runtime ftplugin/man.vim
-
-	" FMG's projects have different indening
-	au FileType scala,javascript if expand("%:p:h") =~ 'Projects/fmg' | setlocal noet | endif
+	au FileType conf setlocal suffixesadd=.conf
 
 	au FileType javascript setlocal makeprg=./node_modules/.bin/eslint\ -f\ compact efm=%E%f:\ line\ %l\\,\ col\ %c\\,\ Error\ -\ %m,%-G%.%#,%W%f:\ line\ %l\\,\ col\ %c\\,\ Warning\ -\ %m,%-G%.%#
+	"au FileType javascript if expand("%:p:h") =~ 'Projects/fmg' | setlocal et | endif
 
-	au FileType scala setlocal path=.,conf/*,src/**,app/**,public/**,test/**,*/test/**,*/model/src/**,*/logic/src/**,*/*/src/** efm=%E%f:%l:\ %trror:\ %m,%W%f:%l:\ %tarning:%m,%Z%p^,%-G%.%# define=\(def\\s\|class\\s\|trait\\s\|object\\s\|val\\s\\|:\\s) includeexpr=substitute(substitute(v:fname,'\\.','/','g'),'_','\.','g') include=^import
-		\| call ScalaSnippets()
-		\| if filereadable(".scalac") | setlocal makeprg=scalac\ @.scalac | else
-		\| setlocal makeprg=scalac\ -Ystop-after:parser | endif
-	au BufNewFile,BufRead *.sbt setlocal path=.,project/* ft=sbt syntax=scala
+	au VimEnter * if expand('%') == '' && filereadable('build.sbt') | setlocal ft=scala | endif
 
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 	au BufNewFile,BufRead *.es6 setlocal ft=javascript
@@ -295,7 +268,7 @@ augroup templates
 	" read in template files
 	au BufNewFile *_deployment.yaml silent! execute '0r $HOME/.config/nvim/templates/skeleton-k8s-deployment.yaml'
 	au BufNewFile *_service.yaml silent! execute '0r $HOME/.config/nvim/templates/skeleton-k8s-service.yaml'
-	au BufNewFile *.* silent! execute '0r $HOME/.config/nvim/templates/skeleton.'.expand("<afile>:e")
+	au BufNewFile *.* silent! execute '0r $HOME/.config/nvim/templates/skeleton.'.expand("<afile>:e") | retab
 
 	" parse special text in the templates after the read
 	au BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
