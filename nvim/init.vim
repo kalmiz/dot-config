@@ -6,7 +6,7 @@ set softtabstop=2
 set tabstop=2
 set hidden
 set formatoptions+=r
-set title titlestring="%F %a%r%m"
+set title titlestring="%f %a%r%m"
 set iskeyword+=-
 set ignorecase
 set smartcase
