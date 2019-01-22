@@ -218,9 +218,6 @@ nnoremap <C-x>p :set paste!<CR>
 " fixing syntax highlighting,
 " updating the syntax highlighting in diff mode
 nnoremap <Leader>l :nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
-" Change a word under cursor and prepare for repeats via .
-nnoremap <Leader>; *``cgn
-nnoremap <Leader>, #``cgN
 " }}}
 
 " Autocommands {{{
