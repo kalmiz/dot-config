@@ -67,6 +67,7 @@ function! PackInit() abort
 		call minpac#add('tpope/vim-rhubarb')
 		call minpac#add('hauleth/asyncdo.vim')
 		call minpac#add('RRethy/vim-quickscope')
+		call minpac#add('kalmiz/vim-play')
 		call minpac#add('maralla/completor.vim')
 	else
 		call system('git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac')
