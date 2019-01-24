@@ -248,6 +248,9 @@ augroup filesettings
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 	au BufNewFile,BufRead *.es6 setlocal ft=javascript
 
+	" Show mixed whitespaces
+	au BufWritePre * if search('^' . (&expandtab ? '	' : ' '), 'wn') > 0 | setlocal list | endif
+
 	" Linting
 	au BufWritePost *.scala,*.js,*.sh silent Make! <afile>
 	au QuickFixCmdPost [^l]* cwindow
