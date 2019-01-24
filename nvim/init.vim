@@ -231,6 +231,7 @@ augroup filesettings
 
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 	au BufNewFile,BufRead *.es6 setlocal ft=javascript
+	au BufNewFile,BufRead *.txt setlocal tw=78 spell | nnoremap <buffer> [[ [sz= | nnoremap <buffer> ]] ]sz=
 
 	" Show mixed whitespaces
 	au BufWritePre * if search('^' . (&expandtab ? '	' : ' '), 'wn') > 0 | setlocal list | endif
