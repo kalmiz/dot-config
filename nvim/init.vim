@@ -160,7 +160,6 @@ else
 	nnoremap <Leader>A :silent grep <cword> --type=<C-r>=&filetype<CR> \| copen<CR>
 endif
 nnoremap <Leader>f :find 
-nnoremap <Leader>l :Lines<CR> 
 if has('nvim')
 	nnoremap <Leader>s :below 15sp term://bash<CR>i
 else
