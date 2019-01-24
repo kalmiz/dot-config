@@ -13,9 +13,6 @@ set smartcase
 if has("persistent_undo")
 	set noswapfile undofile undodir=~/.vim/undodir/ 
 endif
-" }}}
-
-" Bare bone navigation {{{
 set wildmode=list:longest,full
 set wildignore+=*.class,*.jar,*.jpg,*.png,*.gif,**/target/**,**/node_modules/**,node_modules/**,cscope.*,.git/**,.idea/**
 set wildignorecase
@@ -45,11 +42,6 @@ endif
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 let g:sql_type_default = 'mysql'
 let g:ftplugin_sql_omni_key = '<C-z>'
-
-" Disable unused distributed plugins
-let g:loaded_getscriptPlugin = 1
-let g:loaded_logiPat = 1
-let g:loaded_vimballPlugin = 1
 " }}}
 
 " Functions {{{
@@ -111,12 +103,6 @@ function! Xcopy(cmd) range
 	return system('echo -n '.shellescape(s:get_visual_selection()).'|' . command)
 endfunction
 
-function! Replace() abort
-	let pattern = substitute(escape(@", '\?'), '\n', '\\n', 'g')
-	let replacement = substitute(escape(@., '\?'), '\n', '\\r', 'g')
-	execute "%s/\\V" . pattern . "/" . replacement . "/gc"
-endfunction
-
 " Highlight all instances of word under cursor, when idle.
 function! AutoHighlightToggle() abort
 	let @/ = ''
@@ -173,7 +159,6 @@ if executable('rg')
 else
 	nnoremap <Leader>A :silent grep <cword> --type=<C-r>=&filetype<CR> \| copen<CR>
 endif
-nnoremap <Leader>c :call Replace()<CR>
 nnoremap <Leader>f :find 
 nnoremap <Leader>l :Lines<CR> 
 if has('nvim')
