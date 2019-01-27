@@ -241,6 +241,7 @@ augroup filesettings
 	au FileType vim setlocal path=.,$VIMRUNTIME
 	au FileType sh setlocal makeprg=bash\ -n efm=%f:\ line\ %l:\ %m keywordprg=:Man | runtime ftplugin/man.vim
 	au FileType conf setlocal suffixesadd=.conf
+	au FileType yaml setlocal path+=*
 
 	au FileType javascript setlocal makeprg=./node_modules/.bin/eslint\ -f\ compact efm=%E%f:\ line\ %l\\,\ col\ %c\\,\ Error\ -\ %m,%-G%.%#,%W%f:\ line\ %l\\,\ col\ %c\\,\ Warning\ -\ %m,%-G%.%#
 	"au FileType javascript if expand("%:p:h") =~ 'Projects/fmg' | setlocal et | endif
