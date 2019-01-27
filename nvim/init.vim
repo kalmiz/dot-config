@@ -42,6 +42,9 @@ endif
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 let g:sql_type_default = 'mysql'
 let g:ftplugin_sql_omni_key = '<C-z>'
+let g:completor_min_chars = 3
+let g:completor_auto_trigger = 0
+let g:completor_completion_delay = 100
 " }}}
 
 " Functions {{{
@@ -103,6 +106,21 @@ function! Xcopy(cmd) range
 	return system('echo -n '.shellescape(s:get_visual_selection()).'|' . command)
 endfunction
 
+function! Tab_Or_Complete() abort
+	" If completor is already open the `tab` cycles through suggested completions.
+	if pumvisible()
+		return "\<C-N>"
+	" If completor is not open and we are in the middle of typing a word then
+	" `tab` opens completor menu.
+	elseif col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+		return "\<C-R>=completor#do('complete')\<CR>"
+	else
+		" If we aren't typing a word and we press `tab` simply do the normal `tab`
+		" action.
+		return "\<Tab>"
+	endif
+endfunction
+
 " Highlight all instances of word under cursor, when idle.
 function! AutoHighlightToggle() abort
 	let @/ = ''
@@ -144,7 +162,7 @@ command! -bang -nargs=* -complete=file Make call asyncdo#run(<bang>0, &makeprg, 
 " Mappings {{{
 let mapleader = ' '
 nnoremap <Up> :
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <Tab> Tab_Or_Complete()
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 nnoremap <Leader>1 :!
 nnoremap <Leader>. :Ex<CR>
