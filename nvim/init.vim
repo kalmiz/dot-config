@@ -253,7 +253,7 @@ augroup filesettings
 	au BufNewFile,BufRead *.txt if &ft != 'help' | setlocal tw=78 spell | nnoremap <buffer> [[ [sz= | nnoremap <buffer> ]] ]sz= | endif
 
 	" Show mixed whitespaces
-	au BufWritePre * if search('^' . (&expandtab ? '	' : ' '), 'wn') > 0 | setlocal list | endif
+	au BufWritePre * if search('^' . (&expandtab ? '	' : '  '), 'wn') > 0 | setlocal list | endif
 
 	" Linting
 	au BufWritePost *.scala,*.js,*.sh silent Make! <afile>
