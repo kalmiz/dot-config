@@ -244,13 +244,13 @@ augroup filesettings
 	au FileType yaml setlocal path+=*
 
 	au FileType javascript setlocal makeprg=./node_modules/.bin/eslint\ -f\ compact efm=%E%f:\ line\ %l\\,\ col\ %c\\,\ Error\ -\ %m,%-G%.%#,%W%f:\ line\ %l\\,\ col\ %c\\,\ Warning\ -\ %m,%-G%.%#
-	"au FileType javascript if expand("%:p:h") =~ 'Projects/fmg' | setlocal et | endif
+	au FileType javascript,scala if expand("%:p:h") =~ 'Projects/fmg' | setlocal noexpandtab | endif
 
 	au VimEnter * if expand('%') == '' && filereadable('build.sbt') | setlocal ft=scala | endif
 
 	au BufNewFile,BufRead *.md setlocal ft=markdown
 	au BufNewFile,BufRead *.es6 setlocal ft=javascript
-	au BufNewFile,BufRead *.txt setlocal tw=78 spell | nnoremap <buffer> [[ [sz= | nnoremap <buffer> ]] ]sz=
+	au BufNewFile,BufRead *.txt if &ft != 'help' | setlocal tw=78 spell | nnoremap <buffer> [[ [sz= | nnoremap <buffer> ]] ]sz= | endif
 
 	" Show mixed whitespaces
 	au BufWritePre * if search('^' . (&expandtab ? '	' : ' '), 'wn') > 0 | setlocal list | endif
