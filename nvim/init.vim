@@ -39,7 +39,7 @@ elseif executable('ack')
 	set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 let g:sql_type_default = 'mysql'
 let g:ftplugin_sql_omni_key = '<C-z>'
 let g:completor_min_chars = 3
