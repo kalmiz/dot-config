@@ -224,6 +224,7 @@ nnoremap <Leader>l :nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
 " Autocommands {{{
 if &diff
 	set cursorline
+	syn off
 endif
 augroup CustomColors
 	au!
